@@ -1,0 +1,15 @@
+.container {
+}
+.deviceContainer {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 100svw;
+  max-height: 85svh;
+  overflow: scroll;
+  scrollbar-width: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}

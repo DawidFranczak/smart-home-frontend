@@ -1,0 +1,69 @@
+import { Link } from "react-router-dom";
+import styles from "./Navbar.module.css";
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+
+import useFetch from "../../hooks/useFetch";
+import { api } from "../../const/api";
+import { useAuth } from "../../context/AuthContext";
+import NavbarIcon from "../../ui/NavbarIcon/NavbarIcon";
+import room from "/static/svg/room.svg";
+import logoutIcon from "/static/svg/logout.svg";
+import router from "/static/svg/router.svg";
+export default function Navbar() {
+  const [open, setOpen] = useState(false);
+  const { deleteData } = useFetch();
+  const { logout } = useAuth();
+  const mutation = useMutation({
+    mutationFn: () => deleteData(api.logout),
+
+    onSuccess: () => {
+      logout();
+    },
+  });
+  async function logoutHandler() {
+    mutation.mutate();
+  }
+
+  return (
+    <>
+      <nav className={styles.navbar}>
+        <div className={styles.burger} onClick={() => setOpen((e) => !e)}>
+          <p className={open ? styles.active : ""}></p>
+          <p className={open ? styles.active : ""}></p>
+          <p className={open ? styles.active : ""}></p>
+        </div>
+        <div
+          className={`${styles.links} ${
+            open ? styles.active : styles.deactive
+          }`}
+        >
+          <Link to="/room" onClick={() => setOpen((e) => !e)}>
+            <NavbarIcon svg={room} />
+          </Link>
+          <Link to="/router" onClick={() => setOpen((e) => !e)}>
+            <NavbarIcon svg={router} />
+          </Link>
+          {/* <Link className={styles.link} onClick={(e) => setOpen((e) => !e)}>
+            Akwaria
+          </Link> */}
+          {/* <Link className={styles.link} onClick={(e) => setOpen((e) => !e)}>
+            Schody
+          </Link>
+          <Link className={styles.link} onClick={(e) => setOpen((e) => !e)}>
+            Lampy
+          </Link>
+          <Link className={styles.link} onClick={(e) => setOpen((e) => !e)}>
+            Urządzenia
+          </Link> */}
+          {/* <Link className={styles.link} onClick={(e) => setOpen((e) => !e)}>
+            Ustawienia
+          </Link> */}
+          <Link className={styles.link} onClick={logoutHandler} to="/">
+            <NavbarIcon svg={logoutIcon} />
+          </Link>
+        </div>
+      </nav>
+    </>
+  );
+}

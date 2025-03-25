@@ -1,0 +1,15 @@
+.container {
+  max-height: 90vh;
+  max-width: 90vw;
+  min-width: 300px;
+}
+
+.times {
+  display: flex;
+  gap: 20px;
+}
+
+.button {
+  max-width: 250px;
+  width: 80%;
+}

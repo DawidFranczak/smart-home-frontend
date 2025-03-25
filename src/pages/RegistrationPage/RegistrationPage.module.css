@@ -1,0 +1,28 @@
+.container {
+  padding: 3em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  border-radius: 25px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(0, 200, 255, 0.5);
+  box-shadow: 0 0 35px rgba(0, 200, 255, 1);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.backArrow {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+}

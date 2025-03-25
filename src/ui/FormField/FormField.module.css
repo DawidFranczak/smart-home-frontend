@@ -1,0 +1,35 @@
+.field {
+  gap: 0.5em;
+  border-radius: 25px;
+  padding-left: 1em;
+  border: 1px rgba(0, 200, 255, 0.5) solid;
+  outline: none;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
+  height: 30px;
+  width: 90%;
+  color: black;
+  position: relative;
+  z-index: 1;
+}
+
+.field::placeholder {
+  color: rgba(0, 0, 0, 0.7);
+  text-shadow: none;
+}
+.field:focus {
+  box-shadow: 0 0 1px 0px rgba(0, 255, 0, 0.8);
+  animation: pulse 3s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 5px 0px rgba(0, 255, 0, 0.8);
+  }
+  50% {
+    box-shadow: 0 0 10px 4px rgba(0, 255, 0, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 5px 0px rgba(0, 255, 0, 0.8);
+  }
+}

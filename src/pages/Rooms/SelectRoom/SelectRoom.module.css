@@ -1,0 +1,12 @@
+.rooms {
+  height: calc(100% - 140px);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  gap: 20px;
+  overflow: scroll;
+  scrollbar-width: none;
+}

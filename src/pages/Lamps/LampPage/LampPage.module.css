@@ -1,0 +1,8 @@
+.label {
+  width: 300px;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+.name {
+  padding: 5px;
+}
