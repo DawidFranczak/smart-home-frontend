@@ -29,17 +29,24 @@ export default function RfidPage() {
     });
     setCards(filteredCards);
   }
+  console.log(rfidData);
   return (
     <DeviceContainer
       name={rfidData.name}
       wifi_strength={rfidData.wifi_strength}
       is_online={rfidData.is_online}
+      id={rfidData.id}
+      className={styles.container}
     >
       <span>
         Podłączone lampy:
-        <StyledLink to={`/lamp/${rfidData.controlled_lamp.id}/`}>
-          <strong>{` ${rfidData.controlled_lamp.name}`}</strong>
-        </StyledLink>
+        {rfidData.controlled_lamp ? (
+          <StyledLink to={`/lamp/${rfidData.controlled_lamp.id}/`}>
+            <strong>{` ${rfidData.controlled_lamp.name}`}</strong>
+          </StyledLink>
+        ) : (
+          "Brak"
+        )}
       </span>
       <div className={styles.div}>
         <Button
