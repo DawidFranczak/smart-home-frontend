@@ -1,5 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { api } from "../const/api";
 interface AuthContextType {
@@ -27,7 +27,6 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [access, setAccess] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
   const [invalidToken, setInvalidToken] = useState(false);
   const { data, isSuccess, isError, isPending } = useQuery({
     queryKey: ["token"],
@@ -40,12 +39,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   useEffect(() => {
     if (isPending) return;
-    if (data?.status === 200 && isSuccess) {
+    if (isSuccess) {
       login(data.token);
     } else {
       logout();
     }
-    setLoading(false);
   }, [data, isPending, isSuccess, isError]);
 
   const login = (token: string) => {
@@ -58,7 +56,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setInvalidToken(true);
   };
 
-  if (isPending || loading) return null;
+  if (isPending) return null;
 
   return (
     <AuthContext.Provider value={{ login, logout, invalidToken, access }}>

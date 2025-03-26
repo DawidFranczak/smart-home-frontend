@@ -15,7 +15,7 @@ export default function HomePage() {
     setFavouriteRoom(favouriteData.rooms);
     setFavouriteDevice(favouriteData.devices);
   }, [favouriteData]);
-  if (!favouriteData) return null;
+  if (!favouriteDevice || !favouriteRoom) return null;
   return (
     <div className={styles.container}>
       {favouriteRoom.map((room: IRoom) => (
