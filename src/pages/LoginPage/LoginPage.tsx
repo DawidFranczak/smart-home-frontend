@@ -12,6 +12,8 @@ import styles from "./LoginPage.module.css";
 import StyledLink from "../../ui/StyledLink/StyledLink.tsx";
 import Message from "../../ui/Message/Message.tsx";
 import Header from "../../ui/Header/Header.tsx";
+import { useQueryClient } from "@tanstack/react-query";
+
 interface LoginPageData {
   status: number;
   body: {
@@ -23,16 +25,17 @@ export default function LoginPage() {
   const data = useActionData() as LoginPageData;
   const { login, access } = useAuth();
   const navigate = useNavigate();
-
+  const queryClient = useQueryClient();
   useEffect(() => {
     if (data?.body.access) {
       login(data.body.access);
       navigate("/");
-    }
+    } else queryClient.clear();
   }, [data, login]);
 
   useEffect(() => {
     if (access) navigate("/");
+    else queryClient.clear();
   }, []);
   return (
     <div className={styles.container}>
