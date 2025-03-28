@@ -9,12 +9,13 @@ import AddCardForm from "../../../components/AddCardForm/AddCardForm";
 import QueryInput from "../../../ui/QueryInput/QueryInput";
 import StyledLink from "../../../ui/StyledLink/StyledLink";
 import DeviceContainer from "../../../ui/DeviceContainer/DeviceContainer";
+import Message from "../../../ui/Message/Message";
 
 export default function RfidPage() {
   const [cards, setCards] = useState<ICard[]>([]);
   const params = useParams();
   const id = params.id ? parseInt(params.id) : 0;
-  const { rfidData } = useRfidQuery(id);
+  const { rfidData, status } = useRfidQuery(id);
   const [addCardForm, setAddCardForm] = useState(false);
   const [isPending, setIsPending] = useState(false);
 
@@ -28,12 +29,11 @@ export default function RfidPage() {
       setIsPending(true);
       setTimeout(() => {
         setIsPending(false);
-      }, 10000);
+      }, 20000);
     }
   }
 
   if (!rfidData) return null;
-  console.log(rfidData);
   function handleFilterCards(value: string) {
     const filter = value.toLowerCase();
     const filteredCards = rfidData.cards.filter((card) => {
@@ -41,6 +41,7 @@ export default function RfidPage() {
     });
     setCards(filteredCards);
   }
+  console.log(rfidData);
   return (
     <DeviceContainer
       name={rfidData.name}
@@ -73,8 +74,14 @@ export default function RfidPage() {
         <AddCardForm handleAddFunction={handleAddCard} rfidID={rfidData.id} />
       )}
       <div className={styles.cards}>
-        {isPending && rfidData.pending.includes("add_tag") && (
+        {rfidData.pending.includes("add_tag") && (
           <p>Prosze przyłożyć kartę do czytnika.</p>
+        )}
+        {status === 400 && (
+          <Message type="error">Nie udało się dodać karty</Message>
+        )}
+        {status === 409 && (
+          <Message type="error">Karta jest już dodana</Message>
         )}
         {cards.map((card) => (
           <CardCard key={card.id} card={card} />

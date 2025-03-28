@@ -20,17 +20,19 @@ export default function CacheUpdater() {
       //   console.log(event);
     };
     ws.onmessage = (event) => {
-      const newData = JSON.parse(event.data);
+      const data = JSON.parse(event.data);
+      const newData = data.data;
+      const status = data.status;
       if (!newData.room) {
-        updateUnassignedDevice(queryClient, { status: 200, data: newData });
+        updateUnassignedDevice(queryClient, { status: status, data: newData });
         return;
       }
-      updateInstanceData(queryClient, { status: 200, data: newData });
-      updateRoomDeviceData(queryClient, { status: 200, data: newData });
+      updateInstanceData(queryClient, { status: status, data: newData });
+      updateRoomDeviceData(queryClient, { status: status, data: newData });
       if (newData.is_favourite)
         updateFavouriteData(
           queryClient,
-          { status: 200, data: newData },
+          { status: status, data: newData },
           "device"
         );
     };
