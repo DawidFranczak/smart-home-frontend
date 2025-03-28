@@ -16,12 +16,24 @@ export default function RfidPage() {
   const id = params.id ? parseInt(params.id) : 0;
   const { rfidData } = useRfidQuery(id);
   const [addCardForm, setAddCardForm] = useState(false);
+  const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
     if (rfidData) setCards(rfidData.cards);
   }, [rfidData]);
 
+  function handleAddCard(status: string) {
+    setAddCardForm(false);
+    if (status === "success") {
+      setIsPending(true);
+      setTimeout(() => {
+        setIsPending(false);
+      }, 10000);
+    }
+  }
+
   if (!rfidData) return null;
+  console.log(rfidData);
   function handleFilterCards(value: string) {
     const filter = value.toLowerCase();
     const filteredCards = rfidData.cards.filter((card) => {
@@ -29,7 +41,6 @@ export default function RfidPage() {
     });
     setCards(filteredCards);
   }
-  console.log(rfidData);
   return (
     <DeviceContainer
       name={rfidData.name}
@@ -59,12 +70,12 @@ export default function RfidPage() {
         <QueryInput onChange={handleFilterCards} />
       </div>
       {addCardForm && (
-        <AddCardForm
-          closeFn={() => setAddCardForm(false)}
-          rfidID={rfidData.id}
-        />
+        <AddCardForm handleAddFunction={handleAddCard} rfidID={rfidData.id} />
       )}
       <div className={styles.cards}>
+        {isPending && rfidData.pending.includes("add_tag") && (
+          <p>Prosze przyłożyć kartę do czytnika.</p>
+        )}
         {cards.map((card) => (
           <CardCard key={card.id} card={card} />
         ))}
