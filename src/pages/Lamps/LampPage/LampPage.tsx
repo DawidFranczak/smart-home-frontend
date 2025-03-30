@@ -53,6 +53,7 @@ const LampPage = () => {
       name={state.name}
       wifi_strength={state.wifi_strength}
       is_online={state.is_online}
+      id={state.id}
     >
       {updateMutate.isSuccess && (
         <Message type="success">Zapisano dane</Message>

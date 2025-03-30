@@ -7,9 +7,9 @@ import styles from "./RfidPage.module.css";
 import Button from "../../../ui/Button/Button";
 import AddCardForm from "../../../components/AddCardForm/AddCardForm";
 import QueryInput from "../../../ui/QueryInput/QueryInput";
-import StyledLink from "../../../ui/StyledLink/StyledLink";
 import DeviceContainer from "../../../ui/DeviceContainer/DeviceContainer";
 import Message from "../../../ui/Message/Message";
+import DeviceEvent from "../../../components/DeviceEvent/DeviceEvent";
 
 export default function RfidPage() {
   const [cards, setCards] = useState<ICard[]>([]);
@@ -41,6 +41,8 @@ export default function RfidPage() {
     });
     setCards(filteredCards);
   }
+  const errorMessage =
+    status === 400 ? "Nie udało się dodać karty" : "Karta jest już dodana";
   console.log(rfidData);
   return (
     <DeviceContainer
@@ -50,16 +52,6 @@ export default function RfidPage() {
       id={rfidData.id}
       className={styles.container}
     >
-      <span>
-        Podłączone lampy:
-        {rfidData.controlled_lamp ? (
-          <StyledLink to={`/lamp/${rfidData.controlled_lamp.id}/`}>
-            <strong>{` ${rfidData.controlled_lamp.name}`}</strong>
-          </StyledLink>
-        ) : (
-          "Brak"
-        )}
-      </span>
       <div className={styles.div}>
         <Button
           callback={() => {
@@ -70,6 +62,14 @@ export default function RfidPage() {
         </Button>
         <QueryInput onChange={handleFilterCards} />
       </div>
+      {rfidData.events?.map((event) => (
+        <DeviceEvent
+          key={event.id}
+          action={event.action}
+          device={event.device}
+          event={event.event}
+        />
+      ))}
       {addCardForm && (
         <AddCardForm handleAddFunction={handleAddCard} rfidID={rfidData.id} />
       )}
@@ -77,12 +77,11 @@ export default function RfidPage() {
         {rfidData.pending.includes("add_tag") && (
           <p>Prosze przyłożyć kartę do czytnika.</p>
         )}
-        {status === 400 && (
-          <Message type="error">Nie udało się dodać karty</Message>
+
+        {status && status >= 400 && (
+          <Message type="error">{errorMessage}</Message>
         )}
-        {status === 409 && (
-          <Message type="error">Karta jest już dodana</Message>
-        )}
+
         {cards.map((card) => (
           <CardCard key={card.id} card={card} />
         ))}

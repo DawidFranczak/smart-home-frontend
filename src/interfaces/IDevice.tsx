@@ -14,4 +14,15 @@ export interface IDevice {
   wifi_strength: number;
   is_favourite: boolean;
   pending: string[];
+  events?: DeviceEvent[];
+  actions?: string[];
+}
+
+interface DeviceEvent {
+  id: number;
+  target_device: number;
+  action: string;
+  device: string;
+  event: string;
+  extra_settings?: object;
 }
