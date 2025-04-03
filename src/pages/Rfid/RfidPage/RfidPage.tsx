@@ -10,6 +10,7 @@ import QueryInput from "../../../ui/QueryInput/QueryInput";
 import DeviceContainer from "../../../ui/DeviceContainer/DeviceContainer";
 import Message from "../../../ui/Message/Message";
 import DeviceEvent from "../../../components/DeviceEvent/DeviceEvent";
+import StyledLink from "../../../ui/StyledLink/StyledLink";
 
 export default function RfidPage() {
   const [cards, setCards] = useState<ICard[]>([]);
@@ -52,6 +53,17 @@ export default function RfidPage() {
       id={rfidData.id}
       className={styles.container}
     >
+      {rfidData.events?.map((event) => (
+        <DeviceEvent
+          key={event.id}
+          action={event.action}
+          device={event.device}
+          event={event.event}
+        />
+      ))}
+      <StyledLink type="button" to={`/rfid/${rfidData.id}/event/wizard/`}>
+        Ustawienia zdarzenia
+      </StyledLink>
       <div className={styles.div}>
         <Button
           callback={() => {
@@ -62,14 +74,7 @@ export default function RfidPage() {
         </Button>
         <QueryInput onChange={handleFilterCards} />
       </div>
-      {rfidData.events?.map((event) => (
-        <DeviceEvent
-          key={event.id}
-          action={event.action}
-          device={event.device}
-          event={event.event}
-        />
-      ))}
+
       {addCardForm && (
         <AddCardForm handleAddFunction={handleAddCard} rfidID={rfidData.id} />
       )}
