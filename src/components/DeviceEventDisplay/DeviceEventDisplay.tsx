@@ -3,7 +3,7 @@ interface IDeviceEventProps {
   device: string;
   event: string;
 }
-export default function DeviceEvent({
+export default function DeviceEventDisplay({
   action,
   device,
   event,

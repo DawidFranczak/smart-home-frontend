@@ -9,7 +9,7 @@ import AddCardForm from "../../../components/AddCardForm/AddCardForm";
 import QueryInput from "../../../ui/QueryInput/QueryInput";
 import DeviceContainer from "../../../ui/DeviceContainer/DeviceContainer";
 import Message from "../../../ui/Message/Message";
-import DeviceEvent from "../../../components/DeviceEvent/DeviceEvent";
+import DeviceEventDisplay from "../../../components/DeviceEventDisplay/DeviceEventDisplay";
 import StyledLink from "../../../ui/StyledLink/StyledLink";
 
 export default function RfidPage() {
@@ -54,7 +54,7 @@ export default function RfidPage() {
       className={styles.container}
     >
       {rfidData.events?.map((event) => (
-        <DeviceEvent
+        <DeviceEventDisplay
           key={event.id}
           action={event.action}
           device={event.device}
