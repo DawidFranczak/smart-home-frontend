@@ -1,19 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../ui/Button/Button";
 import styles from "./AddEventForm.module.css";
 import useDeviceByFunctionQuery from "../../hooks/queries/useDeviceByFunctionQuery";
 import { IDevice } from "../../interfaces/IDevice";
 import useActionByFunctionQuery from "../../hooks/queries/useActionByFunctionQuery";
-import useActionMutation from "../../hooks/queries/useActionMutation";
+import useEventMutation from "../../hooks/queries/useEventMutation";
 interface AddEventFormProps {
   availableEvent: string[];
   availableDeviceModels: string[];
   device_id: number;
+  onClose: () => void;
 }
 export default function AddEventForm({
   availableEvent,
   availableDeviceModels,
   device_id,
+  onClose,
 }: AddEventFormProps) {
   const [deviceFunction, setDeviceFunction] = useState("");
   const [event, setEvent] = useState("");
@@ -21,8 +23,14 @@ export default function AddEventForm({
   const [selectDevice, setSelectDevice] = useState(0);
   const { deviceByFunction } = useDeviceByFunctionQuery(deviceFunction);
   const { actionByFunction } = useActionByFunctionQuery(deviceFunction);
-  const { createAction } = useActionMutation();
-  const createMutation = createAction(selectDevice);
+  const { createEvent } = useEventMutation();
+  const createMutation = createEvent(device_id);
+
+  useEffect(() => {
+    if (createMutation.isSuccess) {
+      onClose();
+    }
+  }, [createMutation.isSuccess]);
   function handleSubmit() {
     if (!event || !deviceFunction || !selectDevice || !action) return;
     const data = {
@@ -34,6 +42,7 @@ export default function AddEventForm({
     };
     createMutation.mutate(data);
   }
+
   return (
     <div className={styles.container}>
       <div className={styles.addEventForm}>

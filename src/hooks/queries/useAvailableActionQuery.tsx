@@ -5,8 +5,8 @@ import { api } from "../../const/api";
 export default function useAvailableActionQuery(id: number, fun: string) {
   const { readData } = useFetch();
   const { data } = useQuery({
-    queryKey: ["availableAction"],
-    queryFn: () => readData(`${api.actionAndEvent}?id=${id}&fun=${fun}`),
+    queryKey: ["availableAction", id],
+    queryFn: () => readData(`${api.event}?id=${id}&fun=${fun}`),
     staleTime: 10 * 60 * 1000,
   });
   return { status: data?.status, availableAction: data?.data };
