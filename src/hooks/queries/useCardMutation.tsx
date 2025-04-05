@@ -42,13 +42,7 @@ export default function useCardMutation() {
       mutationFn: (name: string) =>
         createData(`${api.card}`, { name, rfid: rfidId }),
       onSuccess: (cardData) => {
-        const data = getRfidData(rfidId);
-        const rfidData = data.data as IRfid;
-        const new_data = {
-          ...rfidData,
-          cards: [...rfidData.cards, cardData.data],
-        };
-        updateQueryclient(rfidId, { data: new_data, status: data.status });
+        queryClient.setQueryData(["rfid", rfidId], cardData);
       },
     });
   }

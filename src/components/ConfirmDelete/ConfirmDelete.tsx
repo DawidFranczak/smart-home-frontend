@@ -5,14 +5,16 @@ interface ConfirmDeleteProps {
   onConfirm: () => void;
   onCancel: () => void;
   name?: string;
+  className?: string;
 }
 export default function ConfirmDelete({
   name,
   onConfirm,
   onCancel,
+  className,
 }: ConfirmDeleteProps) {
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${className}`}>
       <p className={styles.text}>
         Czy na pewno chcesz usunąć <b>{name}</b>?
       </p>

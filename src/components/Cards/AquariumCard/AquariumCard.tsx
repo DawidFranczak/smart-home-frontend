@@ -26,17 +26,17 @@ export default function AquariumCard(aquarium: IAquarium) {
           Świetlówka
         </StatusIndicator>
       </div>
-      <p>{aquarium.mode ? "Automat" : "Manual"}</p>
+      <span>{aquarium.mode ? "Automat" : "Manual"}</span>
       {aquarium.mode && (
         <>
-          <p>
+          <span>
             Ledy {formatAquariumDate(aquarium.led_start)} -
             {formatAquariumDate(aquarium.led_stop)}
-          </p>
-          <p>
+          </span>
+          <span>
             Świetlówka {formatAquariumDate(aquarium.fluo_start)} -
             {formatAquariumDate(aquarium.fluo_stop)}
-          </p>
+          </span>
         </>
       )}
       <StyledLink type="button" to={`/aquarium/${aquarium.id}/`}>

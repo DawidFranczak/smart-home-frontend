@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import updateInstanceData from "../utils/updateInstanceData";
 import updateRoomDeviceData from "../utils/updateRoomDeviceData";
 import updateFavouriteData from "../utils/updateFavouriteData";
+import updateUnassignedDevice from "../utils/updateUnassignedDevice";
 
 export default function CacheUpdater() {
   const [socket, setSocket] = useState<WebSocket>();
@@ -19,14 +20,19 @@ export default function CacheUpdater() {
       //   console.log(event);
     };
     ws.onmessage = (event) => {
-      console.log(event.data);
-      const newData = JSON.parse(event.data);
-      updateInstanceData(queryClient, { status: 200, data: newData });
-      updateRoomDeviceData(queryClient, { status: 200, data: newData });
+      const data = JSON.parse(event.data);
+      const newData = data.data;
+      const status = data.status;
+      if (!newData.room) {
+        updateUnassignedDevice(queryClient, { status: status, data: newData });
+        return;
+      }
+      updateInstanceData(queryClient, { status: status, data: newData });
+      updateRoomDeviceData(queryClient, { status: status, data: newData });
       if (newData.is_favourite)
         updateFavouriteData(
           queryClient,
-          { status: 200, data: newData },
+          { status: status, data: newData },
           "device"
         );
     };

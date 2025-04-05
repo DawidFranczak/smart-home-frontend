@@ -10,9 +10,9 @@ import CacheUpdater from "./components/CacheUpdater";
 const RequireAuth = () => {
   const { invalidToken } = useAuth();
   const location = useLocation();
-
-  if (invalidToken)
+  if (invalidToken) {
     return <Navigate to="/login" state={{ from: location }} replace />;
+  }
 
   return (
     <>

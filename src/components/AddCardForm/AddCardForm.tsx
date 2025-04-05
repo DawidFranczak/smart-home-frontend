@@ -10,14 +10,18 @@ import Message from "../../ui/Message/Message";
 
 interface AddCardFormProps {
   rfidID: number;
-  closeFn: () => void;
+  handleAddFunction: (status: string) => void;
 }
 
-export default function AddCardForm({ rfidID, closeFn }: AddCardFormProps) {
+export default function AddCardForm({
+  rfidID,
+  handleAddFunction,
+}: AddCardFormProps) {
   const { mutationCreate } = useCardMutation();
   const mutation = mutationCreate(rfidID);
+
   useEffect(() => {
-    mutation.isSuccess && closeFn();
+    mutation.isSuccess && handleAddFunction("success");
   }, [mutation.isSuccess]);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -29,7 +33,6 @@ export default function AddCardForm({ rfidID, closeFn }: AddCardFormProps) {
     mutation.mutate(name);
   }
   const error = mutation.error as ICustomError;
-
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.form}>
@@ -38,12 +41,14 @@ export default function AddCardForm({ rfidID, closeFn }: AddCardFormProps) {
         {error?.details && (
           <Message type="error">{error.details.non_field_errors}</Message>
         )}
-        {mutation.isPending && <p>Prosze przyłożyć kartę do czytnika.</p>}
+        {error?.details?.name && (
+          <Message type="error">To pole jest wymagane</Message>
+        )}
         <ButtonContainer>
           <Button callback={() => {}}>Dodaj</Button>
           <Button
             callback={() => {
-              closeFn();
+              handleAddFunction("closed");
             }}
           >
             Zamknij

@@ -28,7 +28,6 @@ export default function useDeviceMutation() {
       mutationFn: (data: IDeviceUpdate) =>
         updateData(`${api.device}${id}/`, data),
       onSuccess: (response) => {
-        console.log(response);
         updateInstanceData(queryClient, response);
         updateRoomDeviceData(queryClient, response);
         if (response.data.is_favourite)

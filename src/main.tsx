@@ -25,6 +25,7 @@ import "./index.css";
 import Room from "./pages/Rooms/Room/Room.tsx";
 import RfidPage from "./pages/Rfid/RfidPage/RfidPage.tsx";
 import RouterPage from "./pages/Router/RouterPage.tsx";
+import DeviceEventWizzard from "./pages/DeviceEventWizzard/DeviceEventWizzard.tsx";
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -86,6 +87,7 @@ const router = createBrowserRouter([
         path: "device/",
         element: <DevicePage />,
       },
+      { path: ":deviceFun/:id/event/wizard/", element: <DeviceEventWizzard /> },
       {
         path: "event/",
         element: <Event />,
