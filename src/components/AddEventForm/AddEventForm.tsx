@@ -5,6 +5,8 @@ import useDeviceByFunctionQuery from "../../hooks/queries/useDeviceByFunctionQue
 import { IDevice } from "../../interfaces/IDevice";
 import useActionByFunctionQuery from "../../hooks/queries/useActionByFunctionQuery";
 import useEventMutation from "../../hooks/queries/useEventMutation";
+import ButtonContainer from "../../ui/ButtonContainer/ButtonContainer";
+import Message from "../../ui/Message/Message";
 interface AddEventFormProps {
   availableEvent: string[];
   availableDeviceModels: string[];
@@ -21,6 +23,7 @@ export default function AddEventForm({
   const [event, setEvent] = useState("");
   const [action, setAction] = useState("");
   const [selectDevice, setSelectDevice] = useState(0);
+  const [error, setError] = useState(false);
   const { deviceByFunction } = useDeviceByFunctionQuery(deviceFunction);
   const { actionByFunction } = useActionByFunctionQuery(deviceFunction);
   const { createEvent } = useEventMutation();
@@ -32,7 +35,10 @@ export default function AddEventForm({
     }
   }, [createMutation.isSuccess]);
   function handleSubmit() {
-    if (!event || !deviceFunction || !selectDevice || !action) return;
+    if (!event || !deviceFunction || !selectDevice || !action) {
+      setError(true);
+      return;
+    }
     const data = {
       target_device: selectDevice,
       action: action,
@@ -42,7 +48,6 @@ export default function AddEventForm({
     };
     createMutation.mutate(data);
   }
-
   return (
     <div className={styles.container}>
       <div className={styles.addEventForm}>
@@ -72,11 +77,15 @@ export default function AddEventForm({
         </select>
         <select onChange={(e) => setAction(e.target.value)}>
           <option>Wybierz akcje</option>
-          {actionByFunction?.map((action, index) => (
+          {actionByFunction?.map((action: string, index: number) => (
             <option key={index}>{action}</option>
           ))}
         </select>
-        <Button callback={handleSubmit}>Dodaj</Button>
+        {error && <Message type="error">Wypełnij wszystkie pola</Message>}
+        <ButtonContainer>
+          <Button callback={onClose}>Anuluj</Button>
+          <Button callback={handleSubmit}>Dodaj</Button>
+        </ButtonContainer>
       </div>
     </div>
   );

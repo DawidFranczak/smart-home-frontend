@@ -9,6 +9,7 @@ import IEvent from "../../interfaces/IEvent";
 import Delete from "/static/svg/delete.svg";
 import ConfirmDelete from "../../components/ConfirmDelete/ConfirmDelete";
 import useEventMutation from "../../hooks/queries/useEventMutation";
+import BackArrow from "../../ui/BackArrow/BackArrow";
 
 export default function DeviceEventWizzard() {
   const params = useParams();
@@ -27,6 +28,7 @@ export default function DeviceEventWizzard() {
   return (
     <div className={styles.container}>
       <section className={styles.section}>
+        <BackArrow className={styles.backArrow} />
         {availableAction.active_events?.length === 0 && <p>Brak akcji</p>}
         {availableAction.active_events?.map((event: IEvent) => (
           <div key={`${event.id} div`} className={styles.eventBox}>
