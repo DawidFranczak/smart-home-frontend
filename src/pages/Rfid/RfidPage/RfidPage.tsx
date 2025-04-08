@@ -52,15 +52,8 @@ export default function RfidPage() {
       is_online={rfidData.is_online}
       id={rfidData.id}
       className={styles.container}
+      events={rfidData.events}
     >
-      {rfidData.events?.map((event) => (
-        <DeviceEventDisplay
-          key={event.id}
-          action={event.action}
-          device={event.device}
-          event={event.event}
-        />
-      ))}
       <StyledLink type="button" to={`/rfid/${rfidData.id}/event/wizard/`}>
         Ustawienia zdarzenia
       </StyledLink>

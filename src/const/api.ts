@@ -15,6 +15,7 @@ export const api = {
   rfid: baseURL + "/api/rfid/",
   card: baseURL + "/api/rfid/card/",
   lamp: baseURL + "/api/lamp/",
+  button: baseURL + "/api/button/",
   device: baseURL + "/api/device/",
   unassignedDevice: baseURL + "/api/device/?unassigned=true",
   router: baseURL + "/api/device/router/",

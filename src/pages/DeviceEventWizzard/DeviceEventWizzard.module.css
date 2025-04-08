@@ -7,11 +7,10 @@
   align-items: center;
 }
 .section {
-  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 40px 40px 20px 40px;
+  padding: 0px 40px 20px 40px;
   gap: 10px;
   background-color: #1a2a44dd;
   border-radius: 20px;
@@ -64,9 +63,11 @@
 }
 
 .backArrow {
-  position: absolute;
-  top: 10px;
-  left: 10px;
+  padding-top: 10px;
+  transform: translate(-100%, -10%);
+  align-self: flex-start;
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
+}
+.backArrow:hover {
+  transform: translate(-100%, -10%) scale(1.2);
 }

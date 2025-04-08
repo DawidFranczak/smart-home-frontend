@@ -41,7 +41,7 @@ export default function DeviceEventWizzard() {
             <img
               key={`${event.id} img`}
               src={Delete}
-              alt="Wifi"
+              alt="Delete"
               width="24"
               height="24"
               className={styles.deleteIcon}
