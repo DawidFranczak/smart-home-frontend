@@ -1,6 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useFetch from "../useFetch";
 import { api } from "../../const/api";
+import updateFavouriteData from "../../utils/updateFavouriteData";
+import updateRoomData from "../../utils/updateRoomData";
+import updateRoomDeviceData from "../../utils/updateRoomDeviceData";
 interface IFavouriteData {
   id: number;
   is_favourite: boolean;
@@ -13,9 +16,10 @@ export default function useFavouriteMutation(
   const { updateData } = useFetch();
   const mutation = useMutation({
     mutationFn: (data: IFavouriteData) => updateData(api.favourite, data),
-    onSuccess: (_, data: IFavouriteData) => {
-      console.log(_);
-      queryClient.invalidateQueries({ queryKey: ["favourite"] });
+    onSuccess: (response, data: IFavouriteData) => {
+      updateFavouriteData(queryClient, response, data.type);
+      if (data.type === "room") updateRoomData(queryClient, response);
+      else updateRoomDeviceData(queryClient, response);
       onClick && onClick(!data.is_favourite);
     },
   });
