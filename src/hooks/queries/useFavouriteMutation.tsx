@@ -14,6 +14,7 @@ export default function useFavouriteMutation(
   const mutation = useMutation({
     mutationFn: (data: IFavouriteData) => updateData(api.favourite, data),
     onSuccess: (_, data: IFavouriteData) => {
+      console.log(_);
       queryClient.invalidateQueries({ queryKey: ["favourite"] });
       onClick && onClick(!data.is_favourite);
     },

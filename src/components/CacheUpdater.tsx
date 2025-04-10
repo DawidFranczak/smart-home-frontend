@@ -4,6 +4,8 @@ import updateInstanceData from "../utils/updateInstanceData";
 import updateRoomDeviceData from "../utils/updateRoomDeviceData";
 import updateFavouriteData from "../utils/updateFavouriteData";
 import updateUnassignedDevice from "../utils/updateUnassignedDevice";
+import MessageType from "../const/message_type";
+import updateRouterData from "../utils/updateRouterData";
 
 export default function CacheUpdater() {
   const [socket, setSocket] = useState<WebSocket>();
@@ -21,20 +23,17 @@ export default function CacheUpdater() {
     };
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      const newData = data.data;
-      const status = data.status;
-      if (!newData.room) {
-        updateUnassignedDevice(queryClient, { status: status, data: newData });
-        return;
+      switch (data.action) {
+        case MessageType.UPDATE_ROUTER:
+          updateRouterData(queryClient, data);
+          break;
+        case MessageType.UPDATE_DEVICE:
+          updateInstanceData(queryClient, data);
+          updateRoomDeviceData(queryClient, data);
+          break;
+        case MessageType.NEW_DEVICE_CONNECTED:
+          updateUnassignedDevice(queryClient, data);
       }
-      updateInstanceData(queryClient, { status: status, data: newData });
-      updateRoomDeviceData(queryClient, { status: status, data: newData });
-      if (newData.is_favourite)
-        updateFavouriteData(
-          queryClient,
-          { status: status, data: newData },
-          "device"
-        );
     };
 
     ws.onerror = (error) => {
