@@ -10,7 +10,7 @@ export default function RouterPage() {
   return (
     <DeviceContainer
       name="Ruter"
-      wifi_strength={data.wifi_strength}
+      wifi_strength={0}
       is_online={data.is_online}
       className={styles.container}
       id={data.id}

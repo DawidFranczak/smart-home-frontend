@@ -1,8 +1,5 @@
-// const baseURL =
-//   import.meta.env.MODE === "development" ? "http://127.0.0.1:8000" : "";
-// const baseURL = ""
-// const baseURL = "https://dashing-cod-pretty.ngrok-free.app/api"
-const baseURL = "http://127.0.0.1:8000";
+import { baseURL } from "./urls";
+
 export const api = {
   refreshToken: baseURL + "/api/token/refresh/",
   login: baseURL + "/api/login/",

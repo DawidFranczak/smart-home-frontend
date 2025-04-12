@@ -14,7 +14,6 @@ import HomePage from "./pages/HomePage/HomePage.tsx";
 import DeviceAddPage from "./pages/Devices/DeviceAddPage/DeviceAddPage.tsx";
 import SelectAquariumPage from "./pages/Aquariums/SelectAquariumPage/SelectAquariumPage.tsx";
 import AquariumPage from "./pages/Aquariums/AquariumPage/AquariumPage.tsx";
-import Event from "./pages/Event/Event.tsx";
 import RequireAuth from "./RequireAuth.tsx";
 import SelectLampPage from "./pages/Lamps/SelectLampPage/SelectLampPage.tsx";
 import LampPage from "./pages/Lamps/LampPage/LampPage.tsx";
@@ -101,7 +100,7 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
       <AuthProvider>
         <RouterProvider router={router} />
       </AuthProvider>

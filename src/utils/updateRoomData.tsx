@@ -9,12 +9,9 @@ export default function updateRoomData(
     status: number;
     data: IRoom[];
   };
-  let newData = oldData.data.filter(
-    (room: IRoom) => room.id !== response.data.id
-  );
-  newData.push(response.data);
-  queryClient.setQueryData(["rooms"], {
-    status: oldData.status,
-    data: newData,
-  });
+  for (let i = 0; i < oldData.data.length; i++) {
+    if (oldData.data[i].id === response.data.id)
+      oldData.data[i] = response.data;
+  }
+  queryClient.setQueryData(["rooms"], oldData);
 }

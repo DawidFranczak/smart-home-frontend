@@ -1,1 +1,4 @@
-
+.eventsContainer {
+  overflow: scroll;
+  scrollbar-width: none;
+}

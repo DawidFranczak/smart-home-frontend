@@ -25,6 +25,19 @@ const BackgroundChanger = () => {
       root.style.backgroundPosition = "center";
       root.style.transition = "background 0.5s ease-in-out";
     }
+
+    // 🔽 Prefetch wszystkich obrazów (z pominięciem aktualnego)
+    const currentPath = location.pathname.split("/")[1];
+    const uniqueUrls = new Set(
+      Object.entries(backgrounds)
+        .filter(([key]) => key !== currentPath)
+        .map(([, url]) => url.match(/url\(['"]?(.*?)['"]?\)/)?.[1] || "")
+    );
+
+    uniqueUrls.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
   }, [location]);
 
   return null;

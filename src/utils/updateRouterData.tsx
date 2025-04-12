@@ -1,5 +1,9 @@
 import { QueryClient } from "@tanstack/react-query";
 
 export default function updateRouterData(queryClient: QueryClient, data: any) {
-  queryClient.setQueryData(["router"], data);
+  const newData = {
+    status: data.data.status,
+    data: [data.data.data],
+  };
+  queryClient.setQueryData(["router"], newData);
 }
