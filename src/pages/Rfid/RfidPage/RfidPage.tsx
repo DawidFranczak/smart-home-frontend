@@ -17,21 +17,10 @@ export default function RfidPage() {
   const id = params.id ? parseInt(params.id) : 0;
   const { rfidData, status } = useRfidQuery(id);
   const [addCardForm, setAddCardForm] = useState(false);
-  const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
     if (rfidData) setCards(rfidData.cards);
   }, [rfidData]);
-
-  function handleAddCard(status: string) {
-    setAddCardForm(false);
-    if (status === "success") {
-      setIsPending(true);
-      setTimeout(() => {
-        setIsPending(false);
-      }, 20000);
-    }
-  }
 
   if (!rfidData) return null;
   function handleFilterCards(value: string) {
@@ -67,7 +56,10 @@ export default function RfidPage() {
       </div>
 
       {addCardForm && (
-        <AddCardForm handleAddFunction={handleAddCard} rfidID={rfidData.id} />
+        <AddCardForm
+          handleAddFunction={() => setAddCardForm(false)}
+          rfidID={rfidData.id}
+        />
       )}
       <div className={styles.cards}>
         {rfidData.pending.includes("add_tag") && (
