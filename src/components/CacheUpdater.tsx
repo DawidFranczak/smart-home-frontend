@@ -6,6 +6,7 @@ import updateUnassignedDevice from "../utils/updateUnassignedDevice";
 import MessageType from "../const/message_type";
 import updateRouterData from "../utils/updateRouterData";
 import { websockerUrl } from "../const/urls";
+import updateFavouriteData from "../utils/updateFavouriteData";
 
 export default function CacheUpdater() {
   const [_, setSocket] = useState<WebSocket>();
@@ -30,6 +31,11 @@ export default function CacheUpdater() {
         case MessageType.UPDATE_DEVICE:
           updateInstanceData(queryClient, data.data);
           updateRoomDeviceData(queryClient, data.data);
+          updateFavouriteData(
+            queryClient,
+            { status: data.data.status, data: data.data.data },
+            "device"
+          );
           break;
         case MessageType.NEW_DEVICE_CONNECTED:
           updateUnassignedDevice(queryClient, data.data);

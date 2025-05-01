@@ -16,12 +16,11 @@ export default function updateFavouriteData(
   let newRoomData = oldFavouriteData.data.rooms;
 
   if (type === "device") {
+    newDeviceData = newDeviceData.filter(
+      (device: IDevice) => device.id !== response.data.id
+    );
     if (response.data.is_favourite) {
       newDeviceData.push(response.data as IDevice);
-    } else {
-      newDeviceData = newDeviceData.filter(
-        (device: IDevice) => device.id !== response.data.id
-      );
     }
   } else if (type === "room") {
     if (response.data.is_favourite) {

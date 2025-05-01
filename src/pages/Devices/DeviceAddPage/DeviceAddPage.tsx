@@ -17,6 +17,7 @@ export default function DeviceAddPage() {
   function addDevice(deviceId: number) {
     mutation.mutate({ deviceId, roomId });
   }
+  if (!unassignedDeviceData) return null;
   return (
     <div className={styles.container}>
       <BackArrow className={styles.backArrow} />

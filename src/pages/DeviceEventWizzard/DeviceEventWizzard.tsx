@@ -25,7 +25,6 @@ export default function DeviceEventWizzard() {
   const deleteMutation = deleteEvent(device_id, eventId);
 
   if (!availableAction) return null;
-  console.log(availableAction);
   return (
     <div className={styles.container}>
       <section className={styles.section}>
