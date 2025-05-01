@@ -9,7 +9,6 @@ import AddCardForm from "../../../components/AddCardForm/AddCardForm";
 import QueryInput from "../../../ui/QueryInput/QueryInput";
 import DeviceContainer from "../../../ui/DeviceContainer/DeviceContainer";
 import Message from "../../../ui/Message/Message";
-import DeviceEventDisplay from "../../../components/DeviceEventDisplay/DeviceEventDisplay";
 import StyledLink from "../../../ui/StyledLink/StyledLink";
 
 export default function RfidPage() {
@@ -44,7 +43,6 @@ export default function RfidPage() {
   }
   const errorMessage =
     status === 400 ? "Nie udało się dodać karty" : "Karta jest już dodana";
-  console.log(rfidData);
   return (
     <DeviceContainer
       name={rfidData.name}

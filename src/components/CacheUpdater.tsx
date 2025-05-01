@@ -22,16 +22,17 @@ export default function CacheUpdater() {
     };
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
+      console.log(event.data);
       switch (data.action) {
         case MessageType.UPDATE_ROUTER:
-          updateRouterData(queryClient, data);
+          updateRouterData(queryClient, data.data);
           break;
         case MessageType.UPDATE_DEVICE:
-          updateInstanceData(queryClient, data);
-          updateRoomDeviceData(queryClient, data);
+          updateInstanceData(queryClient, data.data);
+          updateRoomDeviceData(queryClient, data.data);
           break;
         case MessageType.NEW_DEVICE_CONNECTED:
-          updateUnassignedDevice(queryClient, data);
+          updateUnassignedDevice(queryClient, data.data);
       }
     };
 
