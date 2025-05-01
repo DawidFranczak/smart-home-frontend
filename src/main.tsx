@@ -14,7 +14,6 @@ import HomePage from "./pages/HomePage/HomePage.tsx";
 import DeviceAddPage from "./pages/Devices/DeviceAddPage/DeviceAddPage.tsx";
 import SelectAquariumPage from "./pages/Aquariums/SelectAquariumPage/SelectAquariumPage.tsx";
 import AquariumPage from "./pages/Aquariums/AquariumPage/AquariumPage.tsx";
-import Event from "./pages/Event/Event.tsx";
 import RequireAuth from "./RequireAuth.tsx";
 import SelectLampPage from "./pages/Lamps/SelectLampPage/SelectLampPage.tsx";
 import LampPage from "./pages/Lamps/LampPage/LampPage.tsx";
@@ -26,6 +25,7 @@ import Room from "./pages/Rooms/Room/Room.tsx";
 import RfidPage from "./pages/Rfid/RfidPage/RfidPage.tsx";
 import RouterPage from "./pages/Router/RouterPage.tsx";
 import DeviceEventWizzard from "./pages/DeviceEventWizzard/DeviceEventWizzard.tsx";
+import ButtonPage from "./pages/Button/ButtonPage/ButtonPage.tsx";
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -84,14 +84,15 @@ const router = createBrowserRouter([
         element: <LampPage />,
       },
       {
+        path: "button/:id/",
+        element: <ButtonPage />,
+      },
+
+      {
         path: "device/",
         element: <DevicePage />,
       },
       { path: ":deviceFun/:id/event/wizard/", element: <DeviceEventWizzard /> },
-      {
-        path: "event/",
-        element: <Event />,
-      },
     ],
   },
 ]);
@@ -99,7 +100,7 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
       <AuthProvider>
         <RouterProvider router={router} />
       </AuthProvider>

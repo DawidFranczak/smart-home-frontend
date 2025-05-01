@@ -1,21 +1,28 @@
-interface IButtonCardProps {
-  controlled_lamp: number;
-  fun: string;
-  id: number;
-  ip: string;
-  is_favourite: boolean;
-  is_online: boolean;
-  last_seen: string;
-  mac: string;
-  name: string;
-  port: number;
-  room: number;
-}
+import { IDevice } from "../../../interfaces/IDevice";
+import DeviceCardContainer from "../../../ui/DeviceCardContainer/DeviceCardContainer";
+import StyledLink from "../../../ui/StyledLink/StyledLink";
+import DeviceEventDisplay from "../../DeviceEventDisplay/DeviceEventDisplay";
 
-export default function ButtonCard(button: IButtonCardProps) {
+export default function ButtonCard(button: IDevice) {
   return (
-    <>
-      <p>{button.name}</p>
-    </>
+    <DeviceCardContainer
+      isFavourite={button.is_favourite}
+      name={button.name}
+      wifiStrength={button.wifi_strength}
+      isOnline={button.is_online}
+      id={button.id}
+    >
+      {button.events?.map((event) => (
+        <DeviceEventDisplay
+          key={event.id}
+          action={event.action}
+          device={event.device}
+          event={event.event}
+        />
+      ))}
+      <StyledLink type="button" to={`/button/${button.id}/`}>
+        Wybierz
+      </StyledLink>
+    </DeviceCardContainer>
   );
 }

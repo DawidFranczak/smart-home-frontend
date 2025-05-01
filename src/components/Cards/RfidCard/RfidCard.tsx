@@ -1,7 +1,8 @@
 import { IRfid } from "../../../interfaces/IRfid";
 import StyledLink from "../../../ui/StyledLink/StyledLink";
 import DeviceCardContainer from "../../../ui/DeviceCardContainer/DeviceCardContainer";
-
+import DeviceEventDisplay from "../../DeviceEventDisplay/DeviceEventDisplay";
+import styles from "./RfidCard.module.css";
 export default function RfidCard(rfid: IRfid) {
   return (
     <DeviceCardContainer
@@ -11,16 +12,16 @@ export default function RfidCard(rfid: IRfid) {
       isOnline={rfid.is_online}
       id={rfid.id}
     >
-      {rfid.controlled_lamp ? (
-        <p>
-          Podłączone do:
-          <StyledLink to={`/lamp/${rfid.controlled_lamp.id}/`}>
-            {` ${rfid.controlled_lamp.name}`}
-          </StyledLink>
-        </p>
-      ) : (
-        <p>Nieprszypisano do lampy</p>
-      )}
+      <div className={styles.eventsContainer}>
+        {rfid.events?.map((event) => (
+          <DeviceEventDisplay
+            key={event.id}
+            action={event.action}
+            device={event.device}
+            event={event.event}
+          />
+        ))}
+      </div>
       <p>Ilość kart: {rfid.cards.length}</p>
       <StyledLink type="button" to={`/rfid/${rfid.id}`}>
         Wybierz

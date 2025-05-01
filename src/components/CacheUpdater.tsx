@@ -2,11 +2,14 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import updateInstanceData from "../utils/updateInstanceData";
 import updateRoomDeviceData from "../utils/updateRoomDeviceData";
-import updateFavouriteData from "../utils/updateFavouriteData";
 import updateUnassignedDevice from "../utils/updateUnassignedDevice";
+import MessageType from "../const/message_type";
+import updateRouterData from "../utils/updateRouterData";
+import { websockerUrl } from "../const/urls";
+import updateFavouriteData from "../utils/updateFavouriteData";
 
 export default function CacheUpdater() {
-  const [socket, setSocket] = useState<WebSocket>();
+  const [_, setSocket] = useState<WebSocket>();
   const queryClient = useQueryClient();
   useEffect(() => {
     const token = queryClient.getQueryData(["token"]) as {
@@ -14,27 +17,29 @@ export default function CacheUpdater() {
       token: string;
     };
     if (!token) return;
-    const ws = new WebSocket(`ws://192.168.1.142:8000/ws/user/${token.token}/`);
-
+    const ws = new WebSocket(`${websockerUrl}/ws/user/${token.token}/`);
     ws.onopen = (event) => {
-      //   console.log(event);
+      console.log(event);
     };
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      const newData = data.data;
-      const status = data.status;
-      if (!newData.room) {
-        updateUnassignedDevice(queryClient, { status: status, data: newData });
-        return;
+      console.log(event.data);
+      switch (data.action) {
+        case MessageType.UPDATE_ROUTER:
+          updateRouterData(queryClient, data.data);
+          break;
+        case MessageType.UPDATE_DEVICE:
+          updateInstanceData(queryClient, data.data);
+          updateRoomDeviceData(queryClient, data.data);
+          updateFavouriteData(
+            queryClient,
+            { status: data.data.status, data: data.data.data },
+            "device"
+          );
+          break;
+        case MessageType.NEW_DEVICE_CONNECTED:
+          updateUnassignedDevice(queryClient, data.data);
       }
-      updateInstanceData(queryClient, { status: status, data: newData });
-      updateRoomDeviceData(queryClient, { status: status, data: newData });
-      if (newData.is_favourite)
-        updateFavouriteData(
-          queryClient,
-          { status: status, data: newData },
-          "device"
-        );
     };
 
     ws.onerror = (error) => {

@@ -3,6 +3,8 @@ import Header from "../Header/Header";
 import WifiStrength from "../WiFiStrength/WiFiStrength";
 import BackArrow from "../BackArrow/BackArrow";
 import ChangeName from "../../components/ChangeName/ChangeName";
+import IEvent from "../../interfaces/IEvent";
+import DeviceEventDisplay from "../../components/DeviceEventDisplay/DeviceEventDisplay";
 
 interface DeviceContainerProps {
   name: string;
@@ -11,6 +13,7 @@ interface DeviceContainerProps {
   children: React.ReactNode;
   id: number;
   className?: string;
+  events?: IEvent[];
 }
 
 export default function DeviceContainer({
@@ -20,6 +23,7 @@ export default function DeviceContainer({
   children,
   className,
   id,
+  events,
 }: DeviceContainerProps) {
   return (
     <div className={`${styles.container} ${className}`}>
@@ -31,6 +35,14 @@ export default function DeviceContainer({
       <ChangeName type="device" id={id}>
         <Header>{name}</Header>
       </ChangeName>
+      {events?.map((event) => (
+        <DeviceEventDisplay
+          key={event.id}
+          action={event.action}
+          device={event.device}
+          event={event.event}
+        />
+      ))}
       {children}
     </div>
   );

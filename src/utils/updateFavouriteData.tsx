@@ -4,7 +4,7 @@ import { IRoom } from "../interfaces/IRoom";
 
 export default function updateFavouriteData(
   queryClient: QueryClient,
-  response: { status: number; data: IDevice },
+  response: { status: number; data: IDevice | IRoom },
   type: "room" | "device"
 ) {
   const oldFavouriteData = queryClient.getQueryData(["favourite"]) as {
@@ -14,8 +14,22 @@ export default function updateFavouriteData(
   if (!oldFavouriteData) return;
   let newDeviceData = oldFavouriteData.data.devices;
   let newRoomData = oldFavouriteData.data.rooms;
+
   if (type === "device") {
-    newDeviceData = updateDevice(oldFavouriteData.data.devices, response.data);
+    newDeviceData = newDeviceData.filter(
+      (device: IDevice) => device.id !== response.data.id
+    );
+    if (response.data.is_favourite) {
+      newDeviceData.push(response.data as IDevice);
+    }
+  } else if (type === "room") {
+    if (response.data.is_favourite) {
+      newRoomData.push(response.data as IRoom);
+    } else {
+      newRoomData = newRoomData.filter(
+        (room: IRoom) => room.id !== response.data.id
+      );
+    }
   }
   const newFavouriteData = {
     status: response.status,
@@ -25,14 +39,4 @@ export default function updateFavouriteData(
     },
   };
   queryClient.setQueryData(["favourite"], newFavouriteData);
-}
-
-function updateRoom(oldRoomData: IRoom, newRoomData: IRoom) {}
-
-function updateDevice(oldDeviceData: IDevice[], newDeviceData: IDevice) {
-  const filtretedData = oldDeviceData.filter(
-    (device) => device.id !== newDeviceData.id
-  );
-  filtretedData.push(newDeviceData);
-  return filtretedData;
 }

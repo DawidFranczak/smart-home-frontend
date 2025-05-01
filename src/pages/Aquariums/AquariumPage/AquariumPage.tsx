@@ -132,7 +132,6 @@ const AquariumPage = () => {
   };
 
   if (Object.keys(state.aquariumData).length === 0) return null;
-  console.log(state.aquariumData);
   return (
     <DeviceContainer
       name={state.aquariumData.name}

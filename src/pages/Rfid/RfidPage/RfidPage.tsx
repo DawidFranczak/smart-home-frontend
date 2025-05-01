@@ -9,7 +9,6 @@ import AddCardForm from "../../../components/AddCardForm/AddCardForm";
 import QueryInput from "../../../ui/QueryInput/QueryInput";
 import DeviceContainer from "../../../ui/DeviceContainer/DeviceContainer";
 import Message from "../../../ui/Message/Message";
-import DeviceEventDisplay from "../../../components/DeviceEventDisplay/DeviceEventDisplay";
 import StyledLink from "../../../ui/StyledLink/StyledLink";
 
 export default function RfidPage() {
@@ -18,21 +17,10 @@ export default function RfidPage() {
   const id = params.id ? parseInt(params.id) : 0;
   const { rfidData, status } = useRfidQuery(id);
   const [addCardForm, setAddCardForm] = useState(false);
-  const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
     if (rfidData) setCards(rfidData.cards);
   }, [rfidData]);
-
-  function handleAddCard(status: string) {
-    setAddCardForm(false);
-    if (status === "success") {
-      setIsPending(true);
-      setTimeout(() => {
-        setIsPending(false);
-      }, 20000);
-    }
-  }
 
   if (!rfidData) return null;
   function handleFilterCards(value: string) {
@@ -44,7 +32,6 @@ export default function RfidPage() {
   }
   const errorMessage =
     status === 400 ? "Nie udało się dodać karty" : "Karta jest już dodana";
-  console.log(rfidData);
   return (
     <DeviceContainer
       name={rfidData.name}
@@ -52,15 +39,8 @@ export default function RfidPage() {
       is_online={rfidData.is_online}
       id={rfidData.id}
       className={styles.container}
+      events={rfidData.events}
     >
-      {rfidData.events?.map((event) => (
-        <DeviceEventDisplay
-          key={event.id}
-          action={event.action}
-          device={event.device}
-          event={event.event}
-        />
-      ))}
       <StyledLink type="button" to={`/rfid/${rfidData.id}/event/wizard/`}>
         Ustawienia zdarzenia
       </StyledLink>
@@ -76,7 +56,10 @@ export default function RfidPage() {
       </div>
 
       {addCardForm && (
-        <AddCardForm handleAddFunction={handleAddCard} rfidID={rfidData.id} />
+        <AddCardForm
+          handleAddFunction={() => setAddCardForm(false)}
+          rfidID={rfidData.id}
+        />
       )}
       <div className={styles.cards}>
         {rfidData.pending.includes("add_tag") && (
