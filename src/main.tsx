@@ -87,7 +87,6 @@ const router = createBrowserRouter([
         path: "button/:id/",
         element: <ButtonPage />,
       },
-
       {
         path: "device/",
         element: <DevicePage />,

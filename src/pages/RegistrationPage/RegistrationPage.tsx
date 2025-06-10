@@ -60,10 +60,6 @@ const RegistrationPage = () => {
         {data?.status === 400 && data.body.password2 && (
           <Message type="error">{data.body.password2} </Message>
         )}
-        <FormField type="text" name="homeUuid" placeholder="Kod domu" />
-        {data?.status === 400 && data.body.homeUuid && (
-          <Message type="error">{data.body.homeUuid} </Message>
-        )}
         <Button>Rejestracja</Button>
       </Form>
       {data?.status === 400 && data.body.empty && (
@@ -84,7 +80,6 @@ export const action: ActionFunction = async ({ request }) => {
     username: data.username,
     password: data.password,
     password2: data.password2,
-    homeUuid: data.homeUuid,
   };
   const response = await fetch(api.registration, {
     method: "POST",
