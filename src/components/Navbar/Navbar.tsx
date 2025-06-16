@@ -12,6 +12,7 @@ import logoutIcon from "/static/svg/logout.svg";
 import router from "/static/svg/router.svg";
 import device from "/static/svg/device.svg";
 import dashboard from "/static/svg/dashboard.svg";
+import settings from "/static/svg/settings.svg";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { deleteData } = useFetch();
@@ -52,18 +53,9 @@ export default function Navbar() {
           <Link to="/router" onClick={() => setOpen((e) => !e)}>
             <NavbarIcon svg={router} />
           </Link>
-          {/* <Link className={styles.link} onClick={(e) => setOpen((e) => !e)}>
-            Schody
+          <Link to="/settings" onClick={() => setOpen((e) => !e)}>
+            <NavbarIcon svg={settings} />
           </Link>
-          <Link className={styles.link} onClick={(e) => setOpen((e) => !e)}>
-            Lampy
-          </Link>
-          <Link className={styles.link} onClick={(e) => setOpen((e) => !e)}>
-            Urządzenia
-          </Link> */}
-          {/* <Link className={styles.link} onClick={(e) => setOpen((e) => !e)}>
-            Ustawienia
-          </Link> */}
           <Link className={styles.link} onClick={logoutHandler} to="/">
             <NavbarIcon svg={logoutIcon} />
           </Link>

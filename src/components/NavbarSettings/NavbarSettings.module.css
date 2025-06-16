@@ -1,0 +1,9 @@
+.container {
+  height: 100svh;
+  width: 300px;
+  background-color: #171717;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
