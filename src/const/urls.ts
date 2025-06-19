@@ -4,3 +4,6 @@ export const websockerUrl = import.meta.env.DEV
 export const baseURL = import.meta.env.DEV
   ? "http://localhost:8000"
   : "https://dashing-cod-pretty.ngrok-free.app";
+
+// export const websockerUrl = "wss://3fe6-91-227-219-94.ngrok-free.app";
+// export const baseURL = " https://3fe6-91-227-219-94.ngrok-free.app";
