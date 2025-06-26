@@ -5,6 +5,7 @@ export const api = {
   login: baseURL + "/api/login/",
   logout: baseURL + "/api/logout/",
   registration: baseURL + "/api/registration/",
+  changePassword: baseURL + "/api/change-password/",
 
   room: baseURL + "/api/room/",
   favourite: baseURL + "/api/favourite/",

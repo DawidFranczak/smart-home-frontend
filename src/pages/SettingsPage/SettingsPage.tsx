@@ -3,18 +3,20 @@ import styles from "./SettingsPage.module.css";
 import NavbarSettings from "../../components/NavbarSettings/NavbarSettings";
 import ChangePasswordForm from "../../components/ChangePasswordForm/ChangePasswordForm";
 import { TSettings } from "../../type/TSettings";
-import CameraCard from "../../components/Cards/CameraCard/CameraCard";
+import ChangeHomeForm from "../../components/ChangeHomeForm/ChangeHomeForm";
+import HomeCode from "../../components/HomeCode/HomeCode";
+import HomeLeave from "../../components/HomeLeave/HomeLeave";
 export default function SettingsPage() {
   const [selectedSettings, setSelectedSettings] =
     useState<TSettings>("passowrdChange");
+
   const componentMap: Record<TSettings, React.ReactNode> = {
     passowrdChange: <ChangePasswordForm />,
-    homeChange: (
-      <CameraCard url="http://127.0.0.1:8083/stream/balkon/channel/0/hls/live/index.m3u8" />
-    ),
-    homeCode: <div>Ustawienia2</div>,
-    homeLeave: <div>Ustawienia3</div>,
+    homeChange: <ChangeHomeForm />,
+    homeCode: <HomeCode />,
+    homeLeave: <HomeLeave />,
   };
+
   const selectedSettingsComponent = componentMap[selectedSettings] || null;
   return (
     <div className={styles.container}>

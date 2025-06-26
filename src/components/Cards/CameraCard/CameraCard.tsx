@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import Hls from "hls.js";
 
 interface HlsPlayerProps {
-  url: string; // URL do pliku .m3u8 (HLS)
+  url: string;
   width?: number;
   height?: number;
 }
@@ -19,10 +19,10 @@ const CameraCard: React.FC<HlsPlayerProps> = ({
 
     if (Hls.isSupported()) {
       const hls = new Hls({
-        liveSyncDurationCount: 1, // zredukowane do 1 segmentu opóźnienia (~1-2s)
-        maxLiveSyncPlaybackRate: 1.5, // umożliwia przyspieszenie odtwarzania jeśli stream "dogania"
-        enableWorker: true, // użyj Web Workerów do dekodowania (lepsza wydajność)
-        lowLatencyMode: true, // Włącz tryb niskiego opóźnienia
+        liveSyncDurationCount: 1,
+        maxLiveSyncPlaybackRate: 1.5,
+        enableWorker: true,
+        lowLatencyMode: true,
       });
       hls.loadSource(url);
       hls.attachMedia(videoRef.current);
@@ -35,7 +35,6 @@ const CameraCard: React.FC<HlsPlayerProps> = ({
         hls.destroy();
       };
     } else if (videoRef.current.canPlayType("application/vnd.apple.mpegurl")) {
-      // Safari natywnie obsługuje HLS
       videoRef.current.src = url;
       videoRef.current.addEventListener("loadedmetadata", () => {
         videoRef.current?.play();

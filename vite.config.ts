@@ -7,20 +7,20 @@ export default defineConfig({
   server: {
     host: true,
   },
-  build: {
-    outDir: "dist",
-    emptyOutDir: true,
-    rollupOptions: {
-      output: {
-        entryFileNames: "assets/main.js",
-        assetFileNames: (assetInfo) => {
-          if (assetInfo.name && assetInfo.name.endsWith(".css")) {
-            return "assets/style.css";
-          }
-          return "assets/[name][extname]";
-        },
-        chunkFileNames: "assets/[name].js",
-      },
-    },
-  },
+  // build: {
+  //   outDir: "dist",
+  //   emptyOutDir: true,
+  //   rollupOptions: {
+  //     output: {
+  //       entryFileNames: "assets/main.js",
+  //       assetFileNames: (assetInfo) => {
+  //         if (assetInfo.name && assetInfo.name.endsWith(".css")) {
+  //           return "assets/style.css";
+  //         }
+  //         return "assets/[name][extname]";
+  //       },
+  //       chunkFileNames: "assets/[name].js",
+  //     },
+  //   },
+  // },
 });

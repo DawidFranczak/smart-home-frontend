@@ -14,6 +14,7 @@ const BackgroundChanger = () => {
       rfid: "url('/static/images/rfid.png')",
       lamp: "url('/static/images/lamps.png')",
       router: "url('/static/images/router.png')",
+      settings: "url('/static/images/settings.png')",
     };
     const backgroundImage =
       backgrounds[location.pathname.split("/")[1]] || "none";
