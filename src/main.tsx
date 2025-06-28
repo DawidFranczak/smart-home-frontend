@@ -26,6 +26,7 @@ import RfidPage from "./pages/Rfid/RfidPage/RfidPage.tsx";
 import RouterPage from "./pages/Router/RouterPage.tsx";
 import DeviceEventWizzard from "./pages/DeviceEventWizzard/DeviceEventWizzard.tsx";
 import ButtonPage from "./pages/Button/ButtonPage/ButtonPage.tsx";
+import SettingsPage from "./pages/SettingsPage/SettingsPage.tsx";
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -87,12 +88,15 @@ const router = createBrowserRouter([
         path: "button/:id/",
         element: <ButtonPage />,
       },
-
       {
         path: "device/",
         element: <DevicePage />,
       },
       { path: ":deviceFun/:id/event/wizard/", element: <DeviceEventWizzard /> },
+      {
+        path: "settings/",
+        element: <SettingsPage />,
+      },
     ],
   },
 ]);

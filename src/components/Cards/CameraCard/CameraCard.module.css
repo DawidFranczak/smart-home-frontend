@@ -1,0 +1,18 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 200px;
+  height: 200px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  transition: 0.4s ease-in-out;
+  backdrop-filter: blur(5px);
+}
+.stream {
+  width: 200px;
+}

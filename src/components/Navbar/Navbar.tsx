@@ -10,6 +10,9 @@ import NavbarIcon from "../../ui/NavbarIcon/NavbarIcon";
 import room from "/static/svg/room.svg";
 import logoutIcon from "/static/svg/logout.svg";
 import router from "/static/svg/router.svg";
+import device from "/static/svg/device.svg";
+import dashboard from "/static/svg/dashboard.svg";
+import settings from "/static/svg/settings.svg";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { deleteData } = useFetch();
@@ -38,27 +41,21 @@ export default function Navbar() {
             open ? styles.active : styles.deactive
           }`}
         >
+          <Link to="/" onClick={() => setOpen((e) => !e)}>
+            <NavbarIcon svg={dashboard} />
+          </Link>
           <Link to="/room" onClick={() => setOpen((e) => !e)}>
             <NavbarIcon svg={room} />
+          </Link>
+          <Link to="/device" onClick={() => setOpen((e) => !e)}>
+            <NavbarIcon svg={device} />
           </Link>
           <Link to="/router" onClick={() => setOpen((e) => !e)}>
             <NavbarIcon svg={router} />
           </Link>
-          {/* <Link className={styles.link} onClick={(e) => setOpen((e) => !e)}>
-            Akwaria
-          </Link> */}
-          {/* <Link className={styles.link} onClick={(e) => setOpen((e) => !e)}>
-            Schody
+          <Link to="/settings" onClick={() => setOpen((e) => !e)}>
+            <NavbarIcon svg={settings} />
           </Link>
-          <Link className={styles.link} onClick={(e) => setOpen((e) => !e)}>
-            Lampy
-          </Link>
-          <Link className={styles.link} onClick={(e) => setOpen((e) => !e)}>
-            Urządzenia
-          </Link> */}
-          {/* <Link className={styles.link} onClick={(e) => setOpen((e) => !e)}>
-            Ustawienia
-          </Link> */}
           <Link className={styles.link} onClick={logoutHandler} to="/">
             <NavbarIcon svg={logoutIcon} />
           </Link>
