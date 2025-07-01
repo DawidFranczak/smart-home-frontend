@@ -13,6 +13,8 @@ import router from "/static/svg/router.svg";
 import device from "/static/svg/device.svg";
 import dashboard from "/static/svg/dashboard.svg";
 import settings from "/static/svg/settings.svg";
+import camera from "/static/svg/camera.svg";
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { deleteData } = useFetch();
@@ -55,6 +57,9 @@ export default function Navbar() {
           </Link>
           <Link to="/settings" onClick={() => setOpen((e) => !e)}>
             <NavbarIcon svg={settings} />
+          </Link>
+          <Link to="/camera" onClick={() => setOpen((e) => !e)}>
+            <NavbarIcon svg={camera} />
           </Link>
           <Link className={styles.link} onClick={logoutHandler} to="/">
             <NavbarIcon svg={logoutIcon} />

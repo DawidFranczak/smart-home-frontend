@@ -14,6 +14,7 @@ const BackgroundChanger = () => {
       rfid: "url('/static/images/rfid.png')",
       lamp: "url('/static/images/lamps.png')",
       router: "url('/static/images/router.png')",
+      camera: "url('/static/images/camera.png')",
       settings: "url('/static/images/settings.png')",
     };
     const backgroundImage =

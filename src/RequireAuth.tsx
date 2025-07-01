@@ -4,7 +4,7 @@ import { useAuth } from "./context/AuthContext";
 
 import BackgroundChanger from "./components/BackgroundChanger/BackgroundChanger";
 import Navbar from "./components/Navbar/Navbar";
-import Logo from "./components/Logo/Logo";
+// import Logo from "./components/Logo/Logo";
 import CacheUpdater from "./components/CacheUpdater";
 
 const RequireAuth = () => {
@@ -18,7 +18,7 @@ const RequireAuth = () => {
     <>
       <CacheUpdater />
       <BackgroundChanger />
-      <Logo />
+      {/*<Logo />*/}
       <Navbar />
       <Outlet />
     </>

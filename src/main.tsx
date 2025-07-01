@@ -27,6 +27,7 @@ import RouterPage from "./pages/Router/RouterPage.tsx";
 import DeviceEventWizzard from "./pages/DeviceEventWizzard/DeviceEventWizzard.tsx";
 import ButtonPage from "./pages/Button/ButtonPage/ButtonPage.tsx";
 import SettingsPage from "./pages/SettingsPage/SettingsPage.tsx";
+import SelectCameraPage from "./pages/Camera/SelectCameraPage/SelectCameraPage.tsx";
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -93,6 +94,7 @@ const router = createBrowserRouter([
         element: <DevicePage />,
       },
       { path: ":deviceFun/:id/event/wizard/", element: <DeviceEventWizzard /> },
+      { path:"camera/",element:<SelectCameraPage/>},
       {
         path: "settings/",
         element: <SettingsPage />,
