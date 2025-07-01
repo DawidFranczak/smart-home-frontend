@@ -1,53 +1,46 @@
-.container{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
+.select {
+    background-color: #2a3a54;
+    border: 2px solid #00ffff;
+    border-radius: 10px;
+    color: white;
+    padding: 12px 16px;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
-.input {
-  -webkit-appearance: none;
- /* remove default */
-  display: block;
-  margin: 10px;
-  width: 24px;
-  height: 24px;
-  border-radius: 12px;
-  cursor: pointer;
-  vertical-align: middle;
-  box-shadow: hsla(0, 0%, 100%, 0.712) 0 1px 1px, inset hsla(0,0%,0%,.5) 0 0 0 1px;
-  background-color: hsla(0,0%,0%,.2);
-  background-image: -webkit-radial-gradient( hsla(200,100%,90%,1) 0%, hsla(200,100%,70%,1) 15%, hsla(200,100%,60%,.3) 28%, hsla(200,100%,30%,0) 70% );
-  background-repeat: no-repeat;
-  -webkit-transition: background-position .15s cubic-bezier(.8, 0, 1, 1),
-    -webkit-transform .25s cubic-bezier(.8, 0, 1, 1);
-  outline: none;
+.select:hover {
+    border-color: #00cccc;
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
 }
 
-.input:checked {
-  -webkit-transition: background-position .2s .15s cubic-bezier(0, 0, .2, 1),
-    -webkit-transform .25s cubic-bezier(0, 0, .2, 1);
+.select:focus {
+    border-color: #00ffff;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
-.input:active {
-  -webkit-transform: scale(1.5);
-  -webkit-transition: -webkit-transform .1s cubic-bezier(0, 0, .2, 1);
+.select option {
+    background-color: #2a3a54;
+    color: white;
+    padding: 8px;
 }
 
-
-
-/* The up/down direction logic */
-
-.input,
-.input:active {
-  background-position: 0 24px;
+.select option:hover {
+    background-color: #3a4a64;
 }
 
-.input:checked {
-  background-position: 0 0;
+.select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    border-color: #666;
 }
 
-.input:checked ~ .input,
-.input:checked ~ .input:active {
-  background-position: 0 -24px;
+@media (max-width: 768px) {
+
+
+    .select {
+        font-size: 14px;
+        padding: 10px 12px;
+    }
 }

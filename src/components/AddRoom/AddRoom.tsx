@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import styles from "./AddRoom.module.css";
 import Button from "../../ui/Button/Button";
 import FormField from "../../ui/FormField/FormField";
-import SelectInput from "../../ui/SelectInput/SelectInput";
+import RadioInput from "../../ui/RadioInput/RadioInput.tsx";
 import useFetch from "../../hooks/useFetch";
 import { api } from "../../const/api";
 import Header from "../../ui/Header/Header";
@@ -62,13 +62,13 @@ export default function AddRoom({ onClose }: AddRoomProps) {
           <Message type="error">{errors.details.name[0]}</Message>
         )}
 
-        <SelectInput
+        <RadioInput
           name="Ogólny"
           value="public"
           onSelect={handleSelected}
           checked={true}
         />
-        <SelectInput
+        <RadioInput
           name="Prywatny"
           value="private"
           onSelect={handleSelected}

@@ -23,7 +23,6 @@ export default function CacheUpdater() {
     };
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log(event.data);
       switch (data.action) {
         case MessageType.UPDATE_ROUTER:
           updateRouterData(queryClient, data.data);

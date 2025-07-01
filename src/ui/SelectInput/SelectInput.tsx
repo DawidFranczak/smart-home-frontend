@@ -1,25 +1,19 @@
-import styles from "./SelectInput.module.css";
-interface SelectInputProps {
-  name: string;
-  onSelect: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  value: string;
-  checked?: boolean;
-}
-const SelectInput = ({ name, onSelect, value, checked }: SelectInputProps) => {
-  return (
-    <div className={styles.container}>
-      <input
-        id={name}
-        type="radio"
-        name="select"
-        value={value}
-        className={styles.input}
-        onChange={onSelect}
-        defaultChecked={checked}
-      />
-      <label htmlFor={name}>{name}</label>
-    </div>
-  );
-};
+import styles from "./SelectInput.module.css"
 
-export default SelectInput;
+interface ISelectInputProps {
+ name: string
+ iterable: [string,number][]
+ onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void
+}
+
+export default function SelectInput({onChange, iterable, name}:ISelectInputProps){
+    const iterableData = iterable && iterable.length > 0 ? iterable : []
+    return (
+        <select className={styles.select} onChange={onChange}>
+            <option>{name}</option>
+            {iterableData.map((iter) => (
+                <option id={`${iter[1]}`} key={iter[1]}>{iter[0]}</option>
+            ))}
+        </select>
+    )
+}

@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import Button from "../../ui/Button/Button";
 import styles from "./AddEventForm.module.css";
 import useDeviceByFunctionQuery from "../../hooks/queries/useDeviceByFunctionQuery";
-import { IDevice } from "../../interfaces/IDevice";
 import useActionByFunctionQuery from "../../hooks/queries/useActionByFunctionQuery";
 import useEventMutation from "../../hooks/queries/useEventMutation";
 import ButtonContainer from "../../ui/ButtonContainer/ButtonContainer";
 import Message from "../../ui/Message/Message";
+import SelectInput from "../../ui/SelectInput/SelectInput.tsx";
+import {IDevice} from "../../interfaces/IDevice.tsx";
 interface AddEventFormProps {
   availableEvent: string[];
   availableDeviceModels: string[];
@@ -51,36 +52,29 @@ export default function AddEventForm({
   return (
     <div className={styles.container}>
       <div className={styles.addEventForm}>
-        <select onChange={(e) => setEvent(e.target.value)}>
-          <option>Wybierz event</option>
-          {availableEvent.map((event, index) => (
-            <option key={index}>{event}</option>
-          ))}
-        </select>
-        <select onChange={(e) => setDeviceFunction(e.target.value)}>
-          <option>Wybierz typ</option>
-          {availableDeviceModels.map((device, index) => (
-            <option key={index}>{device}</option>
-          ))}
-        </select>
-        <select
-          onChange={(e) =>
-            setSelectDevice(parseInt(e.target.selectedOptions[0].id))
-          }
-        >
-          <option>Wybierz urzadzenie</option>
-          {deviceByFunction?.map((device: IDevice) => (
-            <option key={device.id} id={device.id.toString()}>
-              {device.name}
-            </option>
-          ))}
-        </select>
-        <select onChange={(e) => setAction(e.target.value)}>
-          <option>Wybierz akcje</option>
-          {actionByFunction?.map((action: string, index: number) => (
-            <option key={index}>{action}</option>
-          ))}
-        </select>
+        <SelectInput
+            name={"Wybierz event"}
+            iterable={availableEvent?.map((event:string,index:number) => [event, index])}
+            onChange={(e) => setEvent(e.target.value)}
+          />
+
+        <SelectInput
+            name={"Wybierz typ"}
+            iterable={availableDeviceModels?.map((model:string,index:number) => [model, index])}
+            onChange={(e) => setDeviceFunction(e.target.value)}
+        />
+        <SelectInput
+            name={"Wybierz urzadzenie"}
+            iterable={deviceByFunction?.map((device:IDevice) => [device.name, device.id])}
+            onChange={(e) =>
+                setSelectDevice(parseInt(e.target.selectedOptions[0].id))
+            }
+        />
+        <SelectInput
+            name={"Wybierz akcje"}
+            iterable={actionByFunction?.map((action:string,index:number) => [action, index])}
+            onChange={(e) => setAction(e.target.value)}
+        />
         {error && <Message type="error">Wypełnij wszystkie pola</Message>}
         <ButtonContainer>
           <Button callback={onClose}>Anuluj</Button>
