@@ -7,8 +7,6 @@ import CardIconContainer from "../../ui/containers/CardIconContainer/CardIconCon
 import TimeRange from "../../ui/TimeRange/TimeRange.tsx";
 
 export default function AquariumCard(aquarium: IAquarium) {
-    console.log(aquarium);
-
   return (
       <DeviceCardContainer
           isFavourite={aquarium.is_favourite}

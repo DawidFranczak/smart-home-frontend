@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import useFetch from "../useFetch";
-import { IDevice } from "../../interfaces/IDevice";
-import { api } from "../../constant/api";
+import useFetch from "../../useFetch.tsx";
+import { IDevice } from "../../../interfaces/IDevice.tsx";
+import { api } from "../../../constant/api.ts";
 
 export default function useDeviceQuery() {
   const { readData } = useFetch();

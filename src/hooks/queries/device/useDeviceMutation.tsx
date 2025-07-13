@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import useFetch from "../useFetch";
-import { api } from "../../constant/api";
+import useFetch from "../../useFetch.tsx";
+import { api } from "../../../constant/api.ts";
 
-import updateInstanceData from "../../utils/updateInstanceData";
-import updateRoomDeviceData from "../../utils/updateRoomDeviceData";
-import updateFavouriteData from "../../utils/updateFavouriteData";
+import updateInstanceData from "../../../utils/updateInstanceData.tsx";
+import updateRoomDeviceData from "../../../utils/updateRoomDeviceData.tsx";
+import updateFavouriteData from "../../../utils/updateFavouriteData.tsx";
 
 interface IDeviceUpdate {
   name?: string;

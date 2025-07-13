@@ -9,7 +9,7 @@ import Tile from "../../../components/ui/Tile/Tile.tsx";
 import ChangeName from "../../../components/ChangeName/ChangeName.tsx";
 import Message from "../../../components/ui/Message/Message.tsx";
 import ConfirmDelete from "../../../components/ConfirmDelete/ConfirmDelete.tsx";
-import useDeviceMutation from "../../../hooks/queries/useDeviceMutation.tsx";
+import useDeviceMutation from "../../../hooks/queries/device/useDeviceMutation.tsx";
 
 export default function SettingsDevice() {
     const params = useParams();

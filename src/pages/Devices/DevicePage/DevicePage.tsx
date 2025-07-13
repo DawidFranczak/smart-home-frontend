@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useDeviceQuery from "../../../hooks/queries/useDeviceQuery";
+import useDeviceQuery from "../../../hooks/queries/device/useDeviceQuery.tsx";
 import { IDevice } from "../../../interfaces/IDevice";
 import QueryInput from "../../../components/ui/QueryInput/QueryInput";
 import getDeviceComponent from "../../../utils/getDeviceCard";

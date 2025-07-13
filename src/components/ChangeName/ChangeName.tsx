@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./ChangeName.module.css";
 import ChangeNameForm from "../ChangeNameForm/ChangeNameForm";
-import useDeviceMutation from "../../hooks/queries/useDeviceMutation";
+import useDeviceMutation from "../../hooks/queries/device/useDeviceMutation.tsx";
 import { ICustomError } from "../../interfaces/ICustomError";
 import Message from "../ui/Message/Message";
 import useRoomMutation from "../../hooks/queries/useRoomMutation.tsx";

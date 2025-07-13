@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useMemo, useState} from "react";
 import getDeviceComponent from "../../../utils/getDeviceCard";
 import useRoomQuery from "../../../hooks/queries/useRoomQuery";
 import QueryInput from "../../../components/ui/QueryInput/QueryInput";
@@ -11,28 +11,26 @@ import LoadingAnimation from "../../../components/ui/LoadingAnimation/LoadingAni
 import PageContainer from "../../../components/ui/containers/PageContainer/PageContainer.tsx";
 import CardContainer from "../../../components/ui/containers/CardContainer/CardContainer.tsx";
 import PageHeader from "../../../components/ui/Headers/PageHeader/PageHeader.tsx";
+import useDevicesQuery from "../../../hooks/queries/device/useDevicesQuery.tsx";
 
 export default function Room() {
   const state = useParams();
   const { roomData } = useRoomQuery(Number(state.id));
-  const [filtratedData, setFiltratedData] = useState<IDevice[]>([]);
-
-  useEffect(() => {
-    if (!roomData) return;
-    setFiltratedData(roomData.device);
-  }, [roomData]);
+  const deviceIds = useMemo(()=>roomData?.device || [],[roomData?.device?.length, roomData?.device?.join(',')])
+  const { devices } = useDevicesQuery(deviceIds);
+  const [filtratedData, setFiltratedData] = useState<IDevice[]>(devices?devices:[]);
 
   function handleFilter(value: string) {
-    if (!roomData) return;
+    if (!devices) return;
 
     const filter = value.toLowerCase();
-    const dataToDisplay = roomData.device.filter((device:IDevice) => {
+    const dataToDisplay = devices.filter((device:IDevice) => {
       return device.name.toLowerCase().includes(filter);
     });
     setFiltratedData(dataToDisplay);
   }
 
-  if (!filtratedData || !roomData) {
+  if (!roomData) {
     return (<LoadingAnimation size="xlarge" type="spinner" glow={true}/>)
   }
 
@@ -49,7 +47,7 @@ export default function Room() {
             </StyledLink>
           </ButtonContainer>
         </PageHeader>
-          {filtratedData.length === 0 ? (
+          {filtratedData?.length === 0 ? (
               <div className={styles.emptyState}>
                 <p>Nie znaleziono urządzeń</p>
               </div>
