@@ -8,7 +8,7 @@ import HomeCode from "../../../components/HomeCode/HomeCode.tsx";
 import HomeLeave from "../../../components/HomeLeave/HomeLeave.tsx";
 export default function SettingsPage() {
   const [selectedSettings, setSelectedSettings] =
-    useState<TSettings>("passowrdChange");
+    useState<TSettings>("passwordChange");
 
   const componentMap: Record<TSettings, React.ReactNode> = {
     passwordChange: <ChangePasswordForm />,

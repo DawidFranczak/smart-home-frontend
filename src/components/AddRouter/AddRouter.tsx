@@ -27,8 +27,8 @@ export default function AddRouter() {
           placeholder="Podaj adres mac"
           onChange={(event) => setMac(event.target.value)}
         />
-          <Message type="error" show={error?.details}>
-            {error.details[Object.keys(error.details)[0]]}
+          <Message type="error" show={!!error?.details}>
+            {error?.details[Object.keys(error?.details)[0]]}
           </Message>
         <Button type="fancy" onClick={handleSaveRouter}>Dodaj</Button>
       </FormContainer>
