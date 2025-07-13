@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useFetch from "../useFetch";
-import { api } from "../../const/api";
+import { api } from "../../constant/api";
 
 import updateInstanceData from "../../utils/updateInstanceData";
 import updateRoomDeviceData from "../../utils/updateRoomDeviceData";
@@ -8,11 +8,11 @@ import updateFavouriteData from "../../utils/updateFavouriteData";
 
 interface IDeviceUpdate {
   name?: string;
-  room?: number;
+  room?: number|null;
 }
 
 export default function useDeviceMutation() {
-  const { createData, updateData } = useFetch();
+  const { createData, updateData, deleteData } = useFetch();
   const queryClient = useQueryClient();
   function createDevice() {
     return useMutation({
@@ -35,5 +35,11 @@ export default function useDeviceMutation() {
       },
     });
   }
-  return { createDevice, updateDevice };
+
+  function deleteDevice(id: number) {
+    return useMutation({
+      mutationFn: () => deleteData(`${api.device}${id}/`)
+    })
+  }
+  return { createDevice, updateDevice, deleteDevice };
 }

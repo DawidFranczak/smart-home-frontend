@@ -2,15 +2,16 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import styles from "./AddRoom.module.css";
-import Button from "../../ui/Button/Button";
-import FormField from "../../ui/FormField/FormField";
-import SelectInput from "../../ui/SelectInput/SelectInput";
+import Button from "../ui/Buttons/Button/Button";
+import FormField from "../ui/FormField/FormField";
+import RadioInput from "../ui/RadioInput/RadioInput.tsx";
 import useFetch from "../../hooks/useFetch";
-import { api } from "../../const/api";
-import Header from "../../ui/Header/Header";
-import ButtonContainer from "../../ui/ButtonContainer/ButtonContainer";
+import { api } from "../../constant/api";
+import Header from "../ui/Headers/Header/Header";
+import ButtonContainer from "../ui/containers/ButtonContainer/ButtonContainer";
 import { ICustomError } from "../../interfaces/ICustomError";
-import Message from "../../ui/Message/Message";
+import Message from "../ui/Message/Message";
+import FormContainer from "../ui/containers/FormContainer/FormContainer.tsx";
 
 interface AddRoomProps {
   onClose: () => void;
@@ -50,7 +51,7 @@ export default function AddRoom({ onClose }: AddRoomProps) {
 
   return (
     <section className={styles.container}>
-      <form className={styles.form}>
+      <FormContainer>
         <Header>Dodaj nowy pokój</Header>
         <FormField
           name="nazwa"
@@ -58,29 +59,28 @@ export default function AddRoom({ onClose }: AddRoomProps) {
           placeholder="Nazwa"
           onChange={handleName}
         />
-        {errors?.details?.name && (
-          <Message type="error">{errors.details.name[0]}</Message>
-        )}
-
-        <SelectInput
+        <Message type="error" show={!!(errors?.details?.name && errors.details.name.length > 0)}>
+          {errors?.details?.name?.[0]}
+        </Message>
+        <RadioInput
           name="Ogólny"
           value="public"
           onSelect={handleSelected}
           checked={true}
         />
-        <SelectInput
+        <RadioInput
           name="Prywatny"
           value="private"
           onSelect={handleSelected}
         />
-        {errors?.details?.visibility && (
-          <Message type="error">{errors.details.visibility[0]}</Message>
-        )}
+        <Message type="error" show={!!(errors?.details?.visibility && errors.details.visibility.length > 0)}>
+          {errors?.details?.visibility?.[0]}
+        </Message>
         <ButtonContainer>
-          <Button callback={handleAdd}>Dodaj</Button>
-          <Button callback={onClose}>Zamknij</Button>
+          <Button type="fancy" onClick={handleAdd}>Dodaj</Button>
+          <Button type="fancy" onClick={onClose}>Zamknij</Button>
         </ButtonContainer>
-      </form>
+      </FormContainer>
     </section>
   );
 }

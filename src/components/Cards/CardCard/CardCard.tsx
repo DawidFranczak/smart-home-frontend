@@ -1,7 +1,7 @@
 import style from "./CardCard.module.css";
 import deleteSvg from "/static/svg/delete.svg";
 import { ICard } from "../../../interfaces/IRfid";
-import Header from "../../../ui/Header/Header";
+import Header from "../../ui/Headers/Header/Header";
 import formatDate from "../../../utils/formatDate";
 import { useState } from "react";
 import ConfirmDelete from "../../ConfirmDelete/ConfirmDelete";
@@ -13,7 +13,7 @@ interface CardCardProps {
 export default function CardCard({ card }: CardCardProps) {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const { mutationDelete } = useCardMutation();
-  const mutation = mutationDelete(card.id, card.rfid);
+  const mutation = mutationDelete(card.id);
   const handleDelete = () => {
     mutation.mutate();
   };
@@ -21,9 +21,10 @@ export default function CardCard({ card }: CardCardProps) {
   return (
     <div className={style.card}>
       <div className={style.header}>
-        <Header className={style.headerName}>{card.name}</Header>
+        <Header>{card.name}</Header>
         <img
           src={deleteSvg}
+          alt="delete icon"
           width={24}
           height={24}
           className={style.delete}

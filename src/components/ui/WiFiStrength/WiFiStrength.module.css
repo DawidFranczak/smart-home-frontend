@@ -1,0 +1,41 @@
+.icon {
+    display: inline-block;
+    transition: all 0.3s ease;
+    filter: brightness(0) invert(1);
+}
+
+.icon.small {
+    width: 16px;
+    height: 16px;
+}
+
+.icon.medium {
+    width: 32px;
+    height: 32px;
+}
+
+.icon.large {
+    width: 48px;
+    height: 48px;
+}
+.icon:hover {
+    transform: scale(1.1);
+    filter: brightness(0) invert(1) drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
+}
+
+.icon.weak {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
+.icon.offline {
+    filter: brightness(0) invert(1) opacity(0.4);
+}

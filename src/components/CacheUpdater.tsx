@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import updateInstanceData from "../utils/updateInstanceData";
 import updateRoomDeviceData from "../utils/updateRoomDeviceData";
 import updateUnassignedDevice from "../utils/updateUnassignedDevice";
-import MessageType from "../const/message_type";
+import MessageType from "../constant/message_type";
 import updateRouterData from "../utils/updateRouterData";
-import { websockerUrl } from "../const/urls";
+import { websockerUrl } from "../constant/urls";
 import updateFavouriteData from "../utils/updateFavouriteData";
 
 export default function CacheUpdater() {
@@ -23,7 +23,6 @@ export default function CacheUpdater() {
     };
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log(event.data);
       switch (data.action) {
         case MessageType.UPDATE_ROUTER:
           updateRouterData(queryClient, data.data);

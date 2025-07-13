@@ -1,4 +1,5 @@
 import styles from "./HomeCode.module.css";
 export default function HomeCode() {
-  return <div className={styles.container}>HomeCode</div>;
+  const code = "1234"
+  return <div className={styles.container}><p>Twój jednorazowy kod domu</p>{code}</div>;
 }

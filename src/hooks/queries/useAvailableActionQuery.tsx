@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import useFetch from "../useFetch";
-import { api } from "../../const/api";
+import { api } from "../../constant/api";
 
 export default function useAvailableActionQuery(id: number, fun: string) {
   const { readData } = useFetch();

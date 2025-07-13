@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import useFetch from "../useFetch";
-import { api } from "../../const/api";
+import { api } from "../../constant/api";
 import { IAquarium } from "../../interfaces/IAquarium";
 
 export default function useAquariumQuery(id: number | undefined) {

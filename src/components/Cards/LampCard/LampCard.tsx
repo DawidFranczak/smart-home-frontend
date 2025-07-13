@@ -1,36 +1,30 @@
 import styles from "./LampCard.module.css";
-import DeviceCardContainer from "../../../ui/DeviceCardContainer/DeviceCardContainer";
-import StyledLink from "../../../ui/StyledLink/StyledLink";
+import DeviceCardContainer from "../../ui/containers/DeviceCardContainer/DeviceCardContainer";
+import StyledLink from "../../ui/StyledLink/StyledLink";
 import { ILamp } from "../../../interfaces/ILamp";
-
-function formatDate(date: string): string {
-  return date.slice(0, 5);
-}
+import InfoCard from "../../ui/InfoCard/InfoCard.tsx";
+import CardIconContainer from "../../ui/containers/CardIconContainer/CardIconContainer.tsx";
+import TimeRange from "../../ui/TimeRange/TimeRange.tsx";
 
 export default function LampCard(lamp: ILamp) {
   return (
-    <DeviceCardContainer
-      isFavourite={lamp.is_favourite}
-      name={lamp.name}
-      wifiStrength={lamp.brightness}
-      isOnline={lamp.is_online}
-      id={lamp.id}
-    >
-      <span>
-        Jasność: <strong>{lamp.brightness}%</strong>
-      </span>
-      <span>
-        Czas świecenia: <strong>{lamp.lighting_time}s</strong>
-      </span>
-      <span className={styles.time}>
-        <p className={styles.p}>Czas świecenia:</p>
-        <strong>
-          {formatDate(lamp.light_start)} - {formatDate(lamp.light_stop)}
-        </strong>
-      </span>
-      <StyledLink type="button" to={`/lamp/${lamp.id}/`}>
-        Wybierz
-      </StyledLink>
-    </DeviceCardContainer>
+      <DeviceCardContainer
+          isFavourite={lamp.is_favourite}
+          name={lamp.name}
+          wifiStrength={lamp.brightness}
+          isOnline={lamp.is_online}
+          id={lamp.id}
+      >
+        <CardIconContainer>
+          <InfoCard icon="💡" >{lamp.brightness}%</InfoCard>
+          <InfoCard icon="⏱️" >{lamp.lighting_time} s</InfoCard>
+          <InfoCard icon="📅"  className={styles.scheduleCard}>
+            <TimeRange start={lamp.light_start} end={lamp.light_stop} />
+          </InfoCard>
+        </CardIconContainer>
+        <StyledLink type="fancy" to={`/lamp/${lamp.id}/`}>
+          Szczegóły
+        </StyledLink>
+      </DeviceCardContainer>
   );
 }

@@ -1,17 +1,18 @@
 import { Form, useActionData, useNavigate } from "react-router-dom";
 
-import BackArrow from "../../ui/BackArrow/BackArrow.tsx";
-import Button from "../../ui/Button/Button";
-import FormField from "../../ui/FormField/FormField";
+import Button from "../../components/ui/Buttons/Button/Button";
+import FormField from "../../components/ui/FormField/FormField";
 
-import { api } from "../../const/api";
+import { api } from "../../constant/api";
 import styles from "./RegistrationPage.module.css";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../auth/AuthContext.tsx";
 import { useEffect } from "react";
 import { ActionFunction } from "react-router-dom";
-import BackgroundChanger from "../../components/BackgroundChanger/BackgroundChanger.tsx";
-import Header from "../../ui/Header/Header.tsx";
-import Message from "../../ui/Message/Message.tsx";
+import Header from "../../components/ui/Headers/Header/Header.tsx";
+import Message from "../../components/ui/Message/Message.tsx";
+import FormContainer from "../../components/ui/containers/FormContainer/FormContainer.tsx";
+import StyledLink from "../../components/ui/StyledLink/StyledLink.tsx";
+import PageContainer from "../../components/ui/containers/PageContainer/PageContainer.tsx";
 interface RegistrationPageData {
   status: number;
   body: {
@@ -37,39 +38,33 @@ const RegistrationPage = () => {
       navigate("/");
     }, 2000);
   }
-
   return (
-    <div className={styles.container}>
-      <BackgroundChanger />
-      <BackArrow className={styles.backArrow} />
-      <Header>Rejestracja</Header>
-      <Form method="POST" className={styles.form}>
-        <FormField type="text" name="username" placeholder="Login" />
-        {data?.status === 400 && data.body.username && (
-          <Message type="error">{data.body.username}</Message>
-        )}
-        <FormField type="password" name="password" placeholder="Hasło" />
-        {data?.status === 400 && data.body.password && (
-          <Message type="error">{data.body.password} </Message>
-        )}
-        <FormField
-          type="password"
-          name="password2"
-          placeholder="Powtórz hasło"
-        />
-        {data?.status === 400 && data.body.password2 && (
-          <Message type="error">{data.body.password2} </Message>
-        )}
-        <Button>Rejestracja</Button>
-      </Form>
-      {data?.status === 400 && data.body.empty && (
-        <Message type="error">{data.body.empty} </Message>
-      )}
-      <Message type="success">
-        {data?.status === 201 &&
-          "Rejestracja przebiegła pomyślnie. Za chwilę zostaniesz przekierowany na stronę"}
-      </Message>
-    </div>
+      <PageContainer className={styles.container}>
+        <FormContainer>
+          <Header>Smart Home</Header>
+          <p className={styles.subtitle}>Utwórz nowe konto</p>
+          <Form method="POST" className={styles.form}>
+            <div className={styles.formContent}>
+            <FormField type="text" name="username" placeholder="Login" />
+            <Message type="error" show={data?.status === 400 && data?.body.username}>{data?.body.username}</Message>
+            <FormField type="password" name="password" placeholder="Hasło" />
+            <Message type="error" show={data?.status === 400 && data?.body.password}>{data?.body.password} </Message>
+            <FormField
+              type="password"
+              name="password2"
+              placeholder="Powtórz hasło"
+            />
+            <Message type="error" show={data?.status === 400 && data?.body.password2}>{data?.body.password2} </Message>
+            <Button>Rejestracja</Button>
+            <StyledLink to={"/login"}>Wróć</StyledLink>
+            <Message type="error" show={data?.status === 400 && data?.body.empty}>{data?.body.empty} </Message>
+            </div>
+          </Form>
+          <Message type="success" show={data?.status === 201}>
+              "Rejestracja przebiegła pomyślnie. Za chwilę zostaniesz przekierowany na stronę"
+          </Message>
+        </FormContainer>
+      </PageContainer>
   );
 };
 

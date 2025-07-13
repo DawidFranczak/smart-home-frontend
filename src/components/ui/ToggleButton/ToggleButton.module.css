@@ -1,0 +1,115 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.label {
+    font-size: var(--font-size-xl);
+    font-weight: 500;
+    color: var(--accent-primary);
+    padding: var(--spacing-xs);
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    font-family: var(--font-family);
+    text-align: center;
+}
+
+.toggleButton {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-md, 8px);
+    background: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    outline: none;
+}
+
+.toggleButton:hover:not(.disabled) {
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.toggleButton:focus-visible {
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+.slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.text {
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.on {
+    background: linear-gradient(135deg, #10b981, #059669);
+    border-color: #10b981;
+}
+
+.on:hover:not(.disabled) {
+    background: linear-gradient(135deg, #059669, #047857);
+    border-color: #059669;
+}
+
+.on .text {
+    color: white;
+}
+
+.off {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    border-color: #ef4444;
+}
+
+.off:hover:not(.disabled) {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    border-color: #dc2626;
+}
+
+.off .text {
+    color: white;
+}
+
+.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.disabled:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+@media (max-width: 768px) {
+    .toggleButton {
+        height: 45px;
+    }
+
+    .text {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .toggleButton {
+        height: 40px;
+    }
+
+    .text {
+        font-size: 13px;
+    }
+}

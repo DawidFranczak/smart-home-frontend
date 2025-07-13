@@ -6,3 +6,16 @@
   align-items: center;
   justify-content: center;
 }
+
+.message {
+  display: flex;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  border-radius: var(--radius-md);
+  color: var(--warning-color);
+  font-size: var(--font-size-sm);
+  animation: pulse 2s infinite;
+  text-align: center;
+}

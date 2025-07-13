@@ -1,15 +1,9 @@
-.container {
-}
-.deviceContainer {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  width: 100svw;
-  max-height: 85svh;
-  overflow: scroll;
-  scrollbar-width: none;
+/* Empty and loading states */
+.emptyState {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
   justify-content: center;
-  gap: 20px;
+  align-items: center;
+  height: 200px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.2rem;
 }

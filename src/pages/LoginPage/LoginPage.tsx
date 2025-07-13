@@ -1,18 +1,21 @@
-import { useEffect } from "react";
-import { Form, useActionData, useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
-import FormField from "../../ui/FormField/FormField.tsx";
-import { api } from "../../const/api";
-import Button from "../../ui/Button/Button.tsx";
-
-import { ActionFunction } from "react-router-dom";
-import BackgroundChanger from "../../components/BackgroundChanger/BackgroundChanger.tsx";
 
 import styles from "./LoginPage.module.css";
-import StyledLink from "../../ui/StyledLink/StyledLink.tsx";
-import Message from "../../ui/Message/Message.tsx";
-import Header from "../../ui/Header/Header.tsx";
+
+import { useEffect } from "react";
+import { Form, useActionData, useNavigate } from "react-router-dom";
+import { useAuth } from "../../auth/AuthContext.tsx";
+import FormField from "../../components/ui/FormField/FormField.tsx";
+import { api } from "../../constant/api";
+import Button from "../../components/ui/Buttons/Button/Button.tsx";
+
+import { ActionFunction } from "react-router-dom";
+
+import StyledLink from "../../components/ui/StyledLink/StyledLink.tsx";
+import Message from "../../components/ui/Message/Message.tsx";
+import Header from "../../components/ui/Headers/Header/Header.tsx";
 import { useQueryClient } from "@tanstack/react-query";
+import FormContainer from "../../components/ui/containers/FormContainer/FormContainer.tsx";
+import PageContainer from "../../components/ui/containers/PageContainer/PageContainer.tsx";
 
 interface LoginPageData {
   status: number;
@@ -21,11 +24,13 @@ interface LoginPageData {
     message: string;
   };
 }
+
 export default function LoginPage() {
   const data = useActionData() as LoginPageData;
   const { login, access } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
   useEffect(() => {
     if (data?.body.access) {
       login(data.body.access);
@@ -37,22 +42,33 @@ export default function LoginPage() {
     if (access) navigate("/");
     else queryClient.clear();
   }, []);
+
   return (
-    <div className={styles.container}>
-      <BackgroundChanger />
-      <Header>Logowanie</Header>
-      <Form method="POST" className={styles.form}>
-        <FormField type="text" name="username" placeholder="Login" />
-        <FormField type="password" name="password" placeholder="Hasło" />
-        {data?.status === 400 && (
-          <Message type="error">{data.body.message}</Message>
-        )}
-        <Button>Zaloguj</Button>
-        <StyledLink to="/registartion" type="button">
-          Zarejestruj się
-        </StyledLink>
-      </Form>
-    </div>
+      <PageContainer className={styles.container}>
+        <FormContainer>
+          <Form method="POST" className={styles.form}>
+            <div className={styles.formContent}>
+              <Header>Smart Home</Header>
+              <p className={styles.subtitle}>Zaloguj się do swojego konta</p>
+              <FormField
+                  type="text"
+                  name="username"
+                  placeholder="Nazwa użytkownika"
+              />
+              <FormField
+                  type="password"
+                  name="password"
+                  placeholder="Hasło"
+              />
+              <Message type="error" show={data?.status === 400}>{data?.body.message}</Message>
+              <Button>Zaloguj się</Button>
+              <StyledLink to="/registration">
+                Utwórz nowe konto
+              </StyledLink>
+            </div>
+          </Form>
+        </FormContainer>
+      </PageContainer>
   );
 }
 

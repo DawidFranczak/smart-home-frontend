@@ -1,0 +1,52 @@
+.container {
+  width: 100svw;
+  height: 90svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.section {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 40px 20px 40px;
+  gap: 10px;
+  background-color: #1a2a44dd;
+  border-radius: 20px;
+  border: 3px solid #00ffff;
+  box-shadow: 0 0 5px #00ffff, 0 0 7px #00ffff, 0 0 10px #00ffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+.eventBox {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.eventBox::after {
+  height: 1px;
+  width: 100%;
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0px;
+  background-color: #00ffff;
+}
+
+.backArrow {
+  padding-top: 10px;
+  transform: translate(-100%, -10%);
+  align-self: flex-start;
+  cursor: pointer;
+}
+.backArrow:hover {
+  transform: translate(-100%, -10%) scale(1.2);
+}
