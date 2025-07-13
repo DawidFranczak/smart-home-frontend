@@ -1,13 +1,16 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Button from "../../../ui/Button/Button";
 import getDeviceComponent from "../../../utils/getDeviceCard";
 import useRoomQuery from "../../../hooks/queries/useRoomQuery";
-import QueryInput from "../../../ui/QueryInput/QueryInput";
-import ButtonContainer from "../../../ui/ButtonContainer/ButtonContainer";
-import StyledLink from "../../../ui/StyledLink/StyledLink";
+import QueryInput from "../../../components/ui/QueryInput/QueryInput";
+import ButtonContainer from "../../../components/ui/containers/ButtonContainer/ButtonContainer";
+import StyledLink from "../../../components/ui/StyledLink/StyledLink";
 import { IDevice } from "../../../interfaces/IDevice";
 import styles from "./Room.module.css";
+import LoadingAnimation from "../../../components/ui/LoadingAnimation/LoadingAnimation.tsx";
+import PageContainer from "../../../components/ui/containers/PageContainer/PageContainer.tsx";
+import CardContainer from "../../../components/ui/containers/CardContainer/CardContainer.tsx";
+import PageHeader from "../../../components/ui/Headers/PageHeader/PageHeader.tsx";
 
 export default function Room() {
   const state = useParams();
@@ -23,55 +26,40 @@ export default function Room() {
     if (!roomData) return;
 
     const filter = value.toLowerCase();
-    const dataToDisplay = roomData.device.filter((device) => {
+    const dataToDisplay = roomData.device.filter((device:IDevice) => {
       return device.name.toLowerCase().includes(filter);
     });
     setFiltratedData(dataToDisplay);
   }
 
-  if (!roomData) {
-    return (
-        <div className={styles.container}>
-          <div className={styles.loadingContainer}>
-            <p>Loading...</p>
-          </div>
-        </div>
-    );
+  if (!filtratedData || !roomData) {
+    return (<LoadingAnimation size="xlarge" type="spinner" glow={true}/>)
   }
 
   return (
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <h1 className={styles.roomTitle}>
-            {roomData.name}
-          </h1>
-        </div>
-
-        <div className={styles.controlsSection}>
+      <PageContainer>
+        <PageHeader title={roomData.name}>
           <ButtonContainer>
-            <Button callback={()=> {}}>Edytuj</Button>
-            <StyledLink type="button" to={`/room/${state.id}/add`}>
-              Dodaj urządzenie
-            </StyledLink>
             <QueryInput
                 onChange={handleFilter}
             />
+            <StyledLink type="fancy" to={`/room/${state.id}/settings`}>Edytuj</StyledLink>
+            <StyledLink type="fancy" to={`/room/${state.id}/add`}>
+              Dodaj urządzenie
+            </StyledLink>
           </ButtonContainer>
-        </div>
-
-        <div className={styles.contentSection}>
+        </PageHeader>
           {filtratedData.length === 0 ? (
               <div className={styles.emptyState}>
                 <p>Nie znaleziono urządzeń</p>
               </div>
           ) : (
-              <div className={styles.deviceContainer}>
-                {filtratedData.map((device: IDevice) =>
+              <CardContainer>
+                {filtratedData?.map((device: IDevice) =>
                     getDeviceComponent(device)
                 )}
-              </div>
+              </CardContainer>
           )}
-        </div>
-      </div>
+      </PageContainer>
   );
 }

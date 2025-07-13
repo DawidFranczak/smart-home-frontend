@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
-import RoomCard from "../../components/Cards/RoomCard/RoomCard";
-import useFavouriteQuery from "../../hooks/queries/useFavouriteQuery";
-import getDeviceComponent from "../../utils/getDeviceCard";
-import styles from "./HomePage.module.css";
-import { IRoom } from "../../interfaces/IRoom";
-import { IDevice } from "../../interfaces/IDevice";
+import {IRoom} from "../../interfaces/IRoom.tsx";
+import RoomCard from "../../components/Cards/RoomCard/RoomCard.tsx";
+import {IDevice} from "../../interfaces/IDevice.tsx";
+import getDeviceComponent from "../../utils/getDeviceCard.tsx";
+import {useEffect, useState} from "react";
+import useFavouriteQuery from "../../hooks/queries/useFavouriteQuery.tsx";
+import QueryInput from "../../components/ui/QueryInput/QueryInput.tsx";
+import CardContainer from "../../components/ui/containers/CardContainer/CardContainer.tsx";
+import PageContainer from "../../components/ui/containers/PageContainer/PageContainer.tsx";
+import PageHeader from "../../components/ui/Headers/PageHeader/PageHeader.tsx";
 
 export default function HomePage() {
   const [favouriteRoom, setFavouriteRoom] = useState<IRoom[]>([]);
@@ -15,13 +18,28 @@ export default function HomePage() {
     setFavouriteRoom(favouriteData.rooms);
     setFavouriteDevice(favouriteData.devices);
   }, [favouriteData]);
+
+  function handleSearch(value: string) {
+      const filter = value.toLowerCase();
+      setFavouriteRoom(favouriteData.rooms.filter((room: IRoom) => {
+          return room.name.toLowerCase().includes(filter)
+      }));
+      setFavouriteDevice(favouriteData.devices.filter((device: IDevice) => {
+          return device.name.toLowerCase().includes(filter)
+      }));
+  }
   if (!favouriteDevice || !favouriteRoom) return null;
   return (
-    <div className={styles.container}>
-      {favouriteRoom.map((room: IRoom) => (
-        <RoomCard key={room.id} room={room} />
-      ))}
-      {favouriteDevice.map((device: IDevice) => getDeviceComponent(device))}
-    </div>
+      <PageContainer>
+        <PageHeader title="Dashboard" subtitle="Witaj z powrotem w Smart Home">
+          <QueryInput onChange={handleSearch}/>
+        </PageHeader>
+        <CardContainer>
+          {favouriteRoom.map((room: IRoom) => (
+              <RoomCard key={room.id} room={room} />
+          ))}
+          {favouriteDevice.map((device: IDevice) => getDeviceComponent(device))}
+        </CardContainer>
+      </PageContainer>
   );
 }

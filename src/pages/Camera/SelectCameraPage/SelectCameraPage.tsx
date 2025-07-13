@@ -1,6 +1,6 @@
 import styles from './SelectCameraPage.module.css'
 import CameraCard from "../../../components/Cards/CameraCard/CameraCard.tsx";
-import {baseURL} from "../../../const/urls.ts";
+import {baseURL} from "../../../constant/urls.ts";
 
 export default function SelectCameraPage() {
     return(

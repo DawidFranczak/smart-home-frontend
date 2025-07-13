@@ -1,33 +1,51 @@
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useState,useEffect } from "react";
 
 import { IRoom } from "../../../interfaces/IRoom.tsx";
 
-import Button from "../../../ui/Button/Button.tsx";
+import Button from "../../../components/ui/Buttons/Button/Button.tsx";
 import AddRoom from "../../../components/AddRoom/AddRoom.tsx";
 
-import useFetch from "../../../hooks/useFetch.tsx";
-import { api } from "../../../const/api.ts";
 import RoomCard from "../../../components/Cards/RoomCard/RoomCard.tsx";
 
-import styles from "./SelectRoom.module.css";
+import useRoomQuery from "../../../hooks/queries/useRoomQuery.tsx";
+import QueryInput from "../../../components/ui/QueryInput/QueryInput.tsx";
+import CardContainer from "../../../components/ui/containers/CardContainer/CardContainer.tsx";
+import LoadingAnimation from "../../../components/ui/LoadingAnimation/LoadingAnimation.tsx";
+import PageContainer from "../../../components/ui/containers/PageContainer/PageContainer.tsx";
+import PageHeader from "../../../components/ui/Headers/PageHeader/PageHeader.tsx";
+import ButtonContainer from "../../../components/ui/containers/ButtonContainer/ButtonContainer.tsx";
+
 export default function SelectRoom() {
-  const [opneAddRoom, setOpneAddRoom] = useState<boolean>(false);
-  const { readData } = useFetch();
-  const { data } = useQuery({
-    queryKey: ["rooms"],
-    queryFn: () => readData(api.room),
-    staleTime: 10 * 60 * 60 * 1000,
-  });
+    const [dataToDisplay, setDataToDisplay] = useState<IRoom[]>([]);
+    const [openAddRoom, setOpenAddRoom] = useState<boolean>(false);
+    const { roomData }: { roomData: IRoom[] } = useRoomQuery(undefined)
+
+    useEffect(() => {
+        if (!roomData) return;
+        setDataToDisplay(roomData);
+    }, [roomData]);
+
+  function handleFilter(value: string) {
+      const filter = value.toLowerCase();
+      setDataToDisplay(roomData.filter((device) => {
+        return device.name.toLowerCase().includes(filter);
+      }));
+  }
+ if (!roomData) return <LoadingAnimation size="xlarge" type="spinner" glow={true}/>;
   return (
-    <>
-      <Button callback={() => setOpneAddRoom(true)}>Dodaj</Button>
-      {opneAddRoom && <AddRoom onClose={() => setOpneAddRoom(false)} />}
-      <div className={styles.rooms}>
-        {data?.data.map((room: IRoom) => (
+    <PageContainer>
+      <PageHeader title="Pokoje">
+         <ButtonContainer>
+             <QueryInput onChange={handleFilter}/>
+             <Button type="fancy" onClick={() => setOpenAddRoom(true)}>Dodaj</Button>
+         </ButtonContainer>
+      </PageHeader>
+      {openAddRoom && <AddRoom onClose={() => setOpenAddRoom(false)} />}
+      <CardContainer>
+        {dataToDisplay.map((room: IRoom) => (
           <RoomCard room={room} key={room.id} />
         ))}
-      </div>
-    </>
+      </CardContainer>
+    </PageContainer>
   );
 }

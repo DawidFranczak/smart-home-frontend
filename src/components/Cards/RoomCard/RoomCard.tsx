@@ -2,12 +2,14 @@ import { useState } from "react";
 
 import styles from "./RoomCard.module.css";
 
-import Header from "../../../ui/Header/Header";
+import Header from "../../ui/Headers/Header/Header";
 import FavouriteStar from "../../FavouriteStar/FavouriteStar";
-import RoomVisibility from "../../../ui/RoomVisibility/RoomVisibility";
-import Button from "../../../ui/Button/Button";
+import RoomVisibility from "../../ui/RoomVisibility/RoomVisibility";
+import Button from "../../ui/Buttons/Button/Button";
 import { useNavigate } from "react-router-dom";
 import { IRoom } from "../../../interfaces/IRoom";
+import CardIconContainer from "../../ui/containers/CardIconContainer/CardIconContainer.tsx";
+import InfoCard from "../../ui/InfoCard/InfoCard.tsx";
 interface RoomCardProps {
   room: IRoom;
 }
@@ -15,15 +17,13 @@ interface RoomCardProps {
 export default function RoomCard({ room }: RoomCardProps) {
   const [isFavourite, setIsFavourite] = useState(room.is_favourite);
   const navigate = useNavigate();
-
   const handleSelect = () => {
     navigate(`/room/${room.id}/`);
   };
 
   const handleFavouriteClick = () => setIsFavourite(!isFavourite);
-
   return (
-    <div className={styles.container}>
+    <div className={styles.card}>
       <FavouriteStar
         className={styles.star}
         isFavourite={isFavourite}
@@ -33,9 +33,15 @@ export default function RoomCard({ room }: RoomCardProps) {
       />
       <RoomVisibility visibility={room.visibility} className={styles.lock} />
       <Header>{room.name}</Header>
-      <p>Aktywne urządzenia: {room.active_device_count}</p>
-      <p>Wszystkie urządzenia: {room.device_count}</p>
-      <Button callback={handleSelect}>Wybierz</Button>
+      <CardIconContainer>
+          <InfoCard className={styles.devicesInfo}>
+              <p>Aktywne : {room.active_device_count}</p>
+          </InfoCard>
+          <InfoCard className={styles.devicesInfo}>
+              <p>Wszystkie : {room.device_count}</p>
+          </InfoCard>
+      </CardIconContainer>
+      <Button type="fancy" onClick={handleSelect}>Wybierz</Button>
     </div>
   );
 }

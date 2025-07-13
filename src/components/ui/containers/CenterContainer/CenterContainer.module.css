@@ -1,0 +1,23 @@
+.container {
+    height: 95svh;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+}

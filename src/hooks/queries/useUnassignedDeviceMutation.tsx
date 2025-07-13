@@ -4,7 +4,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import useFetch from "../useFetch";
-import { api } from "../../const/api";
+import { api } from "../../constant/api";
 import { IDevice } from "../../interfaces/IDevice";
 
 function updateDeviceQuery(queryClient: QueryClient, deviceId: number) {

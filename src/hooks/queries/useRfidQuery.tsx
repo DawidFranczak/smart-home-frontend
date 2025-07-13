@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { api } from "../../const/api";
+import { api } from "../../constant/api";
 import useFetch from "../useFetch";
 import { IRfid } from "../../interfaces/IRfid";
 

@@ -1,0 +1,59 @@
+.button {
+  padding: 0.5em;
+  padding-left: 1.1em;
+  padding-right: 1.1em;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  transition: .4s ease-in-out;
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  color: black;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.button.fancy {
+  background: linear-gradient(135deg, #00ffff 0%, #0088cc 100%);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 5px 13px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 255, 255, 0.3);
+}
+.button.fancy:hover {
+  background: linear-gradient(135deg, #00cccc 0%, #0066aa 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 255, 255, 0.5);
+}
+
+.button.primary {
+  background-color: var(--info-color);
+}
+.button.primary:hover {
+  box-shadow: 0 0 20px var(--info-color);
+  color: black;
+  text-decoration: none;
+}
+.button.danger {
+  background-color: var(--error-color);
+}
+.button.danger:hover {
+  box-shadow: 0 0 20px var(--error-color);
+  color: black;
+  text-decoration: none;
+}
+.button.success {
+  background-color: var(--success-color);
+}
+.button.success:hover {
+  box-shadow: 0 0 20px var(--success-color);
+  color: black;
+  text-decoration: none;
+}
+

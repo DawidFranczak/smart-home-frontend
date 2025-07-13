@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import BackArrow from "../../../ui/BackArrow/BackArrow";
-import { api } from "../../../const/api";
+import BackArrow from "../../../components/ui/BackArrow/BackArrow";
+import { api } from "../../../constant/api";
 import styles from "./SelectAquariumPage.module.css";
 import useFetch from "../../../hooks/useFetch";
 
 const SelectAquariumPage = () => {
-  // const { data, readData } = useFetch();
+  // constant { data, readData } = useFetch();
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../auth/AuthContext.tsx";
 
 function getCsrfToken() {
   var cookieValue = null;
@@ -43,6 +43,7 @@ export default function useFetch(): useFetchReturn {
       "Content-Type": "application/json",
       "ngrok-skip-browser-warning": "1234",
       Authorization: `Bearer ${access}`,
+      "X-CSRFToken": getCsrfToken() || "",
     },
   };
   async function createData(
@@ -93,7 +94,7 @@ export default function useFetch(): useFetchReturn {
       method: "DELETE",
       ...options,
     });
-    // const data = await response.json();
+    // constant data = await response.json();
     return { status: response.status };
   }
 

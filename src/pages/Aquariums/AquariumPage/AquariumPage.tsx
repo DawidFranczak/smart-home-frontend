@@ -2,16 +2,23 @@ import { useEffect, useReducer } from "react";
 import { useParams } from "react-router-dom";
 import Wheel from "@uiw/react-color-wheel";
 import { rgbaToHsva } from "@uiw/color-convert";
-import Button from "../../../ui/Button/Button.tsx";
+import Button from "../../../components/ui/Buttons/Button/Button.tsx";
 
 import styles from "./AquariumPage.module.css";
 import useAquariumQuery from "../../../hooks/queries/useAquariumQuery.tsx";
 import { IAquarium } from "../../../interfaces/IAquarium.tsx";
 import useAquariumMutation from "../../../hooks/queries/useAquariumMutation.tsx";
-import { ICustomError } from "../../../interfaces/ICustomError.tsx";
-import AquariumAutomat from "../../../components/AquariumAutomat/AquariumAutomat.tsx";
-import Message from "../../../ui/Message/Message.tsx";
-import DeviceContainer from "../../../ui/DeviceContainer/DeviceContainer.tsx";
+import Message from "../../../components/ui/Message/Message.tsx";
+import PageContainer from "../../../components/ui/containers/PageContainer/PageContainer.tsx";
+import PageHeader from "../../../components/ui/Headers/PageHeader/PageHeader.tsx";
+import WifiStrength from "../../../components/ui/WiFiStrength/WiFiStrength.tsx";
+import LoadingAnimation from "../../../components/ui/LoadingAnimation/LoadingAnimation.tsx";
+import TilesContainer from "../../../components/ui/containers/TilesContainer/TilesContainer.tsx";
+import InputTime from "../../../components/ui/InputTime/InputTime.tsx";
+import Tile from "../../../components/ui/Tile/Tile.tsx";
+import ToggleButton from "../../../components/ui/ToggleButton/ToggleButton.tsx";
+import StyledLink from "../../../components/ui/StyledLink/StyledLink.tsx";
+import ButtonContainer from "../../../components/ui/containers/ButtonContainer/ButtonContainer.tsx";
 
 interface IState {
   aquariumData: IAquarium;
@@ -95,13 +102,11 @@ function reducer(state: IState, action: IAction) {
   }
 }
 
-const AquariumPage = () => {
+export default function AquariumPage() {
   const params = useParams();
   const id = params.id ? parseInt(params.id) : 0;
   const { aquariumData, isLoading } = useAquariumQuery(id);
   const mutation = useAquariumMutation(id);
-  const mutationErrors = mutation.error as ICustomError;
-  const mutationStatus = mutation?.data?.status;
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
@@ -131,59 +136,101 @@ const AquariumPage = () => {
     mutation.mutate(state.aquariumData);
   };
 
-  if (Object.keys(state.aquariumData).length === 0) return null;
+  if (Object.keys(state.aquariumData).length === 0) return <LoadingAnimation size="xlarge" type="spinner" glow={true}/>;
+  console.log(state.aquariumData);
   return (
-    <DeviceContainer
-      name={state.aquariumData.name}
-      is_online={state.aquariumData.is_online}
-      wifi_strength={state.aquariumData.wifi_strength}
-      className={styles.container}
-      id={id}
-    >
-      {mutationErrors && (
-        <Message type={"error"}> Błąd w komunikacji z akwarium. </Message>
-      )}
-      {mutationStatus === 200 && (
-        <Message type={"success"}> Zapisano dane </Message>
-      )}
-      <Wheel
-        color={state.hsva}
-        onChange={(color) => {
-          dispatch({
-            type: "set/color",
-            payload: { hsva: color.hsva, rgb: color.rgb },
-          });
-        }}
-      />
-      {state.aquariumData.mode ? (
-        <AquariumAutomat
-          dispatch={dispatch}
-          state={{
-            led_start: state.aquariumData.led_start,
-            led_stop: state.aquariumData.led_stop,
-            fluo_start: state.aquariumData.fluo_start,
-            fluo_stop: state.aquariumData.fluo_stop,
-          }}
-          saveFn={() => handleSaveSettings(undefined)}
-        />
-      ) : (
-        <>
-          <Button callback={() => handleSaveSettings(undefined)}>Zapisz</Button>
-          <p>Ledy</p>
-          <Button callback={() => handleSaveSettings("led_mode")}>
-            {state.aquariumData.led_mode ? "Wyłącz" : "Włącz"}
-          </Button>
-          <p>Świetlówka</p>
-          <Button callback={() => handleSaveSettings("fluo_mode")}>
-            {state.aquariumData.fluo_mode ? "Wyłącz" : "Włącz"}
-          </Button>
-        </>
-      )}
-      <Button callback={() => handleSaveSettings("mode")}>
-        {state.aquariumData.mode ? "Ręczny" : "Automatyczny"}
-      </Button>
-    </DeviceContainer>
+      <PageContainer className={styles.container}>
+        <PageHeader title={state.aquariumData.name}>
+          <ButtonContainer>
+            <StyledLink type="fancy" to={`/aquarium/${aquariumData.id}/settings/`}>
+              Ustawienia urządzenia
+            </StyledLink>
+            <WifiStrength
+                size="large"
+                strength={state.aquariumData.is_online ? state.aquariumData.wifi_strength : -100}
+            />
+          </ButtonContainer>
+        </PageHeader>
+        <TilesContainer>
+          <Tile>
+            <Wheel
+                  color={state.hsva}
+                  onChange={(color) => {
+                    dispatch({
+                      type: "set/color",
+                      payload: { hsva: color.hsva, rgb: color.rgb },
+                    });
+                  }}
+              />
+          </Tile>
+          <Tile>
+            <InputTime
+                label="Czas ledów - rozpoczęcie"
+                initialTime={state.aquariumData.led_start}
+                onChange={(data) => dispatch({ type: "set/ledStart", payload: data })}
+                disabled={!state.aquariumData.mode}
+            />
+          </Tile>
+          <Tile>
+            <InputTime
+                label="Czas ledów - zakończenie"
+                initialTime={state.aquariumData.led_stop}
+                onChange={(data) => dispatch({ type: "set/ledStop", payload: data })}
+                disabled={!state.aquariumData.mode}
+            />
+          </Tile>
+          <Tile>
+            <InputTime
+                label="Czas świetlówki - rozpoczęcie"
+                initialTime={state.aquariumData.fluo_start}
+                onChange={(data) =>dispatch({ type: "set/fluoStart", payload: data })}
+                disabled={!state.aquariumData.mode}
+            />
+          </Tile>
+          <Tile>
+            <InputTime
+                label="Czas świetlówki - zakończenie"
+                initialTime={state.aquariumData.fluo_stop}
+                onChange={(data) => dispatch({ type: "set/fluoStop", payload: data })}
+                disabled={!state.aquariumData.mode}
+            />
+          </Tile>
+          <Tile>
+            <ToggleButton
+                label="Świetlówka"
+                initialValue={state.aquariumData.fluo_mode}
+                onChange={(_) => handleSaveSettings("fluo_mode")}
+                onLabel="Włączona"
+                offLabel="Wyłączona"
+                disabled={state.aquariumData.mode}
+            />
+          </Tile>
+          <Tile>
+            <ToggleButton
+                label="Ledy"
+                initialValue={state.aquariumData.led_mode}
+                onChange={(_) => handleSaveSettings("led_mode")}
+                onLabel="Włączona"
+                offLabel="Wyłączona"
+                disabled={state.aquariumData.mode}
+            />
+          </Tile>
+          <Tile>
+            <ToggleButton
+                label="Tryb"
+                initialValue={state.aquariumData.mode}
+                onChange={(_) => handleSaveSettings("mode")}
+                onLabel="Automatyczny"
+                offLabel="Ręczny"
+            />
+          </Tile>
+
+        </TilesContainer>
+        <Button className={styles.button} type="fancy" onClick={()=>handleSaveSettings(undefined)}>Zapisz</Button>
+        <div className={styles.messageContainer}>
+          <Message show={!!mutation.error} type="error"> Błąd w komunikacji z akwarium. </Message>
+          <Message show={!!mutation?.data?.status} type={"success"}> Zapisano dane </Message>
+        </div>
+      </PageContainer>
   );
 };
-
-export default AquariumPage;

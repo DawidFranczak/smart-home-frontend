@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import styles from "./SelectLampPage.module.css";
-import BackArrow from "../../../ui/BackArrow/BackArrow";
+import BackArrow from "../../../components/ui/BackArrow/BackArrow";
 import useFetch from "../../../hooks/useFetch";
-import { api } from "../../../const/api";
+import { api } from "../../../constant/api";
 
 const SelectLampPage = () => {
-  // const {data, readData} = useFetch();
+  // constant {data, readData} = useFetch();
   const navigate = useNavigate();
 
   // useEffect(()=>{
@@ -17,9 +17,9 @@ const SelectLampPage = () => {
   //     getAllLamps()
   // },[])
 
-  // const nav = (event) =>{
+  // constant nav = (event) =>{
   //     setTimeout(()=>{
-  //         const id = event.target.id
+  //         constant id = event.target.id
   //         navigate(`/lamp/${data[id].name}/`, {state:data[id].id});
   //     },500);
   // }

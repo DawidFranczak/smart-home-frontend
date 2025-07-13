@@ -1,28 +1,122 @@
-.container {
-  padding: 3em;
-  display: flex;
-  flex-direction: column;
+.container{
   align-items: center;
-  gap: 20px;
-  border-radius: 25px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 1px solid rgba(0, 200, 255, 0.5);
-  box-shadow: 0 0 35px rgba(0, 200, 255, 1);
+  justify-content: center;
 }
 
 .form {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 20px;
 }
 
-.backArrow {
-  position: absolute;
-  top: 15px;
-  left: 15px;
+.formContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
 }
+
+.title {
+  color: #ffffff;
+  font-size: 32px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: var(--font-size-lg);
+  text-align: center;
+  margin-bottom: var(--spacing-md);
+  font-weight: 400;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border: none;
+  border-radius: 15px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.submitButton:hover {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+}
+
+.submitButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(59, 130, 246, 0.4);
+}
+
+.submitButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.loginLink {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 14px;
+  text-align: center;
+  transition: all 0.3s ease;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.loginLink:hover {
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.errorMessage {
+  color: #ef4444;
+  font-size: 14px;
+  text-align: center;
+  padding: 10px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 28px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .backArrow {
+    top: 15px;
+    left: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 24px;
+  }
+
+  .submitButton {
+    padding: 14px;
+    font-size: 14px;
+  }
+}
+

@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 // import styles from "./Event.module.css"
 import useFetch from "../../hooks/useFetch";
-import { api } from "../../const/api";
+import { api } from "../../constant/api";
 
 const Event = () => {
-  // const { data, isLoading, readData } = useFetch();
+  // constant { data, isLoading, readData } = useFetch();
 
   // useEffect(()=>{
-  //     const getData = async ()=>{
+  //     constant getData = async ()=>{
   //         await readData(api.getAllEvents)
   //     }
   //     getData();

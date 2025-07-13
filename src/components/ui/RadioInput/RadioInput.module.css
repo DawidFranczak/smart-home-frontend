@@ -1,0 +1,327 @@
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  cursor: pointer;
+  position: relative;
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-md);
+  transition: var(--transition-normal);
+  user-select: none;
+  min-height: 48px;
+  border: 2px solid transparent;
+}
+
+.container:hover {
+  background: linear-gradient(135deg, var(--secondary-bg) 0%, var(--primary-bg) 100%);
+  border-color: var(--border-accent);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.container:active {
+  transform: translateY(0);
+}
+
+.input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--border-accent);
+  background: linear-gradient(135deg, var(--secondary-bg) 0%, var(--primary-bg) 100%);
+  position: relative;
+  cursor: pointer;
+  transition: var(--transition-normal);
+  outline: none;
+  flex-shrink: 0;
+}
+
+.input:hover {
+  border-color: var(--accent-primary);
+  box-shadow:
+          0 0 20px rgba(0, 255, 255, 0.5),
+          inset 0 0 10px rgba(0, 255, 255, 0.1);
+  transform: scale(1.05);
+}
+
+.input:focus {
+  border-color: var(--accent-primary);
+  box-shadow:
+          0 0 25px rgba(0, 255, 255, 0.7),
+          0 0 0 4px rgba(0, 255, 255, 0.2),
+          inset 0 0 10px rgba(0, 255, 255, 0.1);
+}
+
+.input:active {
+  transform: scale(0.95);
+}
+
+/* Checked state */
+.input:checked {
+  border-color: var(--accent-primary);
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  box-shadow:
+          0 0 20px rgba(0, 255, 255, 0.8),
+          inset 0 0 10px rgba(255, 255, 255, 0.2);
+  animation: pulse-glow 0.3s ease-out;
+}
+
+.input:checked::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-primary);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px var(--text-primary);
+  animation: dot-appear 0.2s ease-out;
+}
+
+/* Label styling */
+.container label {
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition-normal);
+  letter-spacing: 0.5px;
+  font-family: var(--font-family);
+}
+
+.container:hover label {
+  color: var(--text-primary);
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.input:checked ~ label {
+  color: var(--accent-primary);
+  text-shadow: var(--shadow-neon);
+  font-weight: 600;
+}
+
+/* Cyberpunk glow effect */
+.container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(0, 255, 255, 0.1) 50%, transparent 100%);
+  border-radius: var(--radius-md);
+  opacity: 0;
+  transition: var(--transition-normal);
+  pointer-events: none;
+}
+
+.container:hover::before {
+  opacity: 1;
+}
+
+.input:checked ~ .container::before {
+  opacity: 1;
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.1) 0%, rgba(0, 255, 255, 0.2) 50%, rgba(0, 255, 255, 0.1) 100%);
+}
+
+/* Animacje */
+@keyframes pulse-glow {
+  0% {
+    box-shadow:
+            0 0 20px rgba(0, 255, 255, 0.8),
+            inset 0 0 10px rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow:
+            0 0 30px rgba(0, 255, 255, 1),
+            inset 0 0 15px rgba(255, 255, 255, 0.3);
+  }
+  100% {
+    box-shadow:
+            0 0 20px rgba(0, 255, 255, 0.8),
+            inset 0 0 10px rgba(255, 255, 255, 0.2);
+  }
+}
+
+@keyframes dot-appear {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+  .container {
+    min-height: 52px;
+    padding: var(--spacing-md);
+  }
+
+  .input {
+    width: 28px;
+    height: 28px;
+  }
+
+  .input:checked::before {
+    width: 10px;
+    height: 10px;
+  }
+
+  .container label {
+    font-size: var(--font-size-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    min-height: 56px;
+    padding: var(--spacing-lg);
+  }
+
+  .input {
+    width: 32px;
+    height: 32px;
+  }
+
+  .input:checked::before {
+    width: 12px;
+    height: 12px;
+  }
+
+  .container label {
+    font-size: var(--font-size-xl);
+  }
+}
+
+/* Dodatkowe style dla grup radio */
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm);
+  border: 2px solid var(--border-secondary);
+  border-radius: var(--radius-lg);
+  background: var(--tertiary-bg);
+}
+
+.radioGroup:focus-within {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+/* Stany błędów */
+.container.error .input {
+  border-color: var(--error-color);
+}
+
+.container.error .input:hover {
+  border-color: var(--error-color);
+  box-shadow:
+          0 0 20px rgba(239, 68, 68, 0.5),
+          inset 0 0 10px rgba(239, 68, 68, 0.1);
+}
+
+.container.error .input:checked {
+  border-color: var(--error-color);
+  background: linear-gradient(135deg, var(--error-color) 0%, #dc2626 100%);
+  box-shadow:
+          0 0 20px rgba(239, 68, 68, 0.8),
+          inset 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.container.error label {
+  color: var(--error-color);
+}
+
+/* Disabled state */
+.container.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.container.disabled .input {
+  border-color: var(--border-secondary);
+  background: var(--tertiary-bg);
+  cursor: not-allowed;
+}
+
+.container.disabled label {
+  color: var(--text-disabled);
+  cursor: not-allowed;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .input {
+    border: 3px solid var(--text-primary);
+  }
+
+  .input:checked {
+    background: var(--text-primary);
+  }
+
+  .input:checked::before {
+    background: var(--primary-bg);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .container,
+  .input,
+  .container label {
+    transition: none;
+  }
+
+  .input:checked {
+    animation: none;
+  }
+
+  .input:checked::before {
+    animation: none;
+  }
+}
+
+/* Dodatkowe efekty dla zaawansowanych stanów */
+.container:focus-within {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+.container:focus-within .input {
+  border-color: var(--accent-primary);
+}
+
+/* Efekt ripple przy kliknięciu */
+.container::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(0, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease;
+  pointer-events: none;
+}
+
+.container:active::after {
+  width: 100%;
+  height: 100%;
+}

@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import useFetch from "../useFetch";
-import { api } from "../../const/api";
+import { api } from "../../constant/api";
 interface IChangePassword {
   currentPassword: string;
   newPassword: string;

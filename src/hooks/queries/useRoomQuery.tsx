@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { api } from "../../const/api";
+import { api } from "../../constant/api";
 import useFetch from "../useFetch";
-import { IRoom } from "../../interfaces/IRoom";
 
 export default function useRoomQuery(id: number | undefined) {
   const { readData } = useFetch();
@@ -14,6 +13,6 @@ export default function useRoomQuery(id: number | undefined) {
   });
   return {
     status: data?.status,
-    roomData: data?.data as IRoom,
+    roomData: data?.data,
   };
 }

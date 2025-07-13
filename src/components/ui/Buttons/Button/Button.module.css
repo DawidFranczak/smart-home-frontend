@@ -1,0 +1,72 @@
+.button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: black;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  transition: all var(--transition-fast);
+  min-width: 100px;
+}
+.button.primary {
+  background-color: var(--info-color);
+}
+.button.primary:hover {
+  box-shadow: 0 0 20px var(--info-color);
+}
+.button.danger {
+  background-color: var(--error-color);
+}
+.button.danger:hover {
+  box-shadow: 0 0 20px var(--error-color);
+}
+.button.success {
+  background-color: var(--success-color);
+}
+.button.success:hover {
+  box-shadow: 0 0 20px var(--success-color);
+}
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.button.fancy {
+  background: linear-gradient(135deg, #00ffff 0%, #0088cc 100%);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 255, 255, 0.3);
+}
+.button.fancy:hover {
+  background: linear-gradient(135deg, #00cccc 0%, #0066aa 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 255, 255, 0.5);
+}
+
+.button.form-primary {
+  background: var(--accent-primary);
+  color: var(--primary-bg);
+}
+
+.button.form-primary:hover {
+  background: var(--accent-secondary);
+  box-shadow: var(--shadow-neon);
+}
+
+.button.form-secondary {
+  background: var(--tertiary-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--border-primary);
+}
+
+.button.form-secondary:hover {
+  background: var(--surface-bg);
+  border-color: var(--accent-primary);
+}

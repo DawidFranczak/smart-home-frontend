@@ -1,7 +1,7 @@
 import { useState } from "react";
-import FormField from "../../ui/FormField/FormField";
-import ButtonContainer from "../../ui/ButtonContainer/ButtonContainer";
-import Button from "../../ui/Button/Button";
+import FormField from "../ui/FormField/FormField";
+import ButtonContainer from "../ui/containers/ButtonContainer/ButtonContainer";
+import Button from "../ui/Buttons/Button/Button";
 
 import styles from "./ChangeNameForm.module.css";
 
@@ -28,8 +28,8 @@ export default function ChangeNameForm({
         onChange={(event) => setName(event.target.value)}
       />
       <ButtonContainer>
-        <Button callback={() => onConfirm(name)}>Zapisz</Button>
-        <Button callback={handleClose}>Anuluj</Button>
+        <Button onClick={() => onConfirm(name)}>Zapisz</Button>
+        <Button onClick={handleClose}>Anuluj</Button>
       </ButtonContainer>
     </section>
   );

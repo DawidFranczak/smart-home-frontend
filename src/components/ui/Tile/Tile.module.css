@@ -1,0 +1,86 @@
+.tile {
+    position: relative;
+    border: none;
+    border-radius: 4px;
+    padding: 24px;
+    color: white;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tile::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.tile:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.tile:hover::before {
+    opacity: 1;
+}
+
+.tile:active {
+    transform: translateY(0);
+}
+
+.tile > * {
+    z-index: 1;
+}
+
+.blue {
+    background: linear-gradient(135deg, #00acc1 0%, #0097a7 100%);
+    grid-column: span 1;
+}
+
+.danger {
+    background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+    grid-column: span 1;
+
+}
+
+
+@media (max-width: 1024px) {
+
+    .tile {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .tile {
+        padding: 16px;
+    }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tile {
+        transition: none;
+    }
+
+    .tile:hover {
+        transform: none;
+    }
+}
+
+@media (prefers-contrast: high) {
+    .tile {
+        border: 2px solid white;
+    }
+
+}

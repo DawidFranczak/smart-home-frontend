@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import useDeviceQuery from "../../../hooks/queries/useDeviceQuery";
 import { IDevice } from "../../../interfaces/IDevice";
-import QueryInput from "../../../ui/QueryInput/QueryInput";
+import QueryInput from "../../../components/ui/QueryInput/QueryInput";
 import getDeviceComponent from "../../../utils/getDeviceCard";
-import styles from "./DevicePage.module.css";
+import CardContainer from "../../../components/ui/containers/CardContainer/CardContainer.tsx";
+import PageContainer from "../../../components/ui/containers/PageContainer/PageContainer.tsx";
+import LoadingAnimation from "../../../components/ui/LoadingAnimation/LoadingAnimation.tsx";
+import PageHeader from "../../../components/ui/Headers/PageHeader/PageHeader.tsx";
+
 export default function Device() {
   const { deviceData } = useDeviceQuery();
   const [query, setQuery] = useState<IDevice[]>([]);
@@ -21,15 +25,15 @@ export default function Device() {
     setQuery(dataToDisplay);
   };
 
-  if (!query) return null;
+  if (!query) return <LoadingAnimation size="xlarge" type="spinner" glow={true}/>;
   return (
-    <div className={styles.container}>
-      <div className={styles.inputContainer}>
+    <PageContainer>
+      <PageHeader title="Urządzenia">
         <QueryInput onChange={handleDeviceQuery} />
-      </div>
-      <div className={styles.deviceContainer}>
+      </PageHeader>
+      <CardContainer>
         {query.map((item: IDevice) => getDeviceComponent(item))}
-      </div>
-    </div>
+      </CardContainer>
+    </PageContainer>
   );
 }

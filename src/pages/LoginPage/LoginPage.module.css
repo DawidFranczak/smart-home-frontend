@@ -1,25 +1,98 @@
-.container {
-    padding: 3em;
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    gap:20px;
-    border-radius: 25px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: 1px solid rgba(0, 200, 255, 0.5);
-    box-shadow: 0 0 35px rgba(0, 200, 255, 1);
-}
-.form{
-    display: flex;
-    flex-direction: column;
+.container{
     align-items: center;
     justify-content: center;
-    gap:20px;
 }
 
-.link{
-    width: 100%;
+/* Form content */
+.formContent {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+/* Header styling using variables */
+.form :global(.header) {
+    color: var(--text-primary);
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 var(--spacing-sm) 0;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Subtitle using variables */
+.subtitle {
+    color: var(--text-secondary);
+    font-size: var(--font-size-lg);
+    text-align: center;
+    margin-bottom: var(--spacing-md);
+    font-weight: 400;
+}
+
+/* Footer text using variables */
+.footerText {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    margin-top: var(--spacing-md);
+}
+
+/* Responsive design using variables */
+@media (max-width: 768px) {
+    .container {
+        padding: var(--spacing-md);
+        max-width: 90vw;
+    }
+
+    .formContent {
+        padding: var(--spacing-xl) var(--spacing-lg) var(--spacing-lg) var(--spacing-lg);
+    }
+
+    .form :global(.header) {
+        font-size: var(--font-size-2xl);
+    }
+
+    .subtitle {
+        font-size: var(--font-size-base);
+    }
+}
+
+@media (max-width: 480px) {
+    .formContent {
+        padding: var(--spacing-lg) var(--spacing-md) var(--spacing-md) var(--spacing-md);
+    }
+
+    .form :global(.header) {
+        font-size: var(--font-size-xl);
+    }
+
+    .form :global(.button),
+    .form :global(.styled-link) {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: var(--font-size-sm);
+    }
+}
+
+/* Loading state */
+.form:has(:global(.loading)) {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+/* Accessibility using variables */
+.form :global(*:focus-visible) {
+    outline: 2px solid var(--accent-secondary);
+    outline-offset: 2px;
+}
+
+/* High contrast support */
+@media (prefers-contrast: high) {
+    .form {
+        border: 2px solid var(--text-primary);
+    }
+
+    .form :global(.form-field) {
+        border: 2px solid var(--text-primary);
+    }
 }

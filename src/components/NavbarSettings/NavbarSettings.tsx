@@ -1,6 +1,6 @@
 import styles from "./NavbarSettings.module.css";
 import { TSettings } from "../../type/TSettings";
-import NavbarSettingsSelect from "../../ui/NavbarSettingsSelect/NavbarSettingsSelect";
+import NavbarSettingsSelect from "../ui/NavbarSettingsSelect/NavbarSettingsSelect";
 interface INavbarSettingsProps {
   onChange: (value: TSettings) => void;
   value: string;
@@ -14,7 +14,7 @@ export default function NavbarSettings({
       <NavbarSettingsSelect
         onClick={onChange}
         value={value}
-        name="passowrdChange"
+        name="passwordChange"
       >
         Zmiana hasła
       </NavbarSettingsSelect>

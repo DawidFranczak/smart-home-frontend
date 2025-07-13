@@ -1,0 +1,20 @@
+.dot {
+  display: inline-block;
+  border-radius: 50%;
+}
+.small{
+  width: 8px;
+  height: 8px;
+}
+.medium{
+  width: 14px;
+  height: 14px;
+}
+.large{
+  width: 20px;
+  height: 20px;
+}
+.xlarge{
+  width: 24px;
+  height: 24px;
+}
