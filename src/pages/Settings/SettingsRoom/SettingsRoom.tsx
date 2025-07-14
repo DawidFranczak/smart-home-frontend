@@ -15,7 +15,7 @@ import useRoomQuery from "../../../hooks/queries/room/useRoomQuery.tsx";
 export default function SettingsRoom() {
     const params = useParams();
     const id = parseInt(params.id ? params.id : "0");
-    const {roomData} = useRoomQuery(id);
+    const { room } = useRoomQuery(id);
     const [changeNameSuccess, setChangeNameSuccess] = useState(false)
     const [deleteRoomForm, setDeleteRoomForm] = useState(false)
     const {deleteRoom , updateRoom} = useRoomMutation();
@@ -26,12 +26,13 @@ export default function SettingsRoom() {
 
     function handleDeleteRoom(){
         deleteMutation.mutate();
+        navigate("/", {replace: true});
     }
     function handleChangeVisibility(){
-        const visibility = roomData.visibility === "private" ? "PU" : "PR"
+        const visibility = room.visibility === "private" ? "PU" : "PR"
+        console.log(visibility)
         updateMutation.mutate({visibility});
     }
-
     return (
         <PageContainer>
             <PageHeader title="Ustawienia pokoju">

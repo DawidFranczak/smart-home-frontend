@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import StyledLink from "../../../components/ui/StyledLink/StyledLink";
-import useButtonQuery from "../../../hooks/queries/useButtonQuery";
 import LoadingAnimation from "../../../components/ui/LoadingAnimation/LoadingAnimation.tsx";
 import PageContainer from "../../../components/ui/containers/PageContainer/PageContainer.tsx";
 import PageHeader from "../../../components/ui/Headers/PageHeader/PageHeader.tsx";
@@ -9,10 +8,14 @@ import ButtonContainer from "../../../components/ui/containers/ButtonContainer/B
 import TilesContainer from "../../../components/ui/containers/TilesContainer/TilesContainer.tsx";
 import DeviceEventDisplay from "../../../components/DeviceEventDisplay/DeviceEventDisplay.tsx";
 import Tile from "../../../components/ui/Tile/Tile.tsx";
+import useDeviceQuery from "../../../hooks/queries/device/useDeviceQuery.tsx";
+import IButton from "../../../interfaces/IButton.tsx";
 export default function ButtonPage() {
   const params = useParams();
   const id = parseInt(params.id ? params.id : "0");
-  const { buttonData } = useButtonQuery(id);
+  const { device } = useDeviceQuery(id);
+  const buttonData = device as IButton;
+
   if (!buttonData) return <LoadingAnimation size="xlarge" type="spinner" glow={true}/>;
   return (
       <PageContainer>

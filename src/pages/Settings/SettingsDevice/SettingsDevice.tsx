@@ -24,7 +24,7 @@ export default function SettingsDevice() {
 
     useEffect(() => {
         if (updateMutation.isSuccess || deleteMutation.isSuccess) {
-            navigate(-1, {replace: true});
+            navigate("/", {replace: true});
         }
     }, [updateMutation.isSuccess, deleteMutation.isSuccess, navigate]);
 

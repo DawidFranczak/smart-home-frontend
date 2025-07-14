@@ -2,7 +2,6 @@ import { useEffect, useReducer } from "react";
 import { useParams } from "react-router-dom";
 
 import styles from "./LampPage.module.css";
-import useLampQuery from "../../../hooks/queries/useLampQuery";
 import { ILamp } from "../../../interfaces/ILamp";
 import InputTime from "../../../components/ui/InputTime/InputTime";
 import InputNumber from "../../../components/ui/InputNumber/InputNumber";
@@ -18,6 +17,7 @@ import TilesContainer from "../../../components/ui/containers/TilesContainer/Til
 import Tile from "../../../components/ui/Tile/Tile.tsx";
 import StyledLink from "../../../components/ui/StyledLink/StyledLink.tsx";
 import ButtonContainer from "../../../components/ui/containers/ButtonContainer/ButtonContainer.tsx";
+import useDeviceQuery from "../../../hooks/queries/device/useDeviceQuery.tsx";
 
 function reducer(state: ILamp, action: { type: string; payload: any }) {
   switch (action.type) {
@@ -42,9 +42,10 @@ export default function LampPage() {
   const params = useParams();
   const [state, dispatch] = useReducer(reducer, null);
   const lampId = parseInt(params.id ? params.id : "0");
-  const { lampData } = useLampQuery(lampId);
+  const { device } = useDeviceQuery(lampId);
   const { updateLamp } = useLampMutation();
   const updateMutate = updateLamp(lampId);
+  const lampData = device as ILamp;
 
   useEffect(() => {
     if (lampData) dispatch({ type: "INIT_DATA", payload: lampData });

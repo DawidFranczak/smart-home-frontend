@@ -1,5 +1,6 @@
 import { QueryClient } from "@tanstack/react-query";
 import IFavouriteData from "../interfaces/IFavouriteData.tsx";
+import CacheKey from "../constant/cacheKey.ts";
 
 
 
@@ -8,7 +9,7 @@ export default function updateFavouriteData(
   data: IFavouriteData,
   status: number
 ) {
-  const oldFavouriteData = queryClient.getQueryData(["favourite"]) as {
+  const oldFavouriteData = queryClient.getQueryData([CacheKey.FAVOURITES]) as {
     status: number;
     data: { rooms: number[]; devices: number[] };
   };
@@ -39,5 +40,5 @@ export default function updateFavouriteData(
       devices: deviceData,
     },
   };
-  queryClient.setQueryData(["favourite"], newFavouriteData);
+  queryClient.setQueryData([CacheKey.FAVOURITES], newFavouriteData);
 }

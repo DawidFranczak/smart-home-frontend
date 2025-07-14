@@ -3,7 +3,7 @@ import useFetch from "../useFetch";
 import { api } from "../../constant/api";
 import updateFavouriteData from "../../utils/updateFavouriteData";
 import updateRoomData from "../../utils/updateRoomData";
-import updateRoomDeviceData from "../../utils/updateRoomDeviceData";
+import updateDeviceData from "../../utils/updateDeviceData.tsx";
 import IFavouriteData from "../../interfaces/IFavouriteData.tsx";
 
 export default function useFavouriteMutation(
@@ -11,14 +11,13 @@ export default function useFavouriteMutation(
 ) {
   const queryClient = useQueryClient();
   const { updateData } = useFetch();
-  const mutation = useMutation({
+  return useMutation({
     mutationFn: (data: IFavouriteData) => updateData(api.favourite, data),
     onSuccess: (response, data: IFavouriteData) => {
       updateFavouriteData(queryClient, data, response.status);
       if (data.type === "room") updateRoomData(queryClient, response);
-      else updateRoomDeviceData(queryClient, response);
+      else if (data.type === "device") updateDeviceData(queryClient, response);
       onClick && onClick(!data.is_favourite);
     },
   });
-  return mutation;
 }

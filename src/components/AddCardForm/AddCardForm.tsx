@@ -36,7 +36,6 @@ export default function AddCardForm({
     handleAddFunction();
   }
   const error = mutation.error as ICustomError;
-  console.log(pending);
 
   if (!show) {
     return null;

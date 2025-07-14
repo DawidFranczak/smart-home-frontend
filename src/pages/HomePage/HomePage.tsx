@@ -17,10 +17,12 @@ export default function HomePage() {
   const { rooms } = useRoomsQuery(favouriteData?.rooms || []);
   const [favouriteRoom, setFavouriteRoom] = useState<IRoom[]>([]);
   const [favouriteDevice, setFavouriteDevice] = useState<IDevice[]>([]);
+
   useEffect(() => {
    if (devices) setFavouriteDevice(devices);
    if (rooms) setFavouriteRoom(rooms);
-  }, [devices.length, rooms.length]);
+  }, [ rooms.length, devices.length]);
+
   function handleSearch(value: string) {
       const filter = value.toLowerCase();
       setFavouriteRoom(favouriteData.rooms.filter((room: IRoom) => {

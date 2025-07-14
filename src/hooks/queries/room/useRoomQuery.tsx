@@ -1,18 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
-import { api } from "../../../constant/api.ts";
-import useFetch from "../../useFetch.tsx";
+import {IRoom} from "../../../interfaces/IRoom.tsx";
+import usePrefetchRoomQuery from "./usePrefetchRoomQuery.tsx";
 
-export default function useRoomQuery(id: number | undefined) {
-  const { readData } = useFetch();
-  const endpoint = id ? `${api.room}${id}/` : api.room;
-  const key = id ? ["room", id] : ["room"];
-  const { data } = useQuery({
-    queryKey: key,
-    queryFn: () => readData(endpoint),
-    staleTime: 10 * 60 * 1000,
-  });
-  return {
-    status: data?.status,
-    roomData: data?.data,
-  };
+export default function useRoomQuery(id:number) {
+    const {roomData,isLoading,isError} = usePrefetchRoomQuery();
+    if (!roomData) return {room: null, isLoading, isError};
+    return {
+        room: roomData.filter((room: IRoom) => {
+            return id === room.id;
+        })[0],
+        isLoading,
+        isError
+    }
 }

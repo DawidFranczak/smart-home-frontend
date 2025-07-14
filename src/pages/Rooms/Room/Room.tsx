@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
 import {useEffect, useMemo, useState} from "react";
 import getDeviceComponent from "../../../utils/getDeviceCard";
-import useRoomQuery from "../../../hooks/queries/room/useRoomQuery.tsx";
 import QueryInput from "../../../components/ui/QueryInput/QueryInput";
 import ButtonContainer from "../../../components/ui/containers/ButtonContainer/ButtonContainer";
 import StyledLink from "../../../components/ui/StyledLink/StyledLink";
@@ -12,14 +11,14 @@ import PageContainer from "../../../components/ui/containers/PageContainer/PageC
 import CardContainer from "../../../components/ui/containers/CardContainer/CardContainer.tsx";
 import PageHeader from "../../../components/ui/Headers/PageHeader/PageHeader.tsx";
 import useDevicesQuery from "../../../hooks/queries/device/useDevicesQuery.tsx";
-
+import useRoomQuery from "../../../hooks/queries/room/useRoomQuery.tsx";
 export default function Room() {
   const state = useParams();
-  const { roomData } = useRoomQuery(Number(state.id));
-  const deviceIds = useMemo(()=>roomData?.device || [],[roomData?.device?.length, roomData?.device?.join(',')])
+  const { room } = useRoomQuery(state.id? parseInt(state.id):0);
+  const deviceIds = useMemo(()=>room?.device || [],[room?.device?.length, room?.device?.join(',')])
   const { devices } = useDevicesQuery(deviceIds);
   const [filtratedData, setFiltratedData] = useState<IDevice[]>([]);
-
+console.log(deviceIds)
     useEffect(() => {
         if (!devices) return;
         setFiltratedData(devices);
@@ -35,13 +34,13 @@ export default function Room() {
     setFiltratedData(dataToDisplay);
   }
 
-  if (!roomData) {
+  if (!room) {
     return (<LoadingAnimation size="xlarge" type="spinner" glow={true}/>)
   }
 
   return (
       <PageContainer>
-        <PageHeader title={roomData.name}>
+        <PageHeader title={room.name}>
           <ButtonContainer>
             <QueryInput
                 onChange={handleFilter}

@@ -1,14 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
-import useFetch from "../../useFetch.tsx";
-import { IDevice } from "../../../interfaces/IDevice.tsx";
-import { api } from "../../../constant/api.ts";
+import usePrefetchDeviceQuery from "./usePrefetchDeviceQuery.tsx";
+import {IDevice} from "../../../interfaces/IDevice.tsx";
 
-export default function useDeviceQuery() {
-  const { readData } = useFetch();
-  const { data } = useQuery({
-    queryKey: ["device"],
-    queryFn: () => readData(api.device),
-    staleTime: 10 * 60 * 1000,
-  });
-  return { status: data?.status, deviceData: data?.data as IDevice[] };
+export default function useDeviceQuery(id:number) {
+    const {deviceData,isLoading,isError} = usePrefetchDeviceQuery();
+    if (!deviceData) return {device: null, isLoading, isError};
+    return {
+        device: deviceData.filter((device: IDevice) => {
+            return id === device.id;
+        })[0],
+        isLoading,
+        isError
+    }
 }

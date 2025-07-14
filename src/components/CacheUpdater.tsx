@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import updateInstanceData from "../utils/updateInstanceData";
-import updateRoomDeviceData from "../utils/updateRoomDeviceData";
+import updateDeviceData from "../utils/updateDeviceData.tsx";
 import updateUnassignedDevice from "../utils/updateUnassignedDevice";
 import MessageType from "../constant/message_type";
 import updateRouterData from "../utils/updateRouterData";
@@ -28,8 +28,7 @@ export default function CacheUpdater() {
           updateRouterData(queryClient, data.data);
           break;
         case MessageType.UPDATE_DEVICE:
-          updateInstanceData(queryClient, data.data);
-          updateRoomDeviceData(queryClient, data.data);
+          updateDeviceData(queryClient, data.data);
           updateFavouriteData(
             queryClient,
             { status: data.data.status, data: data.data.data },

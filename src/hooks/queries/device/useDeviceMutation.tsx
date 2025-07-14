@@ -1,10 +1,10 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 import useFetch from "../../useFetch.tsx";
 import { api } from "../../../constant/api.ts";
 
-import updateInstanceData from "../../../utils/updateInstanceData.tsx";
-import updateRoomDeviceData from "../../../utils/updateRoomDeviceData.tsx";
 import updateFavouriteData from "../../../utils/updateFavouriteData.tsx";
+import IFavouriteData from "../../../interfaces/IFavouriteData.tsx";
+import CacheKey from "../../../constant/cacheKey.ts";
 
 interface IDeviceUpdate {
   name?: string;
@@ -12,34 +12,39 @@ interface IDeviceUpdate {
 }
 
 export default function useDeviceMutation() {
-  const { createData, updateData, deleteData } = useFetch();
+  const { updateData, deleteData } = useFetch();
   const queryClient = useQueryClient();
-  function createDevice() {
-    return useMutation({
-      mutationFn: (data: { name: string; fun: string; room_id: number }) =>
-        createData(api.device, data),
-      onSuccess: (data) => {
-        console.log(data);
-      },
-    });
-  }
+
   function updateDevice(id: number) {
     return useMutation({
       mutationFn: (data: IDeviceUpdate) =>
         updateData(`${api.device}${id}/`, data),
-      onSuccess: (response) => {
-        updateInstanceData(queryClient, response);
-        updateRoomDeviceData(queryClient, response);
-        if (response.data.is_favourite)
-          updateFavouriteData(queryClient, response, "device");
+      onSuccess: async (response) => {
+        await Promise.all([
+          queryClient.invalidateQueries({ queryKey: [CacheKey.ROOMS] }),
+          queryClient.invalidateQueries({ queryKey: [CacheKey.DEVICES] }),
+          queryClient.invalidateQueries({ queryKey: [CacheKey.UNASSIGNED_DEVICE] }),
+        ]);
+        const data = {
+          type: "device",
+          id: response.data.id,
+          is_favourite: true
+        } as IFavouriteData;
+        updateFavouriteData(queryClient, data, response.status);
       },
     });
   }
 
   function deleteDevice(id: number) {
     return useMutation({
-      mutationFn: () => deleteData(`${api.device}${id}/`)
+      mutationFn: () => deleteData(`${api.device}${id}/`),
+      onSuccess: async () =>{
+        await Promise.all([
+          queryClient.invalidateQueries({ queryKey: [CacheKey.ROOMS] }),
+          queryClient.invalidateQueries({ queryKey: [CacheKey.DEVICES] })
+        ]);
+      }
     })
   }
-  return { createDevice, updateDevice, deleteDevice };
+  return { updateDevice, deleteDevice };
 }
