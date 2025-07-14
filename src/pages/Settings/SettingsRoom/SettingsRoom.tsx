@@ -9,8 +9,8 @@ import styles from "./SettingsRoom.module.css";
 import ChangeName from "../../../components/ChangeName/ChangeName.tsx";
 import ConfirmDelete from "../../../components/ConfirmDelete/ConfirmDelete.tsx";
 import {useState} from "react";
-import useRoomMutation from "../../../hooks/queries/useRoomMutation.tsx";
-import useRoomQuery from "../../../hooks/queries/useRoomQuery.tsx";
+import useRoomMutation from "../../../hooks/queries/room/useRoomMutation.tsx";
+import useRoomQuery from "../../../hooks/queries/room/useRoomQuery.tsx";
 
 export default function SettingsRoom() {
     const params = useParams();

@@ -8,17 +8,19 @@ import QueryInput from "../../components/ui/QueryInput/QueryInput.tsx";
 import CardContainer from "../../components/ui/containers/CardContainer/CardContainer.tsx";
 import PageContainer from "../../components/ui/containers/PageContainer/PageContainer.tsx";
 import PageHeader from "../../components/ui/Headers/PageHeader/PageHeader.tsx";
+import useDevicesQuery from "../../hooks/queries/device/useDevicesQuery.tsx";
+import useRoomsQuery from "../../hooks/queries/room/useRoomsQuery.tsx";
 
 export default function HomePage() {
-  const [favouriteRoom, setFavouriteRoom] = useState<IRoom[]>([]);
-  const [favouriteDevice, setFavouriteDevice] = useState([]);
   const { favouriteData } = useFavouriteQuery();
+  const { devices } = useDevicesQuery(favouriteData?.devices || []);
+  const { rooms } = useRoomsQuery(favouriteData?.rooms || []);
+  const [favouriteRoom, setFavouriteRoom] = useState<IRoom[]>([]);
+  const [favouriteDevice, setFavouriteDevice] = useState<IDevice[]>([]);
   useEffect(() => {
-    if (!favouriteData) return;
-    setFavouriteRoom(favouriteData.rooms);
-    setFavouriteDevice(favouriteData.devices);
-  }, [favouriteData]);
-
+   if (devices) setFavouriteDevice(devices);
+   if (rooms) setFavouriteRoom(rooms);
+  }, [devices.length, rooms.length]);
   function handleSearch(value: string) {
       const filter = value.toLowerCase();
       setFavouriteRoom(favouriteData.rooms.filter((room: IRoom) => {

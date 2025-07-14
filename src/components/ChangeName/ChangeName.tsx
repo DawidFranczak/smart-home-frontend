@@ -4,7 +4,7 @@ import ChangeNameForm from "../ChangeNameForm/ChangeNameForm";
 import useDeviceMutation from "../../hooks/queries/device/useDeviceMutation.tsx";
 import { ICustomError } from "../../interfaces/ICustomError";
 import Message from "../ui/Message/Message";
-import useRoomMutation from "../../hooks/queries/useRoomMutation.tsx";
+import useRoomMutation from "../../hooks/queries/room/useRoomMutation.tsx";
 
 interface ChangeNameProps {
   children: React.ReactNode;

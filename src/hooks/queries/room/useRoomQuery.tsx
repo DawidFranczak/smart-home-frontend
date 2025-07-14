@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { api } from "../../constant/api";
-import useFetch from "../useFetch";
+import { api } from "../../../constant/api.ts";
+import useFetch from "../../useFetch.tsx";
 
 export default function useRoomQuery(id: number | undefined) {
   const { readData } = useFetch();

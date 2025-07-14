@@ -7,7 +7,7 @@ import AddRoom from "../../../components/AddRoom/AddRoom.tsx";
 
 import RoomCard from "../../../components/Cards/RoomCard/RoomCard.tsx";
 
-import useRoomQuery from "../../../hooks/queries/useRoomQuery.tsx";
+import useRoomQuery from "../../../hooks/queries/room/useRoomQuery.tsx";
 import QueryInput from "../../../components/ui/QueryInput/QueryInput.tsx";
 import CardContainer from "../../../components/ui/containers/CardContainer/CardContainer.tsx";
 import LoadingAnimation from "../../../components/ui/LoadingAnimation/LoadingAnimation.tsx";

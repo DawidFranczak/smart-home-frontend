@@ -1,6 +1,6 @@
 import {useMutation} from "@tanstack/react-query";
-import useFetch from "../useFetch.tsx";
-import {api} from "../../constant/api.ts";
+import useFetch from "../../useFetch.tsx";
+import {api} from "../../../constant/api.ts";
 
 interface IRoomUpdate{
     name?: string;

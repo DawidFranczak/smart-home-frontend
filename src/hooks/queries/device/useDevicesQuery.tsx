@@ -7,7 +7,6 @@ import {useMemo} from "react";
 export default function useDevicesQuery(deviceIds:number[]) {
     const {readData} = useFetch()
     const queryClient = useQueryClient();
-
     const deviceQueries = useQueries({
         queries: deviceIds.map((deviceId) => ({
             queryKey: ["device", deviceId],
@@ -19,15 +18,15 @@ export default function useDevicesQuery(deviceIds:number[]) {
             },
         })),
     });
-    const devices: IDevice[] = useMemo(()=>{
+
+    const devices: IDevice[] = useMemo(() => {
         return deviceQueries
             .filter(query => query.data?.data)
             .map(query => query.data?.data);
-    },[deviceQueries])
+    }, [deviceQueries]);
 
     const isLoading = deviceQueries.some(query => query.isLoading);
     const isError = deviceQueries.some(query => query.isError);
-
     return {
         devices,
         isLoading,

@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
-import { useMemo, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import getDeviceComponent from "../../../utils/getDeviceCard";
-import useRoomQuery from "../../../hooks/queries/useRoomQuery";
+import useRoomQuery from "../../../hooks/queries/room/useRoomQuery.tsx";
 import QueryInput from "../../../components/ui/QueryInput/QueryInput";
 import ButtonContainer from "../../../components/ui/containers/ButtonContainer/ButtonContainer";
 import StyledLink from "../../../components/ui/StyledLink/StyledLink";
@@ -18,9 +18,14 @@ export default function Room() {
   const { roomData } = useRoomQuery(Number(state.id));
   const deviceIds = useMemo(()=>roomData?.device || [],[roomData?.device?.length, roomData?.device?.join(',')])
   const { devices } = useDevicesQuery(deviceIds);
-  const [filtratedData, setFiltratedData] = useState<IDevice[]>(devices?devices:[]);
+  const [filtratedData, setFiltratedData] = useState<IDevice[]>([]);
 
-  function handleFilter(value: string) {
+    useEffect(() => {
+        if (!devices) return;
+        setFiltratedData(devices);
+      }, [devices.length]);
+
+    function handleFilter(value: string) {
     if (!devices) return;
 
     const filter = value.toLowerCase();

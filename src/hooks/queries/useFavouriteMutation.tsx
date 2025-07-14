@@ -4,11 +4,8 @@ import { api } from "../../constant/api";
 import updateFavouriteData from "../../utils/updateFavouriteData";
 import updateRoomData from "../../utils/updateRoomData";
 import updateRoomDeviceData from "../../utils/updateRoomDeviceData";
-interface IFavouriteData {
-  id: number;
-  is_favourite: boolean;
-  type: "room" | "device";
-}
+import IFavouriteData from "../../interfaces/IFavouriteData.tsx";
+
 export default function useFavouriteMutation(
   onClick?: (is_favourite: boolean) => void
 ) {
@@ -17,7 +14,7 @@ export default function useFavouriteMutation(
   const mutation = useMutation({
     mutationFn: (data: IFavouriteData) => updateData(api.favourite, data),
     onSuccess: (response, data: IFavouriteData) => {
-      updateFavouriteData(queryClient, response, data.type);
+      updateFavouriteData(queryClient, data, response.status);
       if (data.type === "room") updateRoomData(queryClient, response);
       else updateRoomDeviceData(queryClient, response);
       onClick && onClick(!data.is_favourite);
