@@ -22,12 +22,13 @@ export default function RfidPage() {
   const [showAddCardForm, setShowAddCardForm] = useState(false);
   const params = useParams();
   const id = params.id ? parseInt(params.id) : 0;
-  const { device } = useDeviceQuery(id);
+  const { device, status } = useDeviceQuery(id);
   const rfidData = device as IRfid;
 
   useEffect(() => {
     if (rfidData) setCards(rfidData.cards);
-  }, [rfidData]);
+    if (status === 201) setShowAddCardForm(false);
+  }, [rfidData,status]);
 
   if (!rfidData) return <LoadingAnimation size="xlarge" type="spinner" glow={true}/>;
 
@@ -38,7 +39,6 @@ export default function RfidPage() {
     });
     setCards(filteredCards);
   }
-
   return (
       <PageContainer>
         <PageHeader title={rfidData.name}>
@@ -61,6 +61,7 @@ export default function RfidPage() {
             pending={rfidData.pending.includes("add_tag")}
             rfidID={rfidData.id}
             handleAddFunction={() =>setShowAddCardForm(false)}
+            status={status}
         />
         <TilesContainer>
           {rfidData.events?.map((event:IEvent) => (

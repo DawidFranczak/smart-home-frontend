@@ -29,6 +29,7 @@ export default function DeviceEventWizard() {
     device_id,
     params.deviceFun ? params.deviceFun : ""
   );
+  console.log(availableAction);
   const { createEvent } = useEventMutation();
   const createMutation = createEvent(device_id);
   useEffect(() => {
@@ -82,7 +83,7 @@ export default function DeviceEventWizard() {
             iterable={actionByFunction?.map((action:string,index:number) => [action, index])}
             onChange={(e) => setAction(e.target.value)}
         />
-        {error && <Message type="error">Wypełnij wszystkie pola</Message>}
+        <Message show={error} type="error">Wypełnij wszystkie pola</Message>
         <ButtonContainer>
           <Button type="fancy" onClick={onSuccess}>Wróć</Button>
           <Button type="fancy" onClick={handleSubmit}>Dodaj</Button>
