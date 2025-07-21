@@ -26,20 +26,14 @@ export default function CacheUpdater() {
           updateRouterData(queryClient, data.data);
           break;
         case MessageType.UPDATE_DEVICE:
-          console.log(data)
           updateDeviceData(queryClient, data.data);
-          // updateFavouriteData(
-          //   queryClient,
-          //   { status: data.data.status, data: data.data.data },
-          //   "device"
-          // );
           break;
         case MessageType.NEW_DEVICE_CONNECTED:
           updateUnassignedDevice(queryClient, data.data);
       }
     };
 
-    ws.onerror = (error) => {
+    ws.onerror = () => {
       //   console.error("Błąd WebSocket:", error);
     };
 

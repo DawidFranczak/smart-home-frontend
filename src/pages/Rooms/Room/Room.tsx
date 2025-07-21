@@ -13,32 +13,33 @@ import PageHeader from "../../../components/ui/Headers/PageHeader/PageHeader.tsx
 import useDevicesQuery from "../../../hooks/queries/device/useDevicesQuery.tsx";
 import useRoomQuery from "../../../hooks/queries/room/useRoomQuery.tsx";
 export default function Room() {
-  const state = useParams();
-  const { room } = useRoomQuery(state.id? parseInt(state.id):0);
-  const deviceIds = useMemo(()=>room?.device || [],[room?.device?.length, room?.device?.join(',')])
-  const { devices } = useDevicesQuery(deviceIds);
-  const [filtratedData, setFiltratedData] = useState<IDevice[]>([]);
-console.log(deviceIds)
+    const state = useParams();
+    const { room } = useRoomQuery(state.id? parseInt(state.id):0);
+    const deviceIds = useMemo(()=>room?.device || [],[room?.device])
+    const { devices } = useDevicesQuery(deviceIds);
+    const [filtratedData, setFiltratedData] = useState<IDevice[]>([]);
+    const memoizedDevices = useMemo(()=> devices, [JSON.stringify(devices)]);
+
     useEffect(() => {
-        if (!devices) return;
-        setFiltratedData(devices);
-      }, [devices.length]);
+        if (!memoizedDevices) return;
+        setFiltratedData(memoizedDevices);
+      }, [memoizedDevices]);
 
     function handleFilter(value: string) {
-    if (!devices) return;
+        if (!devices) return;
 
-    const filter = value.toLowerCase();
-    const dataToDisplay = devices.filter((device:IDevice) => {
-      return device.name.toLowerCase().includes(filter);
-    });
-    setFiltratedData(dataToDisplay);
-  }
+        const filter = value.toLowerCase();
+        const dataToDisplay = devices.filter((device:IDevice) => {
+          return device.name.toLowerCase().includes(filter);
+        });
+        setFiltratedData(dataToDisplay);
+      }
 
-  if (!room) {
+    if (!room) {
     return (<LoadingAnimation size="xlarge" type="spinner" glow={true}/>)
-  }
+    }
 
-  return (
+    return (
       <PageContainer>
         <PageHeader title={room.name}>
           <ButtonContainer>
@@ -63,5 +64,5 @@ console.log(deviceIds)
               </CardContainer>
           )}
       </PageContainer>
-  );
+    );
 }

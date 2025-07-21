@@ -1,14 +1,9 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 import styles from "./SelectLampPage.module.css";
 import BackArrow from "../../../components/ui/BackArrow/BackArrow";
-import useFetch from "../../../hooks/useFetch";
-import { api } from "../../../constant/api";
 
 const SelectLampPage = () => {
   // constant {data, readData} = useFetch();
-  const navigate = useNavigate();
 
   // useEffect(()=>{
   //     async function getAllLamps() {
