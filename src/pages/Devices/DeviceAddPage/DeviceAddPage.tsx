@@ -12,10 +12,10 @@ import Tile from "../../../components/ui/Tile/Tile.tsx";
 
 export default function DeviceAddPage() {
   const params = useParams();
+  const roomId = parseInt(params.id ? params.id : "0");
   const { status, unassignedDeviceData } = useUnassignedDeviceQuery();
   const { selectDevice } = useUnassignedDeviceMutation();
   const mutation = selectDevice();
-  const roomId = parseInt(params.id ? params.id : "0");
 
   function addDevice(deviceId: number) {
     mutation.mutate({ deviceId, roomId });
