@@ -16,13 +16,15 @@ interface AddCardFormProps {
   handleAddFunction: () => void;
   show: boolean;
   pending: boolean;
+  status?:number
 }
 
 export default function AddCardForm({
-                                      rfidID,
-                                      handleAddFunction,
-                                      show,
-                                      pending
+    rfidID,
+    handleAddFunction,
+    show,
+    pending,
+    status
 }: AddCardFormProps) {
   const [name, setName] = useState("");
   const { mutationCreate } = useCardMutation();
@@ -36,7 +38,6 @@ export default function AddCardForm({
     handleAddFunction();
   }
   const error = mutation.error as ICustomError;
-  console.log(pending);
 
   if (!show) {
     return null;
@@ -73,6 +74,18 @@ export default function AddCardForm({
           type="error"
       >
         To pole jest wymagane
+      </Message>
+      <Message
+          show={status === 400}
+          type="error"
+      >
+        Nie udało się dodać karty, spróbuj ponownie.
+      </Message>
+      <Message
+          show={status === 409}
+          type="error"
+      >
+        Ta karta jest już zapisana
       </Message>
         <ButtonContainer>
           <Button type="form-secondary" onClick={handleCancel}>Anuluj</Button>

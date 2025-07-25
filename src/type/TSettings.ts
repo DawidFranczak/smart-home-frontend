@@ -1,5 +1,5 @@
 export type TSettings =
-  | "passowrdChange"
+  | "passwordChange"
   | "homeChange"
   | "homeCode"
   | "homeLeave";

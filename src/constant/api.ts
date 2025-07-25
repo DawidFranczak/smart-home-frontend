@@ -7,6 +7,8 @@ export const api = {
   registration: baseURL + "/api/registration/",
   changePassword: baseURL + "/api/change-password/",
 
+  home: baseURL + "/api/home/",
+
   room: baseURL + "/api/room/",
   favourite: baseURL + "/api/favourite/",
   aquarium: baseURL + "/api/aquarium/",

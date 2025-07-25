@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ICard } from "../../../interfaces/IRfid";
-import useRfidQuery from "../../../hooks/queries/useRfidQuery";
+import {ICard, IRfid} from "../../../interfaces/IRfid";
 import CardCard from "../../../components/Cards/CardCard/CardCard";
 import QueryInput from "../../../components/ui/QueryInput/QueryInput";
 import StyledLink from "../../../components/ui/StyledLink/StyledLink";
@@ -16,17 +15,20 @@ import DeviceEventDisplay from "../../../components/DeviceEventDisplay/DeviceEve
 import IEvent from "../../../interfaces/IEvent.tsx";
 import Button from "../../../components/ui/Buttons/Button/Button.tsx";
 import AddCardForm from "../../../components/AddCardForm/AddCardForm.tsx";
+import useDeviceQuery from "../../../hooks/queries/device/useDeviceQuery.tsx";
 
 export default function RfidPage() {
   const [cards, setCards] = useState<ICard[]>([]);
   const [showAddCardForm, setShowAddCardForm] = useState(false);
   const params = useParams();
   const id = params.id ? parseInt(params.id) : 0;
-  const { rfidData } = useRfidQuery(id);
+  const { device, status } = useDeviceQuery(id);
+  const rfidData = device as IRfid;
 
   useEffect(() => {
     if (rfidData) setCards(rfidData.cards);
-  }, [rfidData]);
+    if (status === 201) setShowAddCardForm(false);
+  }, [rfidData,status]);
 
   if (!rfidData) return <LoadingAnimation size="xlarge" type="spinner" glow={true}/>;
 
@@ -37,7 +39,6 @@ export default function RfidPage() {
     });
     setCards(filteredCards);
   }
-
   return (
       <PageContainer>
         <PageHeader title={rfidData.name}>
@@ -60,6 +61,7 @@ export default function RfidPage() {
             pending={rfidData.pending.includes("add_tag")}
             rfidID={rfidData.id}
             handleAddFunction={() =>setShowAddCardForm(false)}
+            status={status}
         />
         <TilesContainer>
           {rfidData.events?.map((event:IEvent) => (

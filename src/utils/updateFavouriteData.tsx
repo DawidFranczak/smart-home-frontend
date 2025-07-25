@@ -1,42 +1,44 @@
 import { QueryClient } from "@tanstack/react-query";
-import { IDevice } from "../interfaces/IDevice";
-import { IRoom } from "../interfaces/IRoom";
+import IFavouriteData from "../interfaces/IFavouriteData.tsx";
+import CacheKey from "../constant/cacheKey.ts";
+
+
 
 export default function updateFavouriteData(
   queryClient: QueryClient,
-  response: { status: number; data: IDevice | IRoom },
-  type: "room" | "device"
+  data: IFavouriteData,
+  status: number
 ) {
-  const oldFavouriteData = queryClient.getQueryData(["favourite"]) as {
+  const oldFavouriteData = queryClient.getQueryData([CacheKey.FAVOURITES]) as {
     status: number;
-    data: { rooms: IRoom[]; devices: IDevice[] };
+    data: { rooms: number[]; devices: number[] };
   };
   if (!oldFavouriteData) return;
-  let newDeviceData = oldFavouriteData.data.devices;
-  let newRoomData = oldFavouriteData.data.rooms;
-
-  if (type === "device") {
-    newDeviceData = newDeviceData.filter(
-      (device: IDevice) => device.id !== response.data.id
-    );
-    if (response.data.is_favourite) {
-      newDeviceData.push(response.data as IDevice);
-    }
-  } else if (type === "room") {
-    if (response.data.is_favourite) {
-      newRoomData.push(response.data as IRoom);
+  let deviceData = oldFavouriteData.data.devices;
+  let roomData = oldFavouriteData.data.rooms;
+  if (data.type === "device") {
+    if (!data.is_favourite) {
+      deviceData.push(data.id);
     } else {
-      newRoomData = newRoomData.filter(
-        (room: IRoom) => room.id !== response.data.id
+      deviceData = deviceData.filter(
+        (id: number) => id !== data.id
+      );
+    }
+  }else if (data.type === "room") {
+    if (!data.is_favourite) {
+      roomData.push(data.id);
+    } else {
+      roomData = roomData.filter(
+        (id: number) => id !== data.id
       );
     }
   }
   const newFavouriteData = {
-    status: response.status,
+    status: status,
     data: {
-      rooms: newRoomData,
-      devices: newDeviceData,
+      rooms: roomData,
+      devices: deviceData,
     },
   };
-  queryClient.setQueryData(["favourite"], newFavouriteData);
+  queryClient.setQueryData([CacheKey.FAVOURITES], newFavouriteData);
 }

@@ -6,23 +6,21 @@ import {
 import useFetch from "../useFetch";
 import { api } from "../../constant/api";
 import { IDevice } from "../../interfaces/IDevice";
+import CacheKey from "../../constant/cacheKey.ts";
+import assignDeviceToRoom from "../../utils/assignDeviceToRoom.tsx";
 
-function updateDeviceQuery(queryClient: QueryClient, deviceId: number) {
-  const oldData = queryClient.getQueryData(["unassignedDevice"]) as {
+function updateUnassignedDevice(queryClient: QueryClient, deviceId: number) {
+  const oldData = queryClient.getQueryData([CacheKey.UNASSIGNED_DEVICE]) as {
     status: number;
     data: IDevice[];
   };
   const status = oldData.status;
   const devices = oldData.data;
   const newData = devices.filter((device: IDevice) => device.id !== deviceId);
-  queryClient.setQueryData(["unassignedDevice"], {
+  queryClient.setQueryData([CacheKey.UNASSIGNED_DEVICE], {
     status,
     data: newData,
   });
-}
-
-function invalidateRoomDeviceQuery(queryClient: QueryClient, roomId: number) {
-  queryClient.invalidateQueries({ queryKey: ["room", roomId] });
 }
 
 export default function useUnassignedDeviceMutation() {
@@ -35,10 +33,13 @@ export default function useUnassignedDeviceMutation() {
           device_id: data.deviceId,
           room_id: data.roomId,
         }),
-
-      onSuccess: (data) => {
-        updateDeviceQuery(queryClient, data.data.device_id);
-        invalidateRoomDeviceQuery(queryClient, data.data.room_id);
+      onSuccess:async (data) => {
+        updateUnassignedDevice(queryClient, data.data.device_id);
+        await Promise.all([
+            queryClient.invalidateQueries({ queryKey: [CacheKey.ROOMS] }),
+            queryClient.invalidateQueries({ queryKey: [CacheKey.DEVICES] })
+        ]);
+        assignDeviceToRoom(queryClient, data.data);
       },
     });
   }

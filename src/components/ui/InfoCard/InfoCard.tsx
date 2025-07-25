@@ -1,4 +1,4 @@
-import styles from './InfoCard.module.css';
+import styles from './InfoCard.module.css'
 interface IInfoCardProps{
     children: React.ReactNode;
     icon?: string;

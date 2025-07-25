@@ -5,7 +5,6 @@ import { rgbaToHsva } from "@uiw/color-convert";
 import Button from "../../../components/ui/Buttons/Button/Button.tsx";
 
 import styles from "./AquariumPage.module.css";
-import useAquariumQuery from "../../../hooks/queries/useAquariumQuery.tsx";
 import { IAquarium } from "../../../interfaces/IAquarium.tsx";
 import useAquariumMutation from "../../../hooks/queries/useAquariumMutation.tsx";
 import Message from "../../../components/ui/Message/Message.tsx";
@@ -19,6 +18,7 @@ import Tile from "../../../components/ui/Tile/Tile.tsx";
 import ToggleButton from "../../../components/ui/ToggleButton/ToggleButton.tsx";
 import StyledLink from "../../../components/ui/StyledLink/StyledLink.tsx";
 import ButtonContainer from "../../../components/ui/containers/ButtonContainer/ButtonContainer.tsx";
+import useDeviceQuery from "../../../hooks/queries/device/useDeviceQuery.tsx";
 
 interface IState {
   aquariumData: IAquarium;
@@ -105,9 +105,10 @@ function reducer(state: IState, action: IAction) {
 export default function AquariumPage() {
   const params = useParams();
   const id = params.id ? parseInt(params.id) : 0;
-  const { aquariumData, isLoading } = useAquariumQuery(id);
+  const { device, isLoading } = useDeviceQuery(id);
   const mutation = useAquariumMutation(id);
   const [state, dispatch] = useReducer(reducer, initialState);
+  const aquariumData = device as IAquarium;
 
   useEffect(() => {
     if (!isLoading && aquariumData)
@@ -137,7 +138,6 @@ export default function AquariumPage() {
   };
 
   if (Object.keys(state.aquariumData).length === 0) return <LoadingAnimation size="xlarge" type="spinner" glow={true}/>;
-  console.log(state.aquariumData);
   return (
       <PageContainer className={styles.container}>
         <PageHeader title={state.aquariumData.name}>

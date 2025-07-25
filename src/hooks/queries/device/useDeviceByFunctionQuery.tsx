@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import useFetch from "../useFetch";
-import { api } from "../../constant/api";
+import useFetch from "../../useFetch.tsx";
+import { api } from "../../../constant/api.ts";
 
 export default function useDeviceByFunctionQuery(fun: string) {
   const { readData } = useFetch();

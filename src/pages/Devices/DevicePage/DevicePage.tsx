@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useDeviceQuery from "../../../hooks/queries/useDeviceQuery";
+import usePrefetchDeviceQuery from "../../../hooks/queries/device/usePrefetchDeviceQuery.tsx";
 import { IDevice } from "../../../interfaces/IDevice";
 import QueryInput from "../../../components/ui/QueryInput/QueryInput";
 import getDeviceComponent from "../../../utils/getDeviceCard";
@@ -9,7 +9,7 @@ import LoadingAnimation from "../../../components/ui/LoadingAnimation/LoadingAni
 import PageHeader from "../../../components/ui/Headers/PageHeader/PageHeader.tsx";
 
 export default function Device() {
-  const { deviceData } = useDeviceQuery();
+  const { deviceData } = usePrefetchDeviceQuery();
   const [query, setQuery] = useState<IDevice[]>([]);
   useEffect(() => {
     if (deviceData) {

@@ -7,7 +7,7 @@ import AddRoom from "../../../components/AddRoom/AddRoom.tsx";
 
 import RoomCard from "../../../components/Cards/RoomCard/RoomCard.tsx";
 
-import useRoomQuery from "../../../hooks/queries/useRoomQuery.tsx";
+import usePrefetchRoomQuery from "../../../hooks/queries/room/usePrefetchRoomQuery.tsx";
 import QueryInput from "../../../components/ui/QueryInput/QueryInput.tsx";
 import CardContainer from "../../../components/ui/containers/CardContainer/CardContainer.tsx";
 import LoadingAnimation from "../../../components/ui/LoadingAnimation/LoadingAnimation.tsx";
@@ -18,7 +18,7 @@ import ButtonContainer from "../../../components/ui/containers/ButtonContainer/B
 export default function SelectRoom() {
     const [dataToDisplay, setDataToDisplay] = useState<IRoom[]>([]);
     const [openAddRoom, setOpenAddRoom] = useState<boolean>(false);
-    const { roomData }: { roomData: IRoom[] } = useRoomQuery(undefined)
+    const { roomData }: { roomData: IRoom[] } = usePrefetchRoomQuery(undefined)
 
     useEffect(() => {
         if (!roomData) return;

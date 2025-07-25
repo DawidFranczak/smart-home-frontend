@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import {useEffect, useMemo, useState} from "react";
 import getDeviceComponent from "../../../utils/getDeviceCard";
-import useRoomQuery from "../../../hooks/queries/useRoomQuery";
 import QueryInput from "../../../components/ui/QueryInput/QueryInput";
 import ButtonContainer from "../../../components/ui/containers/ButtonContainer/ButtonContainer";
 import StyledLink from "../../../components/ui/StyledLink/StyledLink";
@@ -11,34 +10,38 @@ import LoadingAnimation from "../../../components/ui/LoadingAnimation/LoadingAni
 import PageContainer from "../../../components/ui/containers/PageContainer/PageContainer.tsx";
 import CardContainer from "../../../components/ui/containers/CardContainer/CardContainer.tsx";
 import PageHeader from "../../../components/ui/Headers/PageHeader/PageHeader.tsx";
-
+import useDevicesQuery from "../../../hooks/queries/device/useDevicesQuery.tsx";
+import useRoomQuery from "../../../hooks/queries/room/useRoomQuery.tsx";
 export default function Room() {
-  const state = useParams();
-  const { roomData } = useRoomQuery(Number(state.id));
-  const [filtratedData, setFiltratedData] = useState<IDevice[]>([]);
+    const state = useParams();
+    const { room } = useRoomQuery(state.id? parseInt(state.id):0);
+    const deviceIds = useMemo(()=>room?.device || [],[room?.device])
+    const { devices } = useDevicesQuery(deviceIds);
+    const [filtratedData, setFiltratedData] = useState<IDevice[]>([]);
+    const memoizedDevices = useMemo(()=> devices, [JSON.stringify(devices)]);
 
-  useEffect(() => {
-    if (!roomData) return;
-    setFiltratedData(roomData.device);
-  }, [roomData]);
+    useEffect(() => {
+        if (!memoizedDevices) return;
+        setFiltratedData(memoizedDevices);
+      }, [memoizedDevices]);
 
-  function handleFilter(value: string) {
-    if (!roomData) return;
+    function handleFilter(value: string) {
+        if (!devices) return;
 
-    const filter = value.toLowerCase();
-    const dataToDisplay = roomData.device.filter((device:IDevice) => {
-      return device.name.toLowerCase().includes(filter);
-    });
-    setFiltratedData(dataToDisplay);
-  }
+        const filter = value.toLowerCase();
+        const dataToDisplay = devices.filter((device:IDevice) => {
+          return device.name.toLowerCase().includes(filter);
+        });
+        setFiltratedData(dataToDisplay);
+      }
 
-  if (!filtratedData || !roomData) {
+    if (!room) {
     return (<LoadingAnimation size="xlarge" type="spinner" glow={true}/>)
-  }
+    }
 
-  return (
+    return (
       <PageContainer>
-        <PageHeader title={roomData.name}>
+        <PageHeader title={room.name}>
           <ButtonContainer>
             <QueryInput
                 onChange={handleFilter}
@@ -49,7 +52,7 @@ export default function Room() {
             </StyledLink>
           </ButtonContainer>
         </PageHeader>
-          {filtratedData.length === 0 ? (
+          {filtratedData?.length === 0 ? (
               <div className={styles.emptyState}>
                 <p>Nie znaleziono urządzeń</p>
               </div>
@@ -61,5 +64,5 @@ export default function Room() {
               </CardContainer>
           )}
       </PageContainer>
-  );
+    );
 }
