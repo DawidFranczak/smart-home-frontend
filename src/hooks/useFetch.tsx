@@ -1,11 +1,11 @@
 import { useAuth } from "../auth/AuthContext.tsx";
 
 function getCsrfToken() {
-  var cookieValue = null;
+  let cookieValue = null;
   if (document.cookie && document.cookie !== "") {
-    var cookies = document.cookie.split(";");
-    for (var i = 0; i < cookies.length; i++) {
-      var cookie = cookies[i].trim();
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
       if (cookie.substring(0, 10) === "csrftoken=") {
         cookieValue = decodeURIComponent(cookie.substring(10));
         break;
@@ -36,7 +36,7 @@ class CustomError extends Error {
 }
 
 export default function useFetch(): useFetchReturn {
-  const { access } = useAuth();
+  const { access,logout } = useAuth();
   const options = {
     credentials: "include" as RequestCredentials,
     headers: {
@@ -56,6 +56,7 @@ export default function useFetch(): useFetchReturn {
       body: body ? JSON.stringify(body) : null,
     });
     const data = await response.json();
+    if (response.status === 401) {logout()}
     if (!response.ok) {
       throw new CustomError("Błąd podczas wysyłania danych", data);
     }
@@ -67,6 +68,7 @@ export default function useFetch(): useFetchReturn {
       method: "GET",
       ...options,
     });
+    if (response.status === 401) {logout()}
     const data = await response.json();
     return { status: response.status, data: data };
   }
@@ -79,6 +81,7 @@ export default function useFetch(): useFetchReturn {
       ...options,
       body: body ? JSON.stringify(body) : null,
     });
+    if (response.status === 401) {logout()}
     const data = await response.json();
     if (!response.ok) {
       throw new CustomError("Błąd podczas wysyłania danych", {
@@ -94,6 +97,7 @@ export default function useFetch(): useFetchReturn {
       method: "DELETE",
       ...options,
     });
+    if (response.status === 401) {logout()}
     // constant data = await response.json();
     return { status: response.status };
   }
