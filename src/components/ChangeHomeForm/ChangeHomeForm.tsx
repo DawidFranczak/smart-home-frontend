@@ -22,6 +22,10 @@ export default function ChangeHomeForm() {
     }
   }, [errorMutations]);
 
+  if (updateHomeMutation.isSuccess) {
+    window.location.reload();
+  }
+  console.log(updateHomeMutation)
   function handleSubmit() {
     setError("");
     if (homeCode === "") {
@@ -32,7 +36,7 @@ export default function ChangeHomeForm() {
   }
   return <FormContainer>
     <Header>Zmiana domu</Header>
-    <p className={styles.message}>Pamiętaj że po zmianie domu wszystkie urzeczy zapisane w domu zostą usunąte</p>
+    <p className={styles.message}>Pamiętaj że po zmianie domu wszystkie urządzenia zapisane w domu zostaną usunięte</p>
     <FormField
         type="text"
         name="homeCode"

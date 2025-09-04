@@ -1,4 +1,4 @@
-import styles from "./WifiStrength.module.css";
+import styles from "./WiFiStrength.module.css";
 import wifi_perfect from "/static/svg/wifi_perfect.svg";
 import wifi_medium from "/static/svg/wifi_medium.svg";
 import wifi_low from "/static/svg/wifi_low.svg";
@@ -24,19 +24,20 @@ const getSignalClass = (strength: number) => {
 };
 
 export default function WifiStrength({
-                                       strength,
-                                       size = "medium",
-                                       className,
-                                     }: WifiStrengthProps) {
-
+  strength,
+  size = "medium",
+  className,
+}: WifiStrengthProps) {
   const wifiIcons = getWifiIcons(strength);
   const signalClass = getSignalClass(strength);
 
   return (
-      <img
-          src={wifiIcons}
-          alt="Wifi"
-          className={`${styles.icon} ${styles[size]} ${signalClass} ${className || ""}`}
-      />
+    <img
+      src={wifiIcons}
+      alt="Wifi"
+      className={`${styles.icon} ${styles[size]} ${signalClass} ${
+        className || ""
+      }`}
+    />
   );
 }
