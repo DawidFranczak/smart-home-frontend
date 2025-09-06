@@ -3,4 +3,5 @@ export default {
     ROOMS: "rooms",
     FAVOURITES: "favourites",
     UNASSIGNED_DEVICE: "unassignedDevice",
+    CAMERAS: "cameras",
 }

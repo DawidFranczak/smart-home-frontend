@@ -2,6 +2,8 @@ import {useEffect, useRef, useState} from "react";
 import {useQueryClient} from "@tanstack/react-query";
 import {websocketUrl} from "../../../constant/urls.ts";
 import LoadingAnimation from "../../ui/LoadingAnimation/LoadingAnimation.tsx";
+import styles from "./CameraCard.module.css";
+import Header from "../../ui/Headers/Header/Header.tsx";
 
 interface CameraCardProps {
     id: number;
@@ -75,7 +77,8 @@ export default function CameraCard({id, name}: CameraCardProps) {
     if (error)
         return <div>{error}</div>;
   return (
-      <div>
+      <div className={styles.container}>
+          <Header>{name}</Header>
           {loading&&<LoadingAnimation />}
           <video
               ref={videoRef}
