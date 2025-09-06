@@ -5,7 +5,7 @@ import PageHeader from "../../../components/ui/Headers/PageHeader/PageHeader.tsx
 import StyledLink from "../../../components/ui/StyledLink/StyledLink.tsx";
 import useCameraQuery from "../../../hooks/queries/useCameraQuery.tsx";
 import {useEffect, useState} from "react";
-import {ICamera} from "../../../interfaces/ICamera.ts";
+import {ICamera} from "../../../interfaces/ICamera.tsx";
 import LoadingAnimation from "../../../components/ui/LoadingAnimation/LoadingAnimation.tsx";
 
 export default function SelectCameraPage() {
@@ -20,7 +20,7 @@ export default function SelectCameraPage() {
     return(
         <PageContainer>
             <PageHeader title="Kamery">
-                <StyledLink to={"/"} type="fancy">Dodaj kamerę</StyledLink>
+                <StyledLink to={"add/"} type="fancy">Dodaj kamerę</StyledLink>
             </PageHeader>
             {isLoading? <LoadingAnimation size="xlarge" type="spinner" glow={true}/>:
                 <div className={styles.container}>

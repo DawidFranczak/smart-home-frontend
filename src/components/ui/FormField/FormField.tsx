@@ -2,10 +2,11 @@
 import { ChangeEvent, useState } from "react";
 
 import styles from "./FormField.module.css";
+import Message from "../Message/Message.tsx";
 
 interface FormFieldProps {
   name: string;
-  error?: boolean;
+  error?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   type?: string;
   placeholder?: string;
@@ -72,6 +73,7 @@ export default function FormField ({
             name={name}
             inputMode={inputMode}
         />
+      <Message type="error" show={!!error}>{error}</Message>
       </div>
   );
 };

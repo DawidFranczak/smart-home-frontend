@@ -19,6 +19,7 @@ import SelectCameraPage from "../pages/Camera/SelectCameraPage/SelectCameraPage.
 import SettingsPage from "../pages/Settings/SettingsPage/SettingsPage.tsx";
 import SettingsDevice from "../pages/Settings/SettingsDevice/SettingsDevice.tsx";
 import SettingsRoom from "../pages/Settings/SettingsRoom/SettingsRoom.tsx";
+import AddCameraPage from "../pages/Camera/AddCameraPage/AddCameraPage.tsx";
 
 export default createBrowserRouter([
     {
@@ -51,6 +52,7 @@ export default createBrowserRouter([
             { path: ":deviceFun/:id/event/wizard/", element: <DeviceEventWizard /> },
             { path: ":deviceFun/:id/settings/", element: <SettingsDevice /> },
             { path: "camera/",element:<SelectCameraPage/> },
+            { path: "camera/add/",element:<AddCameraPage/> },
             { path: "settings/", element: <SettingsPage /> },
         ],
     },
