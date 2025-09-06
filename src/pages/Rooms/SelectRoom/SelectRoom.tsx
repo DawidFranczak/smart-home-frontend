@@ -18,7 +18,7 @@ import ButtonContainer from "../../../components/ui/containers/ButtonContainer/B
 export default function SelectRoom() {
     const [dataToDisplay, setDataToDisplay] = useState<IRoom[]>([]);
     const [openAddRoom, setOpenAddRoom] = useState<boolean>(false);
-    const { roomData }: { roomData: IRoom[] } = usePrefetchRoomQuery(undefined)
+    const { roomData }: { roomData: IRoom[] } = usePrefetchRoomQuery()
 
     useEffect(() => {
         if (!roomData) return;

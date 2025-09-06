@@ -1,59 +1,94 @@
-import React, { useEffect, useRef } from "react";
-import Hls from "hls.js";
+import {useEffect, useRef, useState} from "react";
+import {useQueryClient} from "@tanstack/react-query";
+import {websocketUrl} from "../../../constant/urls.ts";
+import LoadingAnimation from "../../ui/LoadingAnimation/LoadingAnimation.tsx";
+import styles from "./CameraCard.module.css";
+import Header from "../../ui/Headers/Header/Header.tsx";
 
-interface HlsPlayerProps {
-  url: string;
-  width?: number;
-  height?: number;
+interface CameraCardProps {
+    id: number;
+    name: string;
 }
 
-const CameraCard: React.FC<HlsPlayerProps> = ({
-  url,
-  width = 640,
-  height = 360,
-}) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
+export default function CameraCard({id, name}: CameraCardProps) {
+  const videoRef = useRef<HTMLVideoElement|null>(null);
+  const queryClient = useQueryClient()
+    const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    if (!videoRef.current) return;
+    const pc = new RTCPeerConnection({
+        iceServers: [
+            { urls: "stun:stun.l.google.com:19302" }
+        ]
+    });
+    pc.addTransceiver("video", { direction: "recvonly" });
+    pc.addTransceiver("audio", { direction: "recvonly" });
+    const token = queryClient.getQueryData(["token"]) as {
+      status: number;
+      token: string;
+    };
+    if (!token) return;
+    const ws = new WebSocket(`${websocketUrl}/ws/camera/${token.token}/${id}/`);
 
-    if (Hls.isSupported()) {
-      const hls = new Hls({
-        liveSyncDurationCount: 1,
-        maxLiveSyncPlaybackRate: 1.5,
-        enableWorker: true,
-        lowLatencyMode: true,
-      });
-      hls.loadSource(url);
-      hls.attachMedia(videoRef.current);
-
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        videoRef.current?.play();
-      });
-
-      return () => {
-        hls.destroy();
-      };
-    } else if (videoRef.current.canPlayType("application/vnd.apple.mpegurl")) {
-      videoRef.current.src = url;
-      videoRef.current.addEventListener("loadedmetadata", () => {
-        videoRef.current?.play();
-      });
+    ws.onopen = async (_) => {
+       const offer = await pc.createOffer();
+       await pc.setLocalDescription(offer)
+      ws.send(JSON.stringify({"type":"camera_offer","offer":offer}));
     }
-  }, [url]);
 
+    ws.onmessage = async (event) => {
+        const data = JSON.parse(event.data);
+        if (data.type === "answer") {
+            await pc.setRemoteDescription(new RTCSessionDescription(data));
+        }
+        else if (data.type === "candidate") {
+            try{
+                await pc.addIceCandidate(new RTCIceCandidate(data.candidate));
+            }catch (err){
+                console.error("Error adding received ice candidate", err);
+            }
+        }
+        else if (data.type === "camera_error"){
+            setError(data.error);
+            ws.close();
+            pc.close();
+        }
+    }
+      pc.onicecandidate = (event) => {
+          if (event.candidate) {
+              ws.send(JSON.stringify({
+                  type: "candidate",
+                  candidate: event.candidate
+              }));
+          }
+      };
+      pc.ontrack = (event) => {
+          if (videoRef.current) {
+              videoRef.current.srcObject = event.streams[0];
+          }
+          setLoading(false);
+      };
+    return () => {
+      ws.close();
+      pc.close();
+    };
+  },[]);
+
+    if (error)
+        return <div>{error}</div>;
   return (
-    <video
-      ref={videoRef}
-      autoPlay={true}
-      controls={true}
-      muted={true}
-      playsInline={true}
-      width={width}
-      height={height}
-      style={{ backgroundColor: "black" }}
-    />
-  );
-};
+      <div className={styles.container}>
+          <Header>{name}</Header>
+          {loading&&<LoadingAnimation />}
+          <video
+              ref={videoRef}
+              playsInline
+              autoPlay = {true}
+              controls={true}
+              muted={true}
+              width="300px"
+              hidden={loading}
+          />
+      </div>
+  )};
 
-export default CameraCard;

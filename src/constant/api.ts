@@ -21,7 +21,7 @@ export const api = {
   router: baseURL + "/api/device/router/",
   event: baseURL + "/api/event/",
   action: baseURL + "/api/event/action/",
-
+  cameras: baseURL + "/api/cameras/",
   getUpdateLamp: baseURL + "/api/lamp/", // +id
 
   getAllEvents: baseURL + "/api/device/get/event/",

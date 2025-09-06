@@ -1,4 +1,4 @@
-import CacheUpdater from "../CacheUpdater.tsx";
+import WebSocketProvider from "../WebSocketProvider.tsx";
 import Sidebar from "../ui/Sidebar/Sidebar.tsx";
 import {Outlet} from "react-router-dom";
 
@@ -8,12 +8,13 @@ import DataPrefetcher from "../DataPrefetcher.tsx";
 export default function Layouts() {
     return (
         <div className={styles.container}>
-            <CacheUpdater/>
             <DataPrefetcher/>
             <Sidebar />
-            <main className={styles.content}>
-                <Outlet />
-            </main>
+            <WebSocketProvider>
+                <main className={styles.content}>
+                    <Outlet />
+                </main>
+            </WebSocketProvider>
         </div>
     );
 

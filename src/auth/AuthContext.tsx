@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 import { createContext, useState, useContext, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 
@@ -19,7 +21,6 @@ export const useAuth = () => {
   return context;
 };
 
-import { ReactNode } from "react";
 
 interface AuthProviderProps {
   children: ReactNode;
