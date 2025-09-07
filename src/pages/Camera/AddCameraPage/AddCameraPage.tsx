@@ -7,6 +7,7 @@ import Button from "../../../components/ui/Buttons/Button/Button.tsx";
 import useCameraMutation from "../../../hooks/queries/useCameraMutation.tsx";
 import {ICameraCreate} from "../../../interfaces/ICamera.tsx";
 import {ICustomError} from "../../../interfaces/ICustomError.tsx";
+import Message from "../../../components/ui/Message/Message.tsx";
 
 export default function AddCameraPage() {
     const {createCamera} = useCameraMutation();
@@ -14,7 +15,7 @@ export default function AddCameraPage() {
     function handleAdd(e:React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
-        const dataObj : ICameraCreate = Object.fromEntries(data);
+        const dataObj: ICameraCreate = Object.fromEntries(data) as unknown as ICameraCreate;
         mutation.mutate(dataObj);
     }
     const error :ICustomError | null = mutation.error
@@ -66,6 +67,7 @@ export default function AddCameraPage() {
                     <ButtonContainer>
                         <Button type="fancy">Dodaj</Button>
                     </ButtonContainer>
+                    <Message show={mutation.isSuccess} type="success">Dodano kamera</Message>
                 </form>
             </FormContainer>
         </div>
