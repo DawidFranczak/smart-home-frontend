@@ -24,7 +24,7 @@ export default function SelectCameraPage() {
             </PageHeader>
             {isLoading? <LoadingAnimation size="xlarge" type="spinner" glow={true}/>:
                 <div className={styles.container}>
-                    {cameras.map((camera) => (
+                    {cameras?.map((camera) => (
                         <CameraCard key={camera.id} id={camera.id} name={camera.name}/>
                     ))}
                 </div>}
