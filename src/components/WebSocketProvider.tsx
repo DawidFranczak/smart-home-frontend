@@ -37,15 +37,16 @@ export default function WebSocketProvider({children}:{children: React.ReactNode}
     };
     ws.onmessage = async (event) => {
       const data = JSON.parse(event.data);
+      console.log(data);
       switch (data.action) {
         case MessageType.UPDATE_ROUTER:
-          updateRouterData(queryClient, data.data);
+          updateRouterData(queryClient, data.data, data.status);
           break;
         case MessageType.UPDATE_DEVICE:
-          updateDeviceData(queryClient, data.data);
+          updateDeviceData(queryClient, data.data, data.status);
           break;
         case MessageType.NEW_DEVICE_CONNECTED:
-          updateUnassignedDevice(queryClient, data.data);
+          updateUnassignedDevice(queryClient, data.data, data.status);
       }
     };
 

@@ -16,7 +16,7 @@ export default function useFavouriteMutation(
     onSuccess: (response, data: IFavouriteData) => {
       updateFavouriteData(queryClient, data, response.status);
       if (data.type === "room") updateRoomData(queryClient, response);
-      else if (data.type === "device") updateDeviceData(queryClient, response);
+      else if (data.type === "device") updateDeviceData(queryClient, response.data, response.status);
       onClick && onClick(!data.is_favourite);
     },
   });

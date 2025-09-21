@@ -17,7 +17,7 @@ export default function useCardMutation() {
       mutationFn: (name: string) =>
         createData(`${api.card}`, { name, rfid: rfidId }),
       onSuccess: (response) => {
-        updateDeviceData(queryClient, response);
+        updateDeviceData(queryClient, response.data,response.status);
       },
     });
   }

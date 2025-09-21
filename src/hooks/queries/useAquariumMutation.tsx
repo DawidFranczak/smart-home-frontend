@@ -11,7 +11,7 @@ export default function useAquariumMutation(id: number) {
     mutationFn: (aquariumData: IAquarium) =>
       updateData(`${api.aquarium}${id}/`, aquariumData),
     onSuccess: (response) => {
-      updateDeviceData(queryClient, response);
+      updateDeviceData(queryClient, response.data, response.status);
     },
   });
 }
