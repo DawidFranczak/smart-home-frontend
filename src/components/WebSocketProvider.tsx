@@ -24,20 +24,18 @@ export default function WebSocketProvider({children}:{children: React.ReactNode}
   const [status, setStatus] = useState<WebSocket["readyState"]>(WebSocket.CONNECTING);
   const queryClient = useQueryClient()
 
-  useEffect(() => {
+  function connect(){
     const token = queryClient.getQueryData(["token"]) as {
       status: number;
       token: string;
     };
     if (!token) return;
     const ws = new WebSocket(`${websocketUrl}/ws/user/${token.token}/`);
-    ws.onopen = (event) => {
-      console.log(event);
+    ws.onopen = () => {
       setStatus(WebSocket.OPEN);
     };
     ws.onmessage = async (event) => {
       const data = JSON.parse(event.data);
-      console.log(data);
       switch (data.action) {
         case MessageType.UPDATE_ROUTER:
           updateRouterData(queryClient, data.data, data.status);
@@ -51,15 +49,20 @@ export default function WebSocketProvider({children}:{children: React.ReactNode}
     };
 
     ws.onerror = () => {
-      //   console.error("Błąd WebSocket:", error);
+      setStatus(WebSocket.CLOSED);
+      setTimeout(connect, 5000);
     };
 
     ws.onclose = () => {
       setStatus(WebSocket.CLOSED);
+      setTimeout(connect, 5000);
     };
     setSocket(ws);
+  }
 
-    return () => ws.close();
+  useEffect(() => {
+    connect();
+    return () => {if (socket) socket.close()};
   }, []);
   function send(data: object) {
     if (!socket || socket.readyState !== WebSocket.OPEN) return;
