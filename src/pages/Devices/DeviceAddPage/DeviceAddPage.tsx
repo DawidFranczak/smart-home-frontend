@@ -21,7 +21,7 @@ export default function DeviceAddPage() {
     mutation.mutate({ deviceId, roomId });
   }
   if (!unassignedDeviceData) return <LoadingAnimation size="xlarge" type="spinner" glow={true}/>;
-
+  console.log(unassignedDeviceData)
   return (
     <PageContainer>
       <PageHeader title="Przypisz urządzenie"></PageHeader>

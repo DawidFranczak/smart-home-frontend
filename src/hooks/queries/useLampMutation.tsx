@@ -12,7 +12,7 @@ export default function useLampMutation() {
     return useMutation({
       mutationFn: (newData: ILamp) => updateData(`${api.lamp}${id}/`, newData),
       onSuccess: (response) => {
-        updateDeviceData(queryClient, response);
+        updateDeviceData(queryClient, response.data, response.status);
       },
     });
   }
