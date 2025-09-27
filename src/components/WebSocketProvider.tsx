@@ -50,7 +50,6 @@ export default function WebSocketProvider({children}:{children: React.ReactNode}
 
     ws.onerror = () => {
       setStatus(WebSocket.CLOSED);
-      setTimeout(connect, 5000);
     };
 
     ws.onclose = () => {

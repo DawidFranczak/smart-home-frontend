@@ -9,11 +9,11 @@ import {ICamera} from "../../../interfaces/ICamera.tsx";
 import LoadingAnimation from "../../../components/ui/LoadingAnimation/LoadingAnimation.tsx";
 
 export default function SelectCameraPage() {
-    const {cameraData, isLoading} = useCameraQuery();
+    const {cameraData,status, isLoading} = useCameraQuery();
     const [cameras, setCameras] = useState<ICamera[]>([]);
 
     useEffect(() => {
-        if (cameraData) {
+        if (cameraData && status === 200) {
             setCameras(cameraData);
         }
     }, [cameraData]);
