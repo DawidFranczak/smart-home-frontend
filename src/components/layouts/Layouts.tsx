@@ -10,12 +10,11 @@ export default function Layouts() {
         <div className={styles.container}>
             <DataPrefetcher/>
             <Sidebar />
-            <WebSocketProvider>
-                <main className={styles.content}>
+            <main className={styles.content}>
+                <WebSocketProvider>
                     <Outlet />
-                </main>
-            </WebSocketProvider>
+                </WebSocketProvider>
+            </main>
         </div>
     );
-
 }

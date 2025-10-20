@@ -203,12 +203,7 @@ export default function TempHumPage (){
                     <LoadingAnimation size="large" type="spinner" glow={true}/>
                 ) : (
                     <>
-                        {tempHumHistoryData?.temperature?.aggregation_data &&
-                            tempHumHistoryData?.humidity?.aggregation_data && (
-                                <AggregationSection />
-                            )}
-
-                        {chartData.length > 0 ? (
+                       {chartData.length > 0 ? (
                             <Panel
                                 bordered
                                 style={{
@@ -291,6 +286,10 @@ export default function TempHumPage (){
                                 </div>
                             </Panel>
                         )}
+                        {tempHumHistoryData?.temperature?.aggregation_data &&
+                            tempHumHistoryData?.humidity?.aggregation_data && (
+                                <AggregationSection />
+                            )}
                     </>
                 )}
             </div>
