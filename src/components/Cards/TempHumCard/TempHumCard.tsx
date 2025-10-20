@@ -40,7 +40,7 @@ export default function TempHumCard(tempHum: TempHumDevice) {
                 <InfoCard  className={styles.infoCardValue}>{temperature} °C</InfoCard>
                 <InfoCard  className={styles.infoCardValue}>{humidity} %</InfoCard>
             </CardIconContainer>
-            <StyledLink type="fancy" to={`/button/${tempHum.id}/`}>
+            <StyledLink type="fancy" to={`/temperature/${tempHum.id}/`}>
                 Wybierz
             </StyledLink>
         </DeviceCardContainer>

@@ -6,7 +6,9 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AuthProvider } from "./auth/AuthContext.tsx";
 import routers from "./routers";
 import "./index.css";
-
+import 'rsuite/dist/rsuite.min.css';
+import { CustomProvider } from 'rsuite';
+import plPL from 'rsuite/locales/pl_PL';
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
@@ -14,7 +16,9 @@ createRoot(document.getElementById("root")!).render(
     <QueryClientProvider client={queryClient}>
       {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
       <AuthProvider>
-        <RouterProvider router={routers} />
+        <CustomProvider theme="dark" locale={plPL}>
+            <RouterProvider router={routers} />
+        </CustomProvider>
       </AuthProvider>
     </QueryClientProvider>
   </StrictMode>

@@ -23,6 +23,7 @@ export const api = {
   action: baseURL + "/api/event/action/",
   cameras: baseURL + "/api/cameras/",
   getUpdateLamp: baseURL + "/api/lamp/", // +id
-
+    tempHum:baseURL + "/api/temperature/",
+    tempHumHistory:baseURL + "/api/temperature/history/",
   getAllEvents: baseURL + "/api/device/get/event/",
 };

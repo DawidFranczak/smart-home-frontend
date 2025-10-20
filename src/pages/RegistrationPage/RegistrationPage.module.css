@@ -1,122 +1,84 @@
-.container{
-  align-items: center;
-  justify-content: center;
+.pageWrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #111827 0%, #1f2937 50%, #0f172a 100%);
+    color: #fff;
+    padding: 2rem;
 }
 
-.form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
+.grid {
+    width: 100%;
 }
 
-.formContent {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
+.message{
+    margin-bottom: 1rem;
+}
+.panel {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    border-radius: 1.5rem;
+    padding: 2rem 2.5rem;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
+    color: #f3f4f6;
+    max-width: 400px;
+    margin: 0 auto;
 }
 
 .title {
-  color: #ffffff;
-  font-size: 32px;
-  font-weight: 600;
-  text-align: center;
-  margin-bottom: 10px;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    font-size: 2rem;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #60a5fa;
 }
 
 .subtitle {
-  color: var(--text-secondary);
-  font-size: var(--font-size-lg);
-  text-align: center;
-  margin-bottom: var(--spacing-md);
-  font-weight: 400;
+    text-align: center;
+    color: #9ca3af;
+    margin-bottom: 1.5rem;
 }
 
-.submitButton {
-  width: 100%;
-  padding: 16px;
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-  border: none;
-  border-radius: 15px;
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
-.submitButton:hover {
-  background: linear-gradient(135deg, #2563eb, #1e40af);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+.submitBtn {
+    margin-top: 1rem;
+    font-weight: 600;
+    background: linear-gradient(90deg, #3b82f6, #2563eb);
+    border: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.submitButton:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 10px rgba(59, 130, 246, 0.4);
+.submitBtn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
 }
 
-.submitButton:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
+.linkWrapper {
+    margin-top: 1rem;
+    text-align: center;
 }
 
-.loginLink {
-  color: rgba(255, 255, 255, 0.7);
-  text-decoration: none;
-  font-size: 14px;
-  text-align: center;
-  transition: all 0.3s ease;
-  padding: 10px;
-  border-radius: 8px;
+.link {
+    color: #93c5fd;
+    text-decoration: none;
+    font-size: 0.95rem;
 }
 
-.loginLink:hover {
-  color: #3b82f6;
-  background: rgba(59, 130, 246, 0.1);
-}
-
-.errorMessage {
-  color: #ef4444;
-  font-size: 14px;
-  text-align: center;
-  padding: 10px;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 8px;
-  width: 100%;
+.link:hover {
+    text-decoration: underline;
 }
 
 @media (max-width: 768px) {
-  .title {
-    font-size: 28px;
-  }
-
-  .subtitle {
-    font-size: 14px;
-  }
-
-  .backArrow {
-    top: 15px;
-    left: 15px;
-  }
+    .panel {
+        padding: 1.5rem;
+    }
+    .title {
+        font-size: 1.6rem;
+    }
 }
-
-@media (max-width: 480px) {
-  .title {
-    font-size: 24px;
-  }
-
-  .submitButton {
-    padding: 14px;
-    font-size: 14px;
-  }
-}
-
