@@ -1,9 +1,7 @@
 .pageHeader {
     text-align: center;
-    margin-bottom: 30px;
-    padding: 20px;
+    padding: 10px;
     background: rgba(26, 42, 68, 0.6);
-    border-radius: 15px;
     border: 1px solid rgba(0, 255, 255, 0.2);
     backdrop-filter: blur(10px);
     display: flex;
@@ -11,6 +9,7 @@
     gap: 15px;
     flex-shrink: 0;
     width: 100%;
+    border-radius: 5px;
 }
 
 .pageHeader:hover {

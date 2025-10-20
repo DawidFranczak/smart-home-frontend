@@ -8,11 +8,11 @@ interface IPageHeaderProps {
 export default function PageHeader({children, className,title, subtitle}:IPageHeaderProps) {
     return (
         <div className={`${styles.pageHeader} ${className}`}>
-        <div>
-            { title && <h1 className={styles.title}>{title}</h1> }
-            { subtitle && <p className={styles.subtitle}>{subtitle}</p> }
-        </div>
-            {children}
+            <div>
+                { title && <h1 className={styles.title}>{title}</h1> }
+                { subtitle && <p className={styles.subtitle}>{subtitle}</p> }
+            </div>
+                {children}
         </div>
     )
 }

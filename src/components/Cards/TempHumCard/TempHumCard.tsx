@@ -5,13 +5,11 @@ import InfoCard from "../../ui/InfoCard/InfoCard";
 import styles from "./TempHumCard.module.css";
 import { IDevice } from "../../../interfaces/IDevice";
 
-// Extend IDevice locally to support temperature/humidity readings without touching global types
 type TempHumDevice = IDevice & {
     temperature?: number;
     humidity?: number;
-    timestamp?: string; // optional explicit last reading timestamp
+    timestamp?: string;
 };
-
 function formatIsoSeconds(value?: string) {
     if (!value) return "N/A";
     return value.length >= 19 ? value.slice(11, 19) : value;
@@ -29,11 +27,11 @@ export default function TempHumCard(tempHum: TempHumDevice) {
 
     return (
         <DeviceCardContainer
-            isFavourite={tempHum.is_favourite}
             name={tempHum.name}
-            wifiStrength={tempHum.wifi_strength}
+            isFavourite={tempHum.is_favourite}
             isOnline={tempHum.is_online}
             id={tempHum.id}
+            wifiStrength={tempHum.wifi_strength}
         >
             <CardIconContainer>
                 <InfoCard  className={styles.infoCardTimestamp}>{lastDate}</InfoCard>

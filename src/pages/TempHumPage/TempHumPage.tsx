@@ -19,7 +19,6 @@ export default function TempHumPage (){
     const [startDate, setStartDate] = useState<string | null>(null);
     const [endDate, setEndDate] = useState<string | null>( null);
     const {tempHumHistoryData} = useTempHumHistoryQuery(sensor_id,startDate,endDate)
-    console.log(tempHumHistoryData)
 
     const prepareChartData = () => {
         if (!tempHumHistoryData?.temperature?.chart_data || !tempHumHistoryData?.humidity?.chart_data) {
@@ -176,7 +175,7 @@ export default function TempHumPage (){
             </div>
         );
     };
-
+    console.log(tempHumData)
     return (
         <PageContainer>
             <PageHeader title={tempHumData.name}>

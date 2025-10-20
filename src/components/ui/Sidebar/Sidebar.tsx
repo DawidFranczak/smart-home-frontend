@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { IconButton, Tooltip, Whisper } from "rsuite";
+import { Tooltip, Whisper } from "rsuite";
 import useFetch from "../../../hooks/useFetch";
 import { api } from "../../../constant/api";
 import { useAuth } from "../../../auth/AuthContext";
@@ -25,7 +25,7 @@ const menuItems = [
 ];
 
 export default function Sidebar() {
-    const [collapsed, setCollapsed] = useState(false);
+    const [collapsed, setCollapsed] = useState(true);
     const location = useLocation();
     const { deleteData } = useFetch();
     const { logout } = useAuth();
@@ -45,42 +45,14 @@ export default function Sidebar() {
 
     return (
         <aside className={`${styles.sidebar} ${collapsed ? styles.collapsed : ""}`}>
-            <div className={styles.toggleButton}>
-                <IconButton
-                    icon={
-                        <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        >
-                            {collapsed ? (
-                                <path d="M9 18l6-6-6-6" />
-                            ) : (
-                                <path d="M15 18l-6-6 6-6" />
-                            )}
-                        </svg>
-                    }
-                    appearance="subtle"
-                    circle
-                    size="sm"
-                    onClick={toggleSidebar}
-                    className={styles.collapseBtn}
-                />
-            </div>
-
             <div className={styles.header}>
                 {!collapsed ? (
                     <>
-                        <h2 className={styles.title}>Smart Home</h2>
+                        <button className={styles.toggleButton} onClick={toggleSidebar}><h2 className={styles.title}>Smart Home</h2></button>
                         <div className={styles.version}>v2.0</div>
                     </>
                 ) : (
-                    <div className={styles.logoCollapsed}>SH</div>
+                    <button className={styles.toggleButton} onClick={toggleSidebar}><div className={styles.logoCollapsed}>SH</div></button>
                 )}
             </div>
 
