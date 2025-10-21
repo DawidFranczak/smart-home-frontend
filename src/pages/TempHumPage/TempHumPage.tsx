@@ -1,298 +1,140 @@
-import {useParams} from "react-router-dom";
-import useTempHumQuery from "../../hooks/queries/useTempHumQuery.tsx"
+import { useParams } from "react-router-dom";
+import { useState, SyntheticEvent } from "react";
+import { DateRangePicker, Panel, Grid, Row, Col } from 'rsuite';
+import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+
+import useTempHumQuery from "../../hooks/queries/useTempHumQuery.tsx";
+import useTempHumHistoryQuery from "../../hooks/queries/useTempHumHistoryQuery.tsx";
+
 import LoadingAnimation from "../../components/ui/LoadingAnimation/LoadingAnimation.tsx";
 import PageContainer from "../../components/ui/containers/PageContainer/PageContainer.tsx";
 import PageHeader from "../../components/ui/Headers/PageHeader/PageHeader.tsx";
-import ButtonContainer from "../../components/ui/containers/ButtonContainer/ButtonContainer.tsx";
-import StyledLink from "../../components/ui/StyledLink/StyledLink.tsx";
-import WifiStrength from "../../components/ui/WiFiStrength/WiFiStrength.tsx";
-import {CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
-import useTempHumHistoryQuery from "../../hooks/queries/useTempHumHistoryQuery.tsx";
-import {SyntheticEvent, useState} from "react";
-import { DateRangePicker, Panel, Grid, Row, Col } from 'rsuite';
-import {DateRange} from "rsuite/DateRangePicker";
-import formatDate from "../../utils/formatDate.tsx";
+import DeviceActionPanel from "../../components/DeviceActionPanel/DeviceActionPanel.tsx";
 
-export default function TempHumPage (){
-    const sensor_id:number = parseInt(useParams().id as string)
-    const {tempHumData} = useTempHumQuery(sensor_id)
+import formatDate from "../../utils/formatDate.tsx";
+import styles from "./TempHumPage.module.css";
+import {DateRange} from "rsuite/DateRangePicker";
+
+export default function TempHumPage() {
+    const sensor_id: number = parseInt(useParams().id as string);
+    const { tempHumData } = useTempHumQuery(sensor_id);
+
     const [startDate, setStartDate] = useState<string | null>(null);
-    const [endDate, setEndDate] = useState<string | null>( null);
-    const {tempHumHistoryData} = useTempHumHistoryQuery(sensor_id,startDate,endDate)
+    const [endDate, setEndDate] = useState<string | null>(null);
+
+    const { tempHumHistoryData } = useTempHumHistoryQuery(sensor_id, startDate, endDate);
 
     const prepareChartData = () => {
-        if (!tempHumHistoryData?.temperature?.chart_data || !tempHumHistoryData?.humidity?.chart_data) {
-            return [];
-        }
+        if (!tempHumHistoryData?.temperature?.chart_data || !tempHumHistoryData?.humidity?.chart_data) return [];
 
-        const tempData = tempHumHistoryData.temperature.chart_data;
-        const humData = tempHumHistoryData.humidity.chart_data;
-
-        const mergedData = tempData.map((tempItem: any, index: number) => {
-            const humItem = humData[index];
-
-            const dataPoint: any = {
-                timestamp: tempItem.timestamp,
-            };
-
-            if (tempItem.value !== null && tempItem.value !== undefined) {
-                dataPoint.temperature = tempItem.value;
-            }
-
-            if (humItem?.value !== null && humItem?.value !== undefined) {
-                dataPoint.humidity = humItem.value;
-            }
-
-            return dataPoint;
-        }).filter((item: any) => item.temperature !== undefined || item.humidity !== undefined);
-
-        return mergedData;
+        return tempHumHistoryData.temperature.chart_data
+            .map((tempItem: any, index: number) => {
+                const humItem = tempHumHistoryData.humidity.chart_data[index];
+                const dataPoint: any = { timestamp: tempItem.timestamp };
+                if (tempItem.value !== null && tempItem.value !== undefined) dataPoint.temperature = tempItem.value;
+                if (humItem?.value !== null && humItem?.value !== undefined) dataPoint.humidity = humItem.value;
+                return dataPoint;
+            })
+            .filter(item => item.temperature !== undefined || item.humidity !== undefined);
     };
 
     const chartData = prepareChartData();
 
-    if (!tempHumData) return <LoadingAnimation size="xlarge" type="spinner" glow={true}/>;
+    if (!tempHumData) return <LoadingAnimation size="xlarge" type="spinner" glow={true} />;
 
-    function test(value: DateRange|null, _:SyntheticEvent) {
-        if (! value) return;
-        setStartDate(formatDate(value[0] as Date,"YYYY-MM-DD"));
-        setEndDate(formatDate(value[1] as Date,"YYYY-MM-DD"));
+    function handleDateChange(value: DateRange | null, _: SyntheticEvent) {
+        if (!value) return;
+        setStartDate(formatDate(value[0] as Date, "YYYY-MM-DD"));
+        setEndDate(formatDate(value[1] as Date, "YYYY-MM-DD"));
     }
 
     const StatCard = ({ title, value, unit, color, icon }: { title: string; value: number | null | undefined; unit: string; color: string; icon: string }) => (
-        <Panel
-            bordered
-            style={{
-                background: `linear-gradient(135deg, ${color}15 0%, ${color}05 100%)`,
-                borderColor: `${color}40`,
-                borderRadius: '12px',
-                transition: 'all 0.3s ease',
-                cursor: 'default'
-            }}
-            bodyFill
-        >
-            <div style={{ padding: '20px', textAlign: 'center' }}>
-                <div style={{ fontSize: '32px', marginBottom: '10px' }}>{icon}</div>
-                <div style={{
-                    fontSize: '14px',
-                    color: '#666',
-                    marginBottom: '8px',
-                    fontWeight: 500,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.5px'
-                }}>
-                    {title}
-                </div>
-                <div style={{
-                    fontSize: '32px',
-                    fontWeight: 700,
-                    color: color,
-                    marginBottom: '4px'
-                }}>
-                    {value !== null && value !== undefined ? value.toFixed(1) : '--'}
-                </div>
-                <div style={{ fontSize: '14px', color: '#999', fontWeight: 500 }}>{unit}</div>
+        <Panel bordered className={styles.statCard}>
+            <div className={styles.statCardContent}>
+                <div className={styles.statCardIcon}>{icon}</div>
+                <div className={styles.statCardTitle}>{title}</div>
+                <div className={styles.statCardValue} style={{ color }}>{value !== null && value !== undefined ? value.toFixed(1) : '--'}</div>
+                <div className={styles.statCardUnit}>{unit}</div>
             </div>
         </Panel>
     );
 
     const AggregationSection = () => {
-        const tempAgg = tempHumHistoryData?.temperature?.aggregation_data;
-        const humAgg = tempHumHistoryData?.humidity?.aggregation_data;
+        if (!tempHumHistoryData?.temperature?.aggregation_data || !tempHumHistoryData?.humidity?.aggregation_data) return null;
+        const tempAgg = tempHumHistoryData.temperature.aggregation_data;
+        const humAgg = tempHumHistoryData.humidity.aggregation_data;
 
         return (
-            <div style={{ margin: '30px 0' }}>
-                <h3 style={{
-                    marginBottom: '20px',
-                    fontSize: '20px',
-                    fontWeight: 600,
-                    color: '#333'
-                }}>
-                    Statystyki dla wybranego okresu
-                </h3>
-
+            <div className={styles.aggregationSection}>
+                <h3>Statystyki dla wybranego okresu</h3>
                 <Grid fluid>
-                    <Row gutter={16} style={{ marginBottom: '20px' }}>
-                        <Col xs={24} sm={12} md={8}>
-                            <StatCard
-                                title="Średnia temperatura"
-                                value={tempAgg?.avg}
-                                unit="°C"
-                                color="#82ca9d"
-                                icon="🌡️"
-                            />
-                        </Col>
-                        <Col xs={24} sm={12} md={8}>
-                            <StatCard
-                                title="Maksymalna temperatura"
-                                value={tempAgg?.max}
-                                unit="°C"
-                                color="#ff6b6b"
-                                icon="🔥"
-                            />
-                        </Col>
-                        <Col xs={24} sm={12} md={8}>
-                            <StatCard
-                                title="Minimalna temperatura"
-                                value={tempAgg?.min}
-                                unit="°C"
-                                color="#4dabf7"
-                                icon="❄️"
-                            />
-                        </Col>
+                    <Row gutter={16} className={styles.statRow}>
+                        <Col xs={24} sm={12} md={8}><StatCard title="Średnia temperatura" value={tempAgg.avg} unit="°C" color="#4dabf7" icon="🌡️"/></Col>
+                        <Col xs={24} sm={12} md={8}><StatCard title="Maksymalna temperatura" value={tempAgg.max} unit="°C" color="#ff6b6b" icon="🔥"/></Col>
+                        <Col xs={24} sm={12} md={8}><StatCard title="Minimalna temperatura" value={tempAgg.min} unit="°C" color="#91a7ff" icon="❄️"/></Col>
                     </Row>
-
-                    <Row gutter={16}>
-                        <Col xs={24} sm={12} md={8}>
-                            <StatCard
-                                title="Średnia wilgotność"
-                                value={humAgg?.avg}
-                                unit="%"
-                                color="#8884d8"
-                                icon="💧"
-                            />
-                        </Col>
-                        <Col xs={24} sm={12} md={8}>
-                            <StatCard
-                                title="Maksymalna wilgotność"
-                                value={humAgg?.max}
-                                unit="%"
-                                color="#339af0"
-                                icon="🌊"
-                            />
-                        </Col>
-                        <Col xs={24} sm={12} md={8}>
-                            <StatCard
-                                title="Minimalna wilgotność"
-                                value={humAgg?.min}
-                                unit="%"
-                                color="#91a7ff"
-                                icon="☁️"
-                            />
-                        </Col>
+                    <Row gutter={16} className={styles.statRow}>
+                        <Col xs={24} sm={12} md={8}><StatCard title="Średnia wilgotność" value={humAgg.avg} unit="%" color="#82ca9d" icon="💧"/></Col>
+                        <Col xs={24} sm={12} md={8}><StatCard title="Maksymalna wilgotność" value={humAgg.max} unit="%" color="#5c7cfa" icon="🌊"/></Col>
+                        <Col xs={24} sm={12} md={8}><StatCard title="Minimalna wilgotność" value={humAgg.min} unit="%" color="#91a7ff" icon="☁️"/></Col>
                     </Row>
                 </Grid>
             </div>
         );
     };
-    console.log(tempHumData)
+
     return (
         <PageContainer>
             <PageHeader title={tempHumData.name}>
-                <ButtonContainer>
-                    <StyledLink type="fancy" to={`/button/${tempHumData.id}/settings/`}>
-                        Ustawienia urządzenia
-                    </StyledLink>
-                    <WifiStrength strength={tempHumData.is_online?tempHumData.wifi_strength:-100} size="large"/>
-                </ButtonContainer>
+                <DeviceActionPanel
+                    buttons={[
+                        { label: "Ustawienia urządzenia", to: `/button/${tempHumData.id}/settings/`, type: "default", tooltip: "Zmień ustawienia przycisku" }
+                    ]}
+                    wifiStrength={tempHumData.is_online ? tempHumData.wifi_strength : -100}
+                    showWifi={true}
+                />
             </PageHeader>
 
-            <div style={{ marginBottom: '20px' }}>
+            <div className={styles.datePickerContainer}>
                 <DateRangePicker
-                    format="MM/dd/yyyy"
+                    format="dd.MM.yyyy"
                     character=" – "
-                    onChange={test}
+                    onChange={handleDateChange}
                     style={{ width: '100%', maxWidth: '400px' }}
                     placeholder="Wybierz zakres dat"
+                    cleanable
                 />
             </div>
 
-            <div style={{padding: '20px'}}>
+            <div className={styles.chartContainer}>
                 {!tempHumHistoryData ? (
                     <LoadingAnimation size="large" type="spinner" glow={true}/>
+                ) : chartData.length > 0 ? (
+                    <Panel bordered className={styles.chartPanel}>
+                        <h3>Historia temperatury i wilgotności</h3>
+                        <div className={styles.chartWrapper}>
+                            <ResponsiveContainer width="100%" height="100%">
+                                <LineChart data={chartData}>
+                                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                                    <XAxis dataKey="timestamp" tickFormatter={(v) => formatDate(v,"DD/MM HH")} stroke="rgba(255,255,255,0.4)" tick={{ fontSize: 11, fill: '#aaa' }}/>
+                                    <YAxis yAxisId="left" orientation="left" stroke="#4dabf7" tick={{ fontSize: 11, fill: '#aaa' }} label={{ value: 'Temperatura (°C)', angle: -90, position: 'insideLeft', fontSize: 18, fill: '#777' }} />
+                                    <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" tick={{ fontSize: 11, fill: '#aaa' }} label={{ value: 'Wilgotność (%)', angle: 90, position: 'insideRight', fontSize: 18, fill: '#777' }} />
+                                    <Tooltip contentStyle={{ backgroundColor: 'rgba(30,30,35,0.95)', color: '#fff', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }} />
+                                    <Legend wrapperStyle={{ color: '#ccc', fontSize: 14 }} />
+                                    <Line yAxisId="left" type="monotone" dataKey="temperature" stroke="#4dabf7" strokeWidth={2} dot={false}/>
+                                    <Line yAxisId="right" type="monotone" dataKey="humidity" stroke="#82ca9d" strokeWidth={2} dot={false}/>
+                                </LineChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </Panel>
                 ) : (
-                    <>
-                       {chartData.length > 0 ? (
-                            <Panel
-                                bordered
-                                style={{
-                                    marginTop: '20px',
-                                    borderRadius: '12px',
-                                    overflow: 'hidden'
-                                }}
-                            >
-                                <div style={{ padding: '20px' }}>
-                                    <h3 style={{
-                                        marginBottom: '20px',
-                                        fontSize: '20px',
-                                        fontWeight: 600,
-                                        color: '#333'
-                                    }}>
-                                        Wykres historyczny
-                                    </h3>
-                                    <div style={{width: '100%', height: '500px'}}>
-                                        <ResponsiveContainer width="100%" height="100%">
-                                            <LineChart data={chartData}>
-                                                <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
-                                                <XAxis
-                                                    dataKey="timestamp"
-                                                    tickFormatter={(value) => formatDate(value,"DD/MM HH")}
-                                                    stroke="#666"
-                                                />
-                                                <YAxis
-                                                    yAxisId="right"
-                                                    orientation="right"
-                                                    stroke="#8884d8"
-                                                    label={{ value: 'Wilgotność (%)', angle: 90, position: 'insideRight' }}
-                                                />
-                                                <YAxis
-                                                    yAxisId="left"
-                                                    orientation="left"
-                                                    stroke="#82ca9d"
-                                                    label={{ value: 'Temperatura (°C)', angle: -90, position: 'insideLeft' }}
-                                                />
-                                                <Tooltip
-                                                    labelFormatter={(value) => formatDate(value,"DD/MM HH:MM:SS")}
-                                                    formatter={(value: number) => value.toFixed(2)}
-                                                    contentStyle={{
-                                                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                                                        border: '1px solid #ddd',
-                                                        borderRadius: '8px',
-                                                        boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-                                                    }}
-                                                />
-                                                <Legend />
-                                                <Line
-                                                    yAxisId="left"
-                                                    type="monotone"
-                                                    dataKey="humidity"
-                                                    stroke="#8884d8"
-                                                    strokeWidth={2}
-                                                    name="Wilgotność (%)"
-                                                    connectNulls={false}
-                                                    dot={false}
-                                                />
-                                                <Line
-                                                    yAxisId="right"
-                                                    type="monotone"
-                                                    dataKey="temperature"
-                                                    stroke="#82ca9d"
-                                                    strokeWidth={2}
-                                                    name="Temperatura (°C)"
-                                                    connectNulls={false}
-                                                    dot={false}
-                                                />
-                                            </LineChart>
-                                        </ResponsiveContainer>
-                                    </div>
-                                </div>
-                            </Panel>
-                        ) : (
-                            <Panel bordered style={{ marginTop: '20px', borderRadius: '12px' }}>
-                                <div style={{textAlign: 'center', padding: '40px'}}>
-                                    <div style={{ fontSize: '48px', marginBottom: '16px' }}>📊</div>
-                                    <p style={{ fontSize: '16px', color: '#666' }}>Brak danych dla wybranego zakresu dat</p>
-                                </div>
-                            </Panel>
-                        )}
-                        {tempHumHistoryData?.temperature?.aggregation_data &&
-                            tempHumHistoryData?.humidity?.aggregation_data && (
-                                <AggregationSection />
-                            )}
-                    </>
+                    <Panel bordered className={styles.noDataPanel}>
+                        <div>📊 Brak danych dla wybranego zakresu</div>
+                    </Panel>
                 )}
-            </div>
 
+                <AggregationSection />
+            </div>
         </PageContainer>
-    )
+    );
 }
