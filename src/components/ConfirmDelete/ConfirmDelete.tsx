@@ -31,7 +31,7 @@ export default function ConfirmDeleteModal({
             </Modal.Header>
 
             <Modal.Body className={styles.modalBody}>
-                <p>Czy na pewno chcesz usunąć <strong>{name}</strong>?</p>
+                <p>Czy na pewno chcesz usunąć <strong>{name}</strong> ?</p>
                 {description && <p className={styles.modalNote}>{description}</p>}
             </Modal.Body>
 

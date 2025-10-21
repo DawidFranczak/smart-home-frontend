@@ -2,13 +2,11 @@ import { useParams } from "react-router-dom";
 import LoadingAnimation from "../../../components/ui/LoadingAnimation/LoadingAnimation.tsx";
 import PageContainer from "../../../components/ui/containers/PageContainer/PageContainer.tsx";
 import PageHeader from "../../../components/ui/Headers/PageHeader/PageHeader.tsx";
-import DeviceEventDisplay from "../../../components/DeviceEventDisplay/DeviceEventDisplay.tsx";
 import useDeviceQuery from "../../../hooks/queries/device/useDeviceQuery.tsx";
 import IButton from "../../../interfaces/IButton.tsx";
-import {FlexboxGrid} from "rsuite";
-import styles from "./ButtonPage.module.css";
 import DeviceActionPanel from "../../../components/DeviceActionPanel/DeviceActionPanel.tsx";
-
+import DeviceEventSection from "../../../components/DeviceEventSection/DeviceEventSection.tsx";
+import styles from "./ButtonPage.module.css";
 
 export default function ButtonPage() {
   const params = useParams();
@@ -18,7 +16,7 @@ export default function ButtonPage() {
 
   if (!buttonData) return <LoadingAnimation size="xlarge" type="spinner" glow={true}/>;
   return (
-      <PageContainer>
+      <PageContainer className={styles.container}>
         <PageHeader title={buttonData.name}>
           <DeviceActionPanel
               buttons={[
@@ -29,16 +27,7 @@ export default function ButtonPage() {
               showWifi={true}
           />
         </PageHeader>
-          <FlexboxGrid justify="center" align="middle" className={styles.eventContainer}>
-              {buttonData.events?.map((event,idx) => (
-                  <FlexboxGrid.Item key={`BP_${idx}`}>
-                        <DeviceEventDisplay
-                            key={event.id}
-                            event={event}
-                        />
-                  </FlexboxGrid.Item>
-              ))}
-          </FlexboxGrid>
+          <DeviceEventSection events={buttonData.events} description="Zdarzenia automatyczne wyzwalane przez naciśnięcie przycisku"/>
       </PageContainer>
   );
 }

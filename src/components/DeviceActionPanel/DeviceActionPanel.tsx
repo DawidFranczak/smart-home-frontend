@@ -5,17 +5,20 @@ import styles from "./DeviceActionPanel.module.css";
 interface ActionButton {
     label: string;
     to: string;
-    type?: "primary" | "default" | "fancy";
+    type?: "default" | "primary" | "link" | "subtle" | "ghost";
+    color?: "red" | "orange" | "yellow" | "green" | "cyan" | "blue" | "violet"
     tooltip?: string;
+
 }
 
 interface DeviceActionPanelProps {
     buttons: ActionButton[];
     wifiStrength?: number;
     showWifi?: boolean;
+    children?: React.ReactNode;
 }
 
-export default function DeviceActionPanel({buttons, wifiStrength, showWifi = true}:DeviceActionPanelProps) {
+export default function DeviceActionPanel({buttons, wifiStrength, children, showWifi = true}:DeviceActionPanelProps) {
     return (
         <div className={styles.container}>
             <div className={styles.buttonGroup}>
@@ -30,13 +33,15 @@ export default function DeviceActionPanel({buttons, wifiStrength, showWifi = tru
                             key={`dap_button_${idx}`}
                             as={Link}
                             to={btn.to}
-                            appearance={btn.type === "primary" ? "primary" : "default"}
+                            appearance={btn.type?btn.type:"primary"}
+                            color={btn.color?btn.color:"blue"}
                             className={styles.button}
                         >
                             {btn.label}
                         </Button>
                     </Whisper>
                 ))}
+                {children}
             </div>
             {showWifi && wifiStrength !== undefined && (
                 <div className={styles.wifi}>

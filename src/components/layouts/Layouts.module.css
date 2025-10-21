@@ -1,7 +1,6 @@
 
 .container {
     display: flex;
-    min-height: 100vh;
     width: 100%;
     scrollbar-width: none;
     padding: 0;
@@ -9,9 +8,8 @@
 
 .content {
     flex: 1;
-    min-height: 100vh;
     /*padding: 24px;*/
-    overflow-x: hidden;
+    overflow-y: scroll;
     scrollbar-width: none;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
