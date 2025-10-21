@@ -46,7 +46,6 @@
     flex: 1;
 }
 
-/* Info items */
 .infoItem {
     display: flex;
     justify-content: space-between;
@@ -82,7 +81,6 @@
     color: #ef4444;
 }
 
-/* Config section */
 .configSection {
     display: flex;
     flex-direction: column;
@@ -173,7 +171,6 @@
     border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-/* Actions section */
 .actionsSection {
     display: flex;
     flex-direction: column;
@@ -232,7 +229,6 @@
     border-color: #ef4444 !important;
 }
 
-/* Modals */
 .modal :global(.rs-modal-content),
 .modalDanger :global(.rs-modal-content) {
     background: linear-gradient(135deg, #1a1d29 0%, #0f1117 100%) !important;
@@ -277,7 +273,6 @@
     color: #f87171 !important;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .content {
         flex-direction: column;

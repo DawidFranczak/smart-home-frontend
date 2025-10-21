@@ -1,15 +1,15 @@
 import { useParams } from "react-router-dom";
-import StyledLink from "../../../components/ui/StyledLink/StyledLink";
 import LoadingAnimation from "../../../components/ui/LoadingAnimation/LoadingAnimation.tsx";
 import PageContainer from "../../../components/ui/containers/PageContainer/PageContainer.tsx";
 import PageHeader from "../../../components/ui/Headers/PageHeader/PageHeader.tsx";
-import WifiStrength from "../../../components/ui/WiFiStrength/WiFiStrength.tsx";
-import ButtonContainer from "../../../components/ui/containers/ButtonContainer/ButtonContainer.tsx";
-import TilesContainer from "../../../components/ui/containers/TilesContainer/TilesContainer.tsx";
 import DeviceEventDisplay from "../../../components/DeviceEventDisplay/DeviceEventDisplay.tsx";
-import Tile from "../../../components/ui/Tile/Tile.tsx";
 import useDeviceQuery from "../../../hooks/queries/device/useDeviceQuery.tsx";
 import IButton from "../../../interfaces/IButton.tsx";
+import {FlexboxGrid} from "rsuite";
+import styles from "./ButtonPage.module.css";
+import DeviceActionPanel from "../../../components/DeviceActionPanel/DeviceActionPanel.tsx";
+
+
 export default function ButtonPage() {
   const params = useParams();
   const id = parseInt(params.id ? params.id : "0");
@@ -20,26 +20,25 @@ export default function ButtonPage() {
   return (
       <PageContainer>
         <PageHeader title={buttonData.name}>
-          <ButtonContainer>
-            <StyledLink type="fancy" to={`/button/${buttonData.id}/event/wizard/`}>
-              Ustawienia zdarzeń
-            </StyledLink>
-            <StyledLink type="fancy" to={`/button/${buttonData.id}/settings/`}>
-              Ustawienia urządzenia
-            </StyledLink>
-            <WifiStrength strength={buttonData.is_online?buttonData.wifi_strength:-100} size="large"/>
-          </ButtonContainer>
+          <DeviceActionPanel
+              buttons={[
+                  { label: "Ustawienia zdarzeń", to: `/button/${buttonData.id}/event/wizard/`, type: "primary", tooltip: "Skonfiguruj zdarzenia dla tego przycisku" },
+                  { label: "Ustawienia urządzenia", to: `/button/${buttonData.id}/settings/`, type: "default", tooltip: "Zmień ustawienia przycisku" }
+              ]}
+              wifiStrength={buttonData.is_online ? buttonData.wifi_strength : -100}
+              showWifi={true}
+          />
         </PageHeader>
-        <TilesContainer>
-          {buttonData.events?.map((event) => (
-              <Tile key={event.id}>
-                <DeviceEventDisplay
-                    key={event.id}
-                    event={event}
-                />
-              </Tile>
-          ))}
-        </TilesContainer>
+          <FlexboxGrid justify="center" align="middle" className={styles.eventContainer}>
+              {buttonData.events?.map((event,idx) => (
+                  <FlexboxGrid.Item key={`BP_${idx}`}>
+                        <DeviceEventDisplay
+                            key={event.id}
+                            event={event}
+                        />
+                  </FlexboxGrid.Item>
+              ))}
+          </FlexboxGrid>
       </PageContainer>
   );
 }

@@ -1,70 +1,43 @@
-.container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.95);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 99999;
-  padding: 20px;
-  box-sizing: border-box;
-  pointer-events: auto;
+:global(.rs-modal-content),
+.modalDanger :global(.rs-modal-content) {
+    background: linear-gradient(135deg, #1a1d29 0%, #0f1117 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 16px !important;
+    backdrop-filter: blur(20px);
 }
 
-.container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: transparent;
-  pointer-events: none;
-  z-index: 9999;
+.modalTitle {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    color: #fff !important;
 }
 
-.text {
-  color: #ffffff;
-  border-radius: var(--radius-lg);
-  font-size: 1.1rem;
-  text-align: center;
-  max-width: 400px;
-  word-wrap: break-word;
-  position: relative;
-  z-index: 1;
-  pointer-events: auto;
-  padding: 5px;
+.modalBody {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-size: 15px;
+    line-height: 1.6;
 }
 
-.text b {
-  color: #00ffff;
-  font-weight: 600;
+.modalBody p {
+    margin: 0 0 12px 0;
 }
 
-.container {
-  isolation: isolate;
+.modalBody strong {
+    color: #667eea;
+    font-weight: 700;
 }
 
-.container * {
-  animation: none !important;
-  transition: none !important;
-  transform: none !important;
+.modalNote {
+    font-size: 13px !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-style: italic;
 }
 
-@media (max-width: 768px) {
-  .text {
-    font-size: 1rem;
-    max-width: 300px;
-  }
-}
-
-@media (max-width: 480px) {
-  .text {
-    font-size: 0.95rem;
-    max-width: 280px;
-  }
+.modalWarning {
+    padding: 12px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 8px;
+    font-size: 14px !important;
+    color: #f87171 !important;
 }
