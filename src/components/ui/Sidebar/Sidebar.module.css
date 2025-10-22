@@ -1,10 +1,10 @@
 .sidebar {
-    position: relative; /* ZMIENIONE z fixed na relative */
+    position: relative;
     left: 0;
     top: 0;
     height: 100vh;
     width: 260px;
-    min-width: 260px; /* Zapobiega zgniataniu */
+    min-width: 260px;
     background: linear-gradient(180deg, #1a1d29 0%, #0f1117 100%);
     border-right: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
@@ -12,7 +12,7 @@
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;
     box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
-    position: sticky; /* Sticky żeby był zawsze widoczny przy scrollu */
+    position: sticky;
     top: 0;
 }
 
@@ -233,7 +233,6 @@
     transform: scale(0.98);
 }
 
-/* Dark mode enhancements */
 @media (prefers-color-scheme: dark) {
     .sidebar {
         box-shadow: 2px 0 20px rgba(0, 0, 0, 0.3);
