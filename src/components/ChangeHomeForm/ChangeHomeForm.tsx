@@ -1,50 +1,77 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
+import { Form, Button, ButtonToolbar, Panel, Message, useToaster } from "rsuite";
+import useHomeMutation from "../../hooks/queries/useHomeMutation";
+import { ICustomError } from "../../interfaces/ICustomError";
 import styles from "./ChangeHomeForm.module.css";
-import FormContainer from "../ui/containers/FormContainer/FormContainer.tsx";
-import FormField from "../ui/FormField/FormField.tsx";
-import Header from "../ui/Headers/Header/Header.tsx";
-import Button from "../ui/Buttons/Button/Button.tsx";
-import Message from "../ui/Message/Message.tsx";
-import useHomeMutation from "../../hooks/queries/useHomeMutation.tsx";
-import {ICustomError} from "../../interfaces/ICustomError.tsx";
 
 export default function ChangeHomeForm() {
-  const [homeCode, setHomeCode] = useState("");
-  const [error, setError] = useState("");
-  const { updateHome } = useHomeMutation();
-  const updateHomeMutation = updateHome();
-  const errorMutations = updateHomeMutation.error as ICustomError;
+    const [formValue, setFormValue] = useState({ homeCode: "" });
+    const [error, setError] = useState("");
+    const { updateHome } = useHomeMutation();
+    const mutation = updateHome();
+    const toaster = useToaster();
 
-  useEffect(() => {
-    if(errorMutations) {
-      if (!errorMutations.details) return
-      setError(errorMutations.details[Object.keys(errorMutations.details)[0]]);
-    }
-  }, [errorMutations]);
+    useEffect(() => {
+        const err = mutation.error as ICustomError;
+        if (err?.details) {
+            const firstKey = Object.keys(err.details)[0];
+            setError(err.details[firstKey]);
+        }
+    }, [mutation.error]);
 
-  if (updateHomeMutation.isSuccess) {
-    window.location.reload();
-  }
-  console.log(updateHomeMutation)
-  function handleSubmit() {
-    setError("");
-    if (homeCode === "") {
-      setError("Podaj kod domu");
-      return;
-    }
-    updateHomeMutation.mutate(homeCode);
-  }
-  return <FormContainer>
-    <Header>Zmiana domu</Header>
-    <p className={styles.message}>Pamiętaj że po zmianie domu wszystkie urządzenia zapisane w domu zostaną usunięte</p>
-    <FormField
-        type="text"
-        name="homeCode"
-        placeholder="Kod domu"
-        onChange={(e) => setHomeCode(e.target.value)}
-        error={error !== ""}
-    />
-    <Message show={error !== ""} type="error">{error}</Message>
-    <Button type="danger" onClick={handleSubmit}>Zmień</Button>
-  </FormContainer>
+    useEffect(() => {
+        if (mutation.isSuccess) {
+            toaster.push(
+                <Message type="success" showIcon closable>
+                    Dom został zmieniony pomyślnie 🎉
+                </Message>,
+                { placement: "topCenter", duration: 3000 }
+            );
+            setTimeout(() => window.location.reload(), 1500);
+        }
+    }, [mutation.isSuccess]);
+
+    const handleSubmit = () => {
+        setError("");
+        if (!formValue.homeCode) {
+            setError("Podaj kod domu");
+            return;
+        }
+        mutation.mutate(formValue.homeCode);
+    };
+
+    return (
+        <div className={styles.pageWrapper}>
+            <Panel bordered shaded className={styles.panel}>
+                <h3 className={styles.title}>Zmiana domu</h3>
+                <p className={styles.subtitle}>
+                    Po zmianie domu wszystkie urządzenia przypisane do obecnego zostaną usunięte.
+                </p>
+
+                <Form fluid formValue={formValue} onChange={setFormValue} onSubmit={handleSubmit}>
+                    <Form.Group controlId="homeCode">
+                        <Form.ControlLabel>Kod domu</Form.ControlLabel>
+                        <Form.Control
+                            name="homeCode"
+                            type="text"
+                            placeholder="Wpisz nowy kod domu"
+                            errorMessage={error || undefined}
+                        />
+                    </Form.Group>
+
+                    <ButtonToolbar className={styles.buttonToolbar}>
+                        <Button
+                            appearance="primary"
+                            color="red"
+                            type="submit"
+                            loading={mutation.isPending}
+                            block
+                        >
+                            Zmień dom
+                        </Button>
+                    </ButtonToolbar>
+                </Form>
+            </Panel>
+        </div>
+    );
 }
