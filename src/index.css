@@ -4,11 +4,10 @@
 
 /* Root application container */
 #root {
-    height: 100vh;
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
-
 /* Main application wrapper */
 .app {
     flex: 1;

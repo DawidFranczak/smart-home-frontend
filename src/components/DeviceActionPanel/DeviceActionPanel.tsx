@@ -12,7 +12,7 @@ interface ActionButton {
 }
 
 interface DeviceActionPanelProps {
-    buttons: ActionButton[];
+    buttons?: ActionButton[];
     wifiStrength?: number;
     showWifi?: boolean;
     children?: React.ReactNode;

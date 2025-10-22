@@ -4,8 +4,25 @@ import {Outlet} from "react-router-dom";
 
 import styles from "./Layouts.module.css";
 import DataPrefetcher from "../DataPrefetcher.tsx";
+import {useEffect} from "react";
 
 export default function Layouts() {
+    useEffect(() => {
+        const setRootHeight = () => {
+            const root = document.getElementById("root");
+            if (root) {
+                root.style.height = `${window.innerHeight}px`;
+            }
+        };
+
+        setRootHeight();
+
+        window.addEventListener("resize", setRootHeight);
+
+        return () => {
+            window.removeEventListener("resize", setRootHeight);
+        };
+    }, []);
     return (
         <div className={styles.container}>
             <DataPrefetcher/>

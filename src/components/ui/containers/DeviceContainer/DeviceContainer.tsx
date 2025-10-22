@@ -4,7 +4,6 @@ import WifiStrength from "../../WiFiStrength/WiFiStrength.tsx";
 import BackArrow from "../../BackArrow/BackArrow.tsx";
 import ChangeName from "../../../ChangeName/ChangeName.tsx";
 import IEvent from "../../../../interfaces/IEvent.tsx";
-import DeviceEventDisplay from "../../../DeviceEventDisplay/DeviceEventDisplay.tsx";
 import CenterContainer from "../CenterContainer/CenterContainer.tsx";
 
 interface DeviceContainerProps {
@@ -24,7 +23,6 @@ export default function DeviceContainer({
   children,
   className,
   id,
-  events,
 }: DeviceContainerProps) {
   return (
       <CenterContainer>

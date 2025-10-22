@@ -2,7 +2,7 @@
     position: relative;
     left: 0;
     top: 0;
-    height: 100vh;
+    height: 100svh;
     width: 260px;
     min-width: 260px;
     background: linear-gradient(180deg, #1a1d29 0%, #0f1117 100%);

@@ -10,12 +10,10 @@ import { IAquarium } from "../../../interfaces/IAquarium.tsx";
 import useAquariumMutation from "../../../hooks/queries/useAquariumMutation.tsx";
 import PageContainer from "../../../components/ui/containers/PageContainer/PageContainer.tsx";
 import PageHeader from "../../../components/ui/Headers/PageHeader/PageHeader.tsx";
-import WifiStrength from "../../../components/ui/WiFiStrength/WiFiStrength.tsx";
 import LoadingAnimation from "../../../components/ui/LoadingAnimation/LoadingAnimation.tsx";
 import InputTime from "../../../components/ui/InputTime/InputTime.tsx";
-import StyledLink from "../../../components/ui/StyledLink/StyledLink.tsx";
-import ButtonContainer from "../../../components/ui/containers/ButtonContainer/ButtonContainer.tsx";
 import useDeviceQuery from "../../../hooks/queries/device/useDeviceQuery.tsx";
+import DeviceActionPanel from "../../../components/DeviceActionPanel/DeviceActionPanel.tsx";
 
 interface IState {
     aquariumData: IAquarium;
@@ -136,17 +134,14 @@ export default function AquariumPage() {
     return (
         <PageContainer className={styles.container}>
             <PageHeader title={state.aquariumData.name}>
-                <ButtonContainer>
-                    <StyledLink type="fancy" to={`/aquarium/${aquariumData.id}/settings/`}>
-                        Ustawienia urządzenia
-                    </StyledLink>
-                    <WifiStrength
-                        size="large"
-                        strength={
-                            state.aquariumData.is_online ? state.aquariumData.wifi_strength : -100
-                        }
-                    />
-                </ButtonContainer>
+                <DeviceActionPanel
+                    buttons={[
+                        { label: "Ustawienia urządzenia", to: `/aquarium/${state.aquariumData.id}/settings/`, type: "default", tooltip: "Zmień ustawienia przycisku" }
+                    ]}
+                    wifiStrength={state.aquariumData.is_online ? state.aquariumData.wifi_strength : -100}
+                    showWifi={true}
+                />
+
             </PageHeader>
 
             <div className={styles.content}>

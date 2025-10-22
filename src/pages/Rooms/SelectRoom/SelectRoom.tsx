@@ -2,7 +2,6 @@ import { useState,useEffect } from "react";
 
 import { IRoom } from "../../../interfaces/IRoom.tsx";
 
-import Button from "../../../components/ui/Buttons/Button/Button.tsx";
 import AddRoom from "../../../components/AddRoom/AddRoom.tsx";
 
 import RoomCard from "../../../components/Cards/RoomCard/RoomCard.tsx";
@@ -13,7 +12,8 @@ import CardContainer from "../../../components/ui/containers/CardContainer/CardC
 import LoadingAnimation from "../../../components/ui/LoadingAnimation/LoadingAnimation.tsx";
 import PageContainer from "../../../components/ui/containers/PageContainer/PageContainer.tsx";
 import PageHeader from "../../../components/ui/Headers/PageHeader/PageHeader.tsx";
-import ButtonContainer from "../../../components/ui/containers/ButtonContainer/ButtonContainer.tsx";
+import styles from "./SelectRoom.module.css";
+import {Button} from "rsuite";
 
 export default function SelectRoom() {
     const [dataToDisplay, setDataToDisplay] = useState<IRoom[]>([]);
@@ -34,13 +34,19 @@ export default function SelectRoom() {
  if (!roomData) return <LoadingAnimation size="xlarge" type="spinner" glow={true}/>;
   return (
     <PageContainer>
-      <PageHeader title="Pokoje">
-         <ButtonContainer>
-             <QueryInput onChange={handleFilter}/>
-             <Button type="fancy" onClick={() => setOpenAddRoom(true)}>Dodaj</Button>
-         </ButtonContainer>
+      <PageHeader title="Pokoje" className={styles.header}>
+          <div className={styles.buttonContainer}>
+              <QueryInput onChange={handleFilter}/>
+              <Button
+                  appearance="default"
+                  onClick={() => setOpenAddRoom(true)}
+                  className={styles.addButton}
+              >
+                  Dodaj
+              </Button>
+          </div>
       </PageHeader>
-      {openAddRoom && <AddRoom onClose={() => setOpenAddRoom(false)} />}
+      <AddRoom show={openAddRoom} onClose={() => setOpenAddRoom(false)} />
       <CardContainer>
         {dataToDisplay.map((room: IRoom) => (
           <RoomCard room={room} key={room.id} />

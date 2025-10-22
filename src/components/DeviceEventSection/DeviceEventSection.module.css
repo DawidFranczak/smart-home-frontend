@@ -1,5 +1,4 @@
 .section {
-    height: 100%;
     overflow: scroll;
     scrollbar-width: none;
 }

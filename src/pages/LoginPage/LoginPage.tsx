@@ -41,7 +41,6 @@ export default function LoginPage() {
 
             if (response.ok && data.access) {
                 login(data.access);
-                navigate("/");
             } else if (response.status === 400) {
                 setLoginError(data.message)
             }

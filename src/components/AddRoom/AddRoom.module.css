@@ -1,26 +1,55 @@
-.container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100svw;
-  height: 100svh;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(15px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  z-index: 9999;
-  animation: fadeIn 0.3s ease-out;
+.modal :global(.rs-modal-content) {
+    background: linear-gradient(135deg, #1a1d29 0%, #0f1117 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 16px !important;
+    backdrop-filter: blur(20px);
+    color: #fff !important;
+    max-width: 500px !important;
+    padding: 24px !important;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    backdrop-filter: blur(0px);
-  }
-  to {
-    opacity: 1;
-    backdrop-filter: blur(15px);
-  }
+.modalTitle {
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    color: #fff !important;
+    text-align: center;
+}
+
+.modalBody {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.input {
+    margin-bottom: 20px;
+}
+
+.pendingContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    min-height: 150px;
+    gap: 16px;
+}
+
+.modalFooter {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.divider {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    margin: 16px 0 !important;
+}
+
+@media (max-width: 768px) {
+    .modalTitle {
+        font-size: 18px !important;
+    }
+    .modalBody {
+        font-size: 14px;
+    }
 }

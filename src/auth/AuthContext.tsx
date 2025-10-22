@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 import { createContext, useState, useContext, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import {useQuery, useQueryClient} from "@tanstack/react-query";
 
 import { api } from "../constant/api.ts";
 interface AuthContextType {
@@ -30,6 +30,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [access, setAccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [invalidToken, setInvalidToken] = useState(false);
+  const queryClient = useQueryClient();
   const { data, isSuccess, isError, isPending } = useQuery({
     queryKey: ["token"],
     queryFn: fetchToken,
@@ -52,6 +53,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const login = (token: string) => {
     setAccess(token);
     setInvalidToken(false);
+    queryClient.setQueryData(["token"], { token: token, status: 200 });
   };
 
   const logout = () => {
