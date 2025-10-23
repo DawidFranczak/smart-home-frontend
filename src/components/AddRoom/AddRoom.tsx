@@ -1,86 +1,115 @@
 import { useState } from "react";
+import { Modal, Button, Input, Radio, Message, Divider } from "rsuite";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
-import styles from "./AddRoom.module.css";
-import Button from "../ui/Buttons/Button/Button";
-import FormField from "../ui/FormField/FormField";
-import RadioInput from "../ui/RadioInput/RadioInput.tsx";
 import useFetch from "../../hooks/useFetch";
 import { api } from "../../constant/api";
-import Header from "../ui/Headers/Header/Header";
-import ButtonContainer from "../ui/containers/ButtonContainer/ButtonContainer";
 import { ICustomError } from "../../interfaces/ICustomError";
-import Message from "../ui/Message/Message";
-import FormContainer from "../ui/containers/FormContainer/FormContainer.tsx";
+import styles from "./AddRoom.module.css";
 
 interface AddRoomProps {
-  onClose: () => void;
+    show: boolean;
+    onClose: () => void;
 }
 
 interface RoomData {
-  name: string;
-  visibility: string;
+    name: string;
+    visibility: string;
 }
 
-export default function AddRoom({ onClose }: AddRoomProps) {
-  const queryClient = useQueryClient();
-  const [roomData, setRoomData] = useState({ name: "", visibility: "public" });
-  const { createData } = useFetch();
-  const mutation = useMutation({
-    mutationFn: (roomData: RoomData) => createData(api.room, roomData),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rooms"] });
-      onClose();
-    },
-  });
+export default function AddRoom({ show, onClose }: AddRoomProps) {
+    const queryClient = useQueryClient();
+    const [roomData, setRoomData] = useState<RoomData>({ name: "", visibility: "public" });
+    const { createData } = useFetch();
 
-  function handleSelected(event: React.ChangeEvent<HTMLInputElement>) {
-    setRoomData({ ...roomData, visibility: event.target.value });
-  }
+    const mutation = useMutation({
+        mutationFn: (roomData: RoomData) => createData(api.room, roomData),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["rooms"] });
+            setRoomData({ name: "", visibility: "public" });
+            onClose();
+        },
+    });
 
-  function handleName(event: React.ChangeEvent<HTMLInputElement>) {
-    setRoomData({ ...roomData, name: event.target.value });
-  }
+    const handleNameChange = (value: string) => {
+        setRoomData({ ...roomData, name: value });
+    };
 
-  const handleAdd = (event: React.FormEvent) => {
-    event.preventDefault();
-    mutation.mutate(roomData);
-  };
+    const handleVisibilityChange = (value: string) => {
+        setRoomData({ ...roomData, visibility: value });
+    };
 
-  const errors = mutation.error as ICustomError;
+    const handleAdd = () => {
+        mutation.mutate(roomData);
+    };
 
-  return (
-    <section className={styles.container}>
-      <FormContainer>
-        <Header>Dodaj nowy pokój</Header>
-        <FormField
-          name="nazwa"
-          type="text"
-          placeholder="Nazwa"
-          onChange={handleName}
-        />
-        <Message type="error" show={!!(errors?.details?.name && errors.details.name.length > 0)}>
-          {errors?.details?.name?.[0]}
-        </Message>
-        <RadioInput
-          name="Ogólny"
-          value="public"
-          onSelect={handleSelected}
-          checked={true}
-        />
-        <RadioInput
-          name="Prywatny"
-          value="private"
-          onSelect={handleSelected}
-        />
-        <Message type="error" show={!!(errors?.details?.visibility && errors.details.visibility.length > 0)}>
-          {errors?.details?.visibility?.[0]}
-        </Message>
-        <ButtonContainer>
-          <Button type="fancy" onClick={handleAdd}>Dodaj</Button>
-          <Button type="fancy" onClick={onClose}>Zamknij</Button>
-        </ButtonContainer>
-      </FormContainer>
-    </section>
-  );
+    const handleCancel = () => {
+        mutation.reset();
+        onClose();
+    };
+
+    const errors = mutation.error as ICustomError;
+
+    return (
+        <Modal
+            open={show}
+            onClose={handleCancel}
+            size="sm"
+            className={styles.modal}
+            backdrop="static"
+        >
+            <Modal.Header>
+                <Modal.Title className={styles.modalTitle}>🏠 Dodaj nowy pokój</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body className={styles.modalBody}>
+                <Input
+                    placeholder="Nazwa pokoju"
+                    value={roomData.name}
+                    onChange={handleNameChange}
+                    size="lg"
+                    className={styles.input}
+                />
+
+                {errors?.details?.name && (
+                    <Message showIcon type="error">
+                        {errors.details.name[0]}
+                    </Message>
+                )}
+
+                <Divider className={styles.divider} />
+
+                <Radio
+                    name="visibility"
+                    value="public"
+                    checked={roomData.visibility === "public"}
+                    onChange={() => handleVisibilityChange("public")}
+                >
+                    Ogólny
+                </Radio>
+                <Radio
+                    name="visibility"
+                    value="private"
+                    checked={roomData.visibility === "private"}
+                    onChange={() => handleVisibilityChange("private")}
+                >
+                    Prywatny
+                </Radio>
+
+                {errors?.details?.visibility && (
+                    <Message showIcon type="error">
+                        {errors.details.visibility[0]}
+                    </Message>
+                )}
+            </Modal.Body>
+
+            <Modal.Footer className={styles.modalFooter}>
+                <Button onClick={handleCancel} appearance="subtle" size="lg">
+                    Anuluj
+                </Button>
+                <Button onClick={handleAdd} appearance="primary" size="lg" >
+                    Dodaj pokój
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
 }

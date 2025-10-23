@@ -27,10 +27,11 @@ export default function HomePage() {
 
     function handleSearch(value: string) {
       const filter = value.toLowerCase();
-      setFavouriteRoom(favouriteData.rooms.filter((room: IRoom) => {
+      setFavouriteRoom(rooms.filter((room: IRoom) => {
+          console.log(room)
           return room.name.toLowerCase().includes(filter)
       }));
-      setFavouriteDevice(favouriteData.devices.filter((device: IDevice) => {
+      setFavouriteDevice(devices.filter((device: IDevice) => {
           return device.name.toLowerCase().includes(filter)
       }));
     }

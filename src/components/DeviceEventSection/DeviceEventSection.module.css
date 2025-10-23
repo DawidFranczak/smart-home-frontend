@@ -1,0 +1,61 @@
+.section {
+    overflow: scroll;
+    scrollbar-width: none;
+}
+.sectionHeader {
+    margin-bottom: 20px;
+}
+
+.sectionTitle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.sectionTitle h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+}
+
+.sectionDesc {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.divider {
+    margin: 0 0 24px 0 !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.eventsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    gap: 20px;
+    padding-right: 8px;
+}
+
+@media (max-width: 1200px) {
+    .eventsGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .sectionTitle h3 {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sectionTitle {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 0;
+    }
+}

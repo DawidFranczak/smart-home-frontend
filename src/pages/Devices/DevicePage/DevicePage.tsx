@@ -26,6 +26,7 @@ export default function Device() {
   };
 
   if (!query) return <LoadingAnimation size="xlarge" type="spinner" glow={true}/>;
+  console.log(query)
   return (
     <PageContainer>
       <PageHeader title="Urządzenia">

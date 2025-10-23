@@ -1,31 +1,24 @@
 .container {
     display: flex;
     flex-direction: column;
-    height: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
+    overflow-y: scroll;
+    scrollbar-width: none;
 }
 
 @media (max-width: 768px) {
     .container {
-        padding: 16px;
         border-radius: var(--radius-md, 8px);
     }
 }
 
 @media (max-width: 480px) {
     .container {
-        padding: 12px;
         border-radius: var(--radius-sm, 4px);
     }
 }
 
 @media (max-width: 320px) {
     .container {
-        padding: 8px;
         border-radius: 0;
     }
 }

@@ -1,15 +1,258 @@
+
+.container {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
+    margin-top: 24px;
+    max-width: 1400px;
+}
+
+.panel {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 16px !important;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.panel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border-color: rgba(102, 126, 234, 0.3) !important;
+}
+
+.panelHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.panelIcon {
+    font-size: 24px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.panelTitle {
+    flex: 1;
+}
+
+.colorSection {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 20px 0;
+}
+
+.wheelContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.colorPreview {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+}
+
+.colorPreviewLabel {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.colorBox {
+    width: 120px;
+    height: 120px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), inset 0 2px 8px rgba(255, 255, 255, 0.1);
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.2s;
+}
+
+.colorBox:hover {
+    transform: scale(1.05);
+}
+
+.colorValues {
+    display: flex;
+    gap: 12px;
+    padding: 8px 16px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Courier New', monospace;
+    color: #667eea;
+}
+
+.colorValues span {
+    padding: 4px 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.scheduleGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 8px 0;
+}
+
+.scheduleItem {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.scheduleLabel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.labelIcon {
+    font-size: 18px;
+}
+
+.controlsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 8px 0;
+}
+
+.controlItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    transition: all 0.2s;
+}
+
+.controlItem:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+.controlLabel {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.controlIcon {
+    font-size: 24px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.divider {
+    margin: 8px 0 !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.saveButton {
+    min-width: 250px;
+    height: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border: none !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.saveButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.5) !important;
+}
+
+.saveButton:active {
+    transform: translateY(0);
+}
+
 .messageContainer {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
-.container{
-  align-items: center;
+
+@media (max-width: 1200px) {
+    .content {
+        grid-template-columns: 1fr;
+    }
 }
-.button{
-  margin-top: var(--spacing-md);
-  width: 200px;
+
+@media (max-width: 768px) {
+    .content {
+        gap: 16px;
+    }
+
+    .colorSection {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .scheduleGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .panelHeader {
+        font-size: 16px;
+    }
+
+    .panelIcon {
+        font-size: 20px;
+    }
+
+    .saveButton {
+        width: 100%;
+    }
+}
+
+@media (max-width: 500px) {
+    .content {
+        grid-template-columns: 1fr;
+    }
+
+    .colorBox {
+        width: 100px;
+        height: 100px;
+    }
 }

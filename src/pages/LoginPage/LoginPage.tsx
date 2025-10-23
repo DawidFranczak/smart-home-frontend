@@ -1,93 +1,113 @@
-
+import {useEffect, useState} from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../auth/AuthContext.tsx";
+import { api } from "../../constant/api";
+import { Form, Button, Message, Panel, FlexboxGrid, Schema, Loader } from "rsuite";
 import styles from "./LoginPage.module.css";
 
-import { useEffect } from "react";
-import { Form, useActionData, useNavigate } from "react-router-dom";
-import { useAuth } from "../../auth/AuthContext.tsx";
-import FormField from "../../components/ui/FormField/FormField.tsx";
-import { api } from "../../constant/api";
-import Button from "../../components/ui/Buttons/Button/Button.tsx";
-
-import { ActionFunction } from "react-router-dom";
-
-import StyledLink from "../../components/ui/StyledLink/StyledLink.tsx";
-import Message from "../../components/ui/Message/Message.tsx";
-import Header from "../../components/ui/Headers/Header/Header.tsx";
-import { useQueryClient } from "@tanstack/react-query";
-import FormContainer from "../../components/ui/containers/FormContainer/FormContainer.tsx";
-import PageContainer from "../../components/ui/containers/PageContainer/PageContainer.tsx";
-
-interface LoginPageData {
-  status: number;
-  body: {
-    access: string;
-    message: string;
-  };
-}
+const { StringType } = Schema.Types;
 
 export default function LoginPage() {
-  const data = useActionData() as LoginPageData;
-  const { login, access } = useAuth();
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
+    const { login, access } = useAuth();
+    const navigate = useNavigate();
+    const [formValue, setFormValue] = useState({ username: "", password: "" });
+    const [loginError, setLoginError] = useState("");
+    const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (data?.body.access) {
-      login(data.body.access);
-      navigate("/");
-    } else queryClient.clear();
-  }, [data, login]);
+    const model = Schema.Model({
+        username: StringType().isRequired("Nazwa użytkownika jest wymagana."),
+        password: StringType().isRequired("Hasło jest wymagane."),
+    });
 
-  useEffect(() => {
-    if (access) navigate("/");
-    else queryClient.clear();
-  }, []);
+    useEffect(() => {
+        if (access) navigate("/");
+    }, [access, navigate]);
 
-  return (
-      <PageContainer className={styles.container}>
-        <FormContainer>
-          <Form method="POST" className={styles.form}>
-            <div className={styles.formContent}>
-              <Header>Smart Home</Header>
-              <p className={styles.subtitle}>Zaloguj się do swojego konta</p>
-              <FormField
-                  type="text"
-                  name="username"
-                  placeholder="Nazwa użytkownika"
-              />
-              <FormField
-                  type="password"
-                  name="password"
-                  placeholder="Hasło"
-              />
-              <Message type="error" show={data?.status === 400}>{data?.body.message}</Message>
-              <Button>Zaloguj się</Button>
-              <StyledLink to="/registration">
-                Utwórz nowe konto
-              </StyledLink>
-            </div>
-          </Form>
-        </FormContainer>
-      </PageContainer>
-  );
+    const handleSubmit = async (_: React.FormEvent) => {
+        setLoading(true);
+        setLoginError("");
+        try {
+            const response = await fetch(api.login, {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                    "ngrok-skip-browser-warning": "1234",
+                },
+                body: JSON.stringify(formValue),
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.access) {
+                login(data.access);
+            } else if (response.status === 400) {
+                setLoginError(data.message)
+            }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <div className={styles.pageWrapper}>
+            <FlexboxGrid justify="center" align="middle" className={styles.grid}>
+                <FlexboxGrid.Item colspan={24} sm={18} md={10} lg={8} >
+                    <Panel shaded bordered bodyFill className={styles.panel}>
+                        <h2 className={styles.title}>Smart Home</h2>
+                        <p className={styles.subtitle}>Zaloguj się do swojego konta</p>
+
+                        <Form
+                            fluid
+                            model={model}
+                            formValue={formValue}
+                            onChange={setFormValue}
+                            onSubmit={handleSubmit}
+                            autoComplete="off"
+                        >
+                            <Form.Group controlId="username">
+                                <Form.ControlLabel>Nazwa użytkownika</Form.ControlLabel>
+                                <Form.Control
+                                    name="username"
+                                    type="text"
+                                    placeholder="Wprowadź nazwę"
+                                />
+                            </Form.Group>
+
+                            <Form.Group controlId="password">
+                                <Form.ControlLabel>Hasło</Form.ControlLabel>
+                                <Form.Control
+                                    name="password"
+                                    type="password"
+                                    placeholder="••••••••"
+                                />
+                            </Form.Group>
+
+                            {loginError && (
+                                <Message showIcon={true} type="error" >{loginError}</Message>
+                            )}
+
+                            <Button
+                                appearance="primary"
+                                size="lg"
+                                className={styles.submitBtn}
+                                block
+                                disabled={loading}
+                                type="submit"
+                            >
+                                {loading ? <Loader size="sm" /> : "Zaloguj się"}
+                            </Button>
+                            <div className={styles.linkWrapper}>
+                                <a href="/registration" className={styles.link}>
+                                    Utwórz nowe konto
+                                </a>
+                            </div>
+                        </Form>
+                    </Panel>
+                </FlexboxGrid.Item>
+            </FlexboxGrid>
+        </div>
+    );
 }
-
-export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData);
-  const body = {
-    username: data.username,
-    password: data.password,
-  };
-  const response = await fetch(api.login, {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-      "ngrok-skip-browser-warning": "1234",
-    },
-    body: JSON.stringify(body),
-  });
-  const responseData = await response.json();
-  return { status: response.status, body: responseData };
-};

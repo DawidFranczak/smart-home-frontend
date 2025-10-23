@@ -1,20 +1,304 @@
-.tile:hover{
-    cursor: pointer;
-}
-
-.changeName{
+.container {
+    margin: 0 auto;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
 }
 
-.delete{
+.content {
+    margin-top: 8px;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
     width: 100%;
-    height: 100%;
+    padding: 16px;
+
+}
+
+.panel {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 16px !important;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.panel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border-color: rgba(102, 126, 234, 0.3) !important;
+}
+
+.panelHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.panelIcon {
+    font-size: 24px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.panelTitle {
+    flex: 1;
+}
+
+.infoItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 10px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.infoItem:last-child {
+    border-bottom: none !important;
+}
+
+.infoLabel {
+    font-size: 14px;
+    margin-right: 10px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.infoValue {
+    font-size: 14px;
+    font-weight: 700;
+    color: #667eea;
+    font-family: 'Courier New', monospace;
+    text-align: right;
+}
+
+.infoValue.online {
+    color: #4ade80;
+}
+
+.infoValue.offline {
+    color: #ef4444;
+}
+
+.configSection {
     display: flex;
     flex-direction: column;
+    gap: 12px;
+    padding: 8px 0;
+}
+
+.configLabel {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    display: block;
+}
+
+.configDesc {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 4px 0 0 0;
+    line-height: 1.5;
+}
+
+.nameSection {
+    display: flex;
+    gap: 12px;
     align-items: center;
-    justify-content: center;
+}
+
+.inputGroup {
+    flex: 1;
+}
+
+.inputGroup :global(.rs-input) {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #fff !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    border-radius: 10px !important;
+}
+
+.inputGroup :global(.rs-input:focus) {
+    border-color: #667eea !important;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;
+}
+
+.saveButton {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border: none !important;
+    color: #fff !important;
+    font-weight: 700 !important;
+    border-radius: 10px !important;
+    min-width: 100px;
+}
+
+.saveButton:hover {
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4) !important;
+}
+
+.roomPicker :global(.rs-picker-toggle) {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #fff !important;
+    border-radius: 10px !important;
+}
+
+.roomPicker :global(.rs-picker-toggle:hover) {
+    border-color: rgba(102, 126, 234, 0.5) !important;
+}
+
+.roomPicker :global(.rs-picker-toggle-value) {
+    color: #667eea !important;
+    font-weight: 700 !important;
+}
+
+.toggleSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.toggleInfo {
+    flex: 1;
+}
+
+.divider {
+    margin: 16px 0 !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.actionsSection {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.actionItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    gap: 20px;
+}
+
+.actionInfo {
+    flex: 1;
+}
+
+.actionTitle {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.actionDesc {
+    margin: 0;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.5;
+}
+
+.removeButton {
+    border: 2px solid rgba(251, 191, 36, 0.5) !important;
+    color: #fbbf24 !important;
+    font-weight: 700 !important;
+    border-radius: 10px !important;
+    min-width: 140px;
+}
+
+.removeButton:hover {
+    background: rgba(251, 191, 36, 0.1) !important;
+    border-color: #fbbf24 !important;
+}
+
+.deleteButton {
+    border: 2px solid rgba(239, 68, 68, 0.5) !important;
+    color: #ef4444 !important;
+    font-weight: 700 !important;
+    border-radius: 10px !important;
+    min-width: 140px;
+}
+
+.deleteButton:hover {
+    background: rgba(239, 68, 68, 0.1) !important;
+    border-color: #ef4444 !important;
+}
+
+.modal :global(.rs-modal-content),
+.modalDanger :global(.rs-modal-content) {
+    background: linear-gradient(135deg, #1a1d29 0%, #0f1117 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 16px !important;
+    backdrop-filter: blur(20px);
+}
+
+.modalTitle {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    color: #fff !important;
+}
+
+.modalBody {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.modalBody p {
+    margin: 0 0 12px 0;
+}
+
+.modalBody strong {
+    color: #667eea;
+    font-weight: 700;
+}
+
+.modalNote {
+    font-size: 13px !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-style: italic;
+}
+
+.modalWarning {
+    padding: 12px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 8px;
+    font-size: 14px !important;
+    color: #f87171 !important;
+}
+
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column;
+        gap: 16px;
+        margin-top: 0;
+    }
+    .nameSection {
+        flex-direction: column;
+    }
+
+    .saveButton {
+        width: 100%;
+    }
+
+    .actionItem {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .removeButton,
+    .deleteButton {
+        width: 100%;
+    }
+
+    .toggleSection {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }

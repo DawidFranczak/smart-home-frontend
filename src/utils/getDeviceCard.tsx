@@ -2,6 +2,7 @@ import AquariumCard from "../components/Cards/AquariumCard/AquariumCard";
 import ButtonCard from "../components/Cards/ButtonCard/ButtonCard";
 import LampCard from "../components/Cards/LampCard/LampCard";
 import RfidCard from "../components/Cards/RfidCard/RfidCard";
+import TempHumCard from "../components/Cards/TempHumCard/TempHumCard.tsx";
 
 export default function getDeviceComponent(device: any) {
   switch (device.fun) {
@@ -13,5 +14,7 @@ export default function getDeviceComponent(device: any) {
       return <ButtonCard {...device} key={device.id} />;
     case "aquarium":
       return <AquariumCard {...device} key={device.id} />;
+  case "temp_hum":
+      return <TempHumCard {...device} key={device.id} />;
   }
 }

@@ -1,94 +1,173 @@
-import {useNavigate, useParams} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { FlexboxGrid, Panel, Form, Button, SelectPicker, Message, Schema } from "rsuite";
 import useAvailableActionQuery from "../../hooks/queries/useAvailableActionQuery";
-import PageContainer from "../../components/ui/containers/PageContainer/PageContainer.tsx";
+import useDeviceByFunctionQuery from "../../hooks/queries/device/useDeviceByFunctionQuery";
+import useActionByFunctionQuery from "../../hooks/queries/useActionByFunctionQuery";
+import useEventMutation from "../../hooks/queries/useEventMutation";
+import { IDevice } from "../../interfaces/IDevice.tsx";
+import styles from "./DeviceEventWizard.module.css";
 import PageHeader from "../../components/ui/Headers/PageHeader/PageHeader.tsx";
+import PageContainer from "../../components/ui/containers/PageContainer/PageContainer.tsx";
 import LoadingAnimation from "../../components/ui/LoadingAnimation/LoadingAnimation.tsx";
-import SelectInput from "../../components/ui/SelectInput/SelectInput.tsx";
-import {IDevice} from "../../interfaces/IDevice.tsx";
-import Message from "../../components/ui/Message/Message.tsx";
-import ButtonContainer from "../../components/ui/containers/ButtonContainer/ButtonContainer.tsx";
-import Button from "../../components/ui/Buttons/Button/Button.tsx";
-import {useEffect, useState} from "react";
-import useDeviceByFunctionQuery from "../../hooks/queries/device/useDeviceByFunctionQuery.tsx";
-import useActionByFunctionQuery from "../../hooks/queries/useActionByFunctionQuery.tsx";
-import useEventMutation from "../../hooks/queries/useEventMutation.tsx";
-import FormContainer from "../../components/ui/containers/FormContainer/FormContainer.tsx";
+
+const { StringType, NumberType } = Schema.Types;
 
 export default function DeviceEventWizard() {
-  const params = useParams();
-  const device_id = parseInt(params.id ? params.id : "0");
-  const navigate = useNavigate()
-  const [event, setEvent] = useState("");
-  const [selectDevice, setSelectDevice] = useState(0);
-  const [deviceFunction, setDeviceFunction] = useState("");
-  const [action, setAction] = useState("");
-  const [error, setError] = useState(false);
-  const { deviceByFunction } = useDeviceByFunctionQuery(deviceFunction);
-  const { actionByFunction } = useActionByFunctionQuery(deviceFunction);
-  const { availableAction } = useAvailableActionQuery(
-    device_id,
-    params.deviceFun ? params.deviceFun : ""
-  );
-  console.log(availableAction);
-  const { createEvent } = useEventMutation();
-  const createMutation = createEvent(device_id);
-  useEffect(() => {
-    if (createMutation.isSuccess) {
-      onSuccess();
-    }
-  }, [createMutation.isSuccess]);
+    const params = useParams();
+    const device_id = parseInt(params.id ? params.id : "0");
+    const navigate = useNavigate();
 
-  function onSuccess() {
-    navigate(-1);
-  }
-  function handleSubmit() {
-    if (!event || !deviceFunction || !selectDevice || !action) {
-      setError(true);
-      return;
-    }
-    const data = {
-      target_device: selectDevice,
-      action: action,
-      device: device_id,
-      event: event,
-      extra_settings: {},
+    const [formValue, setFormValue] = useState({
+        event: "",
+        deviceFunction: "",
+        selectDevice: 0,
+        action: "",
+    });
+
+    const [errorMsg, setErrorMsg] = useState("");
+    const { availableAction } = useAvailableActionQuery(device_id, params.deviceFun ?? "");
+    const { deviceByFunction } = useDeviceByFunctionQuery(formValue.deviceFunction);
+    const { actionByFunction } = useActionByFunctionQuery(formValue.deviceFunction);
+    const { createEvent } = useEventMutation();
+    const createMutation = createEvent(device_id);
+
+    const model = Schema.Model({
+        event: StringType().isRequired("Wybierz event."),
+        deviceFunction: StringType().isRequired("Wybierz typ urządzenia."),
+        selectDevice: NumberType().isRequired("Wybierz urządzenie."),
+        action: StringType().isRequired("Wybierz akcję."),
+    });
+
+    useEffect(() => {
+        if (createMutation.isSuccess) navigate(-1);
+    }, [createMutation.isSuccess, navigate]);
+
+    const handleSubmit = () => {
+        if (!model.check(formValue)) {
+            setErrorMsg("Wypełnij wszystkie pola formularza.");
+            return;
+        }
+        setErrorMsg("");
+        const data = {
+            target_device: formValue.selectDevice,
+            action: formValue.action,
+            device: device_id,
+            event: formValue.event,
+            extra_settings: {},
+        };
+        createMutation.mutate(data);
     };
-    createMutation.mutate(data);
-  }
-  if (!availableAction) return <LoadingAnimation size="xlarge" type="spinner" glow={true}/>;
-  return (
-    <PageContainer>
-      <PageHeader title="Dodawanie akcji"></PageHeader>
-      <FormContainer>
-        <SelectInput
-            name={"Wybierz event"}
-            iterable={availableAction.available_events?.map((event:string,index:number) => [event, index])}
-            onChange={(e) => setEvent(e.target.value)}
-        />
 
-        <SelectInput
-            name={"Wybierz typ"}
-            iterable={availableAction.models?.map((model:string,index:number) => [model, index])}
-            onChange={(e) => setDeviceFunction(e.target.value)}
-        />
-        <SelectInput
-            name={"Wybierz urządzenie"}
-            iterable={deviceByFunction?.map((device:IDevice) => [device.name, device.id])}
-            onChange={(e) =>
-                setSelectDevice(parseInt(e.target.selectedOptions[0].id))
-            }
-        />
-        <SelectInput
-            name={"Wybierz akcje"}
-            iterable={actionByFunction?.map((action:string,index:number) => [action, index])}
-            onChange={(e) => setAction(e.target.value)}
-        />
-        <Message show={error} type="error">Wypełnij wszystkie pola</Message>
-        <ButtonContainer>
-          <Button type="fancy" onClick={onSuccess}>Wróć</Button>
-          <Button type="fancy" onClick={handleSubmit}>Dodaj</Button>
-        </ButtonContainer>
-      </FormContainer>
-    </PageContainer>
-  );
+    if (!availableAction) {
+        return <LoadingAnimation size="xlarge"/>
+    }
+
+    return (
+        <PageContainer>
+        <PageHeader title="Dodawanie akcji"></PageHeader>
+        <div className={styles.pageWrapper}>
+            <FlexboxGrid justify="center" align="middle" className={styles.grid}>
+                <FlexboxGrid.Item colspan={24} sm={18} md={12} lg={8}>
+                    <Panel bordered shaded className={styles.panel}>
+                        <h2 className={styles.title}>Dodaj akcję</h2>
+                        <p className={styles.subtitle}>Skonfiguruj zdarzenie dla swojego urządzenia</p>
+
+                        <Form
+                            fluid
+                            model={model}
+                            formValue={formValue}
+                            onChange={setFormValue}
+                            onSubmit={handleSubmit}
+                        >
+                            <Form.Group controlId="event">
+                                <Form.ControlLabel>Wybierz event</Form.ControlLabel>
+                                <Form.Control
+                                    name="event"
+                                    accepter={SelectPicker}
+                                    data={availableAction.available_events?.map((e: string) => ({
+                                        label: e,
+                                        value: e,
+                                    })) ?? []}
+                                    placeholder="Wybierz event"
+                                    block
+                                    searchable={false}
+                                />
+                            </Form.Group>
+
+                            <Form.Group controlId="deviceFunction">
+                                <Form.ControlLabel>Wybierz typ</Form.ControlLabel>
+                                <Form.Control
+                                    name="deviceFunction"
+                                    accepter={SelectPicker}
+                                    data={availableAction.models?.map((m: string) => ({
+                                        label: m,
+                                        value: m,
+                                    })) ?? []}
+                                    placeholder="Wybierz typ urządzenia"
+                                    block
+                                />
+                            </Form.Group>
+
+                            <Form.Group controlId="selectDevice">
+                                <Form.ControlLabel>Wybierz urządzenie</Form.ControlLabel>
+                                <Form.Control
+                                    name="selectDevice"
+                                    accepter={SelectPicker}
+                                    data={deviceByFunction?.map((d: IDevice) => ({
+                                        label: d.name,
+                                        value: d.id,
+                                    })) ?? []}
+                                    placeholder="Wybierz urządzenie"
+                                    block
+                                />
+                            </Form.Group>
+
+                            <Form.Group controlId="action">
+                                <Form.ControlLabel>Wybierz akcję</Form.ControlLabel>
+                                <Form.Control
+                                    name="action"
+                                    accepter={SelectPicker}
+                                    data={actionByFunction?.map((a: string) => ({
+                                        label: a,
+                                        value: a,
+                                    })) ?? []}
+                                    placeholder="Wybierz akcję"
+                                    block
+                                />
+                            </Form.Group>
+
+                            {errorMsg && (
+                                <Message showIcon type="error" className={styles.message}>
+                                    {errorMsg}
+                                </Message>
+                            )}
+
+                            <div className={styles.btnContainer}>
+                                <Button
+                                    appearance="ghost"
+                                    size="lg"
+                                    onClick={() => navigate(-1)}
+                                    className={styles.btnSecondary}
+                                >
+                                    Wróć
+                                </Button>
+                                <Button
+                                    appearance="primary"
+                                    size="lg"
+                                    type="submit"
+                                    loading={createMutation.isPending}
+                                    className={styles.btnPrimary}
+                                    block
+                                >
+                                    Dodaj akcję
+                                </Button>
+                            </div>
+                        </Form>
+                    </Panel>
+                </FlexboxGrid.Item>
+            </FlexboxGrid>
+        </div>
+        </PageContainer>
+    );
 }

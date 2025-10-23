@@ -19,5 +19,5 @@ export default function HomeLeave() {
     function handleCancel() {
         navigate("/")
     }
-    return <ConfirmDelete name={"dom"} onConfirm={handleConfirm} onCancel={handleCancel}/>
+    return <ConfirmDelete show={true} name={"dom"} onConfirm={handleConfirm} onCancel={handleCancel}/>
 }

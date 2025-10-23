@@ -1,84 +1,60 @@
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
+.modal :global(.rs-modal-content) {
+    background: linear-gradient(135deg, #1a1d29 0%, #0f1117 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 16px !important;
+    backdrop-filter: blur(20px);
+    color: #fff !important;
+    max-width: 500px !important;
+    padding: 24px !important;
 }
 
-.pendingMessage {
-  display: flex;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-md);
-  background: rgba(251, 191, 36, 0.1);
-  border: 1px solid rgba(251, 191, 36, 0.3);
-  border-radius: var(--radius-md);
-  color: var(--warning-color);
-  font-size: var(--font-size-sm);
-  animation: pulse 2s infinite;
-}
-.pendingAnimation{
-  position: absolute;
-  top: 20px;
-  left: 20px;
+.modalTitle {
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    color: #fff !important;
+    text-align: center;
 }
 
-.buttonGroup {
-  display: flex;
-  gap: var(--spacing-md);
-  justify-content: flex-end;
-  margin-top: var(--spacing-lg);
+.modalBody {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 15px;
+    line-height: 1.6;
 }
 
-.instructionText {
-  font-size: var(--font-size-sm);
-  color: var(--text-muted);
-  line-height: 1.5;
-  margin-bottom: var(--spacing-md);
-  padding: var(--spacing-md);
-  background: var(--tertiary-bg);
-  border-radius: var(--radius-sm);
-  border-left: 3px solid var(--accent-primary);
+.modalText {
+    margin-bottom: 16px;
+    color: rgba(255, 255, 255, 0.85);
 }
 
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
+.input {
+    margin-bottom: 20px;
+}
+
+.pendingContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    min-height: 150px;
+    gap: 16px;
+}
+
+.modalFooter {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.divider {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    margin: 16px 0 !important;
 }
 
 @media (max-width: 768px) {
-
-
-  .buttonGroup {
-    flex-direction: column;
-    gap: var(--spacing-sm);
-  }
-
-}
-
-@media (max-width: 480px) {
-  .form {
-    gap: var(--spacing-md);
-  }
-}
-
-@media (max-height: 600px) {
-
-  .form {
-    gap: var(--spacing-md);
-  }
-}
-
-
-@keyframes fadeInOverlay {
-  from {
-    background: rgba(0, 0, 0, 0);
-    backdrop-filter: blur(0px);
-  }
-  to {
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(5px);
-  }
+    .modalTitle {
+        font-size: 18px !important;
+    }
+    .modalBody {
+        font-size: 14px;
+    }
 }

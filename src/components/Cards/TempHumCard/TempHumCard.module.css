@@ -1,0 +1,7 @@
+.infoCardTimestamp {
+    justify-content: center;
+    grid-column: 1 / 3;
+}
+.infoCardValue {
+    justify-content: center;
+}

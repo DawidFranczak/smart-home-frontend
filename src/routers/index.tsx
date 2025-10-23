@@ -1,6 +1,6 @@
 import {createBrowserRouter} from "react-router-dom";
-import RegistrationPage, {action as RegistrationAction} from "../pages/RegistrationPage/RegistrationPage.tsx";
-import LoginPage, {action as LoginAction} from "../pages/LoginPage/LoginPage.tsx";
+import RegistrationPage from "../pages/RegistrationPage/RegistrationPage.tsx";
+import LoginPage from "../pages/LoginPage/LoginPage.tsx";
 import RequireAuth from "../auth/RequireAuth.tsx";
 import HomePage from "../pages/HomePage/HomePage.tsx";
 import RouterPage from "../pages/Router/RouterPage.tsx";
@@ -20,17 +20,16 @@ import SettingsPage from "../pages/Settings/SettingsPage/SettingsPage.tsx";
 import SettingsDevice from "../pages/Settings/SettingsDevice/SettingsDevice.tsx";
 import SettingsRoom from "../pages/Settings/SettingsRoom/SettingsRoom.tsx";
 import AddCameraPage from "../pages/Camera/AddCameraPage/AddCameraPage.tsx";
+import TempHumPage from "../pages/TempHumPage/TempHumPage.tsx";
 
 export default createBrowserRouter([
     {
         path: "/login/",
         element: <LoginPage />,
-        action: LoginAction,
     },
     {
         path: "/registration/",
         element: <RegistrationPage />,
-        action: RegistrationAction,
     },
     {
         path: "/",
@@ -52,8 +51,9 @@ export default createBrowserRouter([
             { path: ":deviceFun/:id/event/wizard/", element: <DeviceEventWizard /> },
             { path: ":deviceFun/:id/settings/", element: <SettingsDevice /> },
             { path: "camera/",element:<SelectCameraPage/> },
-            { path: "camera/add/",element:<AddCameraPage/> },
+            { path: "camera/add/", element:<AddCameraPage/> },
             { path: "settings/", element: <SettingsPage /> },
+            { path: "temperature/:id/", element:<TempHumPage/>}
         ],
     },
 ]);

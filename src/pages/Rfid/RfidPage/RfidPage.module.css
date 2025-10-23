@@ -1,18 +1,192 @@
 .container {
-  min-width: 250px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
 }
-.cards {
-  padding-top: 10px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  overflow: scroll;
-  scrollbar-width: none;
+.section {
+}
+.addButton {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border: none !important;
+    font-weight: 700 !important;
+    border-radius: 10px !important;
 }
 
-.div {
-  display: flex;
-  gap: 10px;
+.addButton:hover {
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4) !important;
+}
+
+.cardsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    justify-items: center;
+}
+
+/* Empty State */
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.emptyIcon {
+    font-size: 64px;
+    margin-bottom: 20px;
+    opacity: 0.5;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+}
+
+.emptyTitle {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 12px 0;
+}
+
+.emptyDesc {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+    margin: 0 0 24px 0;
+}
+
+.emptyButton {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border: none !important;
+    font-weight: 700 !important;
+    border-radius: 10px !important;
+}
+
+.emptyButton:hover {
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4) !important;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .eventsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .cardsGrid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .section {
+        padding: 20px !important;
+    }
+
+    .sectionTitle h3 {
+        font-size: 20px;
+    }
+
+    .cardsGrid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        gap: 16px;
+    }
+
+    .section {
+        padding: 16px !important;
+    }
+
+    .sectionTitle {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .cardsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .emptyState {
+        padding: 40px 16px;
+    }
+
+    .emptyIcon {
+        font-size: 48px;
+    }
+}
+
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.sectionTitle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.sectionTitle h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+}
+
+.sectionDesc {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.divider {
+    margin: 0 0 24px 0 !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.eventsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    gap: 20px;
+    padding-right: 8px;
+    overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+    .section {
+        padding: 20px !important;
+    }
+
+    .sectionTitle h3 {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .section {
+        padding: 0 !important;
+    }
+
+    .sectionTitle {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 0;
+    }
+    .sectionTitle h3 {
+        font-size: 18px;
+    }
+    .sectionHeader{
+        flex-direction: column;
+        gap: 10px;
+    }
 }
