@@ -138,6 +138,7 @@ export default function SettingsDevice() {
                 </Message>,
                 { placement: "topCenter", duration: 3000 }
             );
+            navigate("/device");
         } catch (error) {
             toaster.push(
                 <Message closable type="error" showIcon>

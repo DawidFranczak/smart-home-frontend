@@ -1,66 +1,232 @@
-import PageContainer from "../../../components/ui/containers/PageContainer/PageContainer.tsx";
-import PageHeader from "../../../components/ui/Headers/PageHeader/PageHeader.tsx";
-import Button from "../../../components/ui/Buttons/Button/Button.tsx";
-import {useNavigate, useParams} from "react-router-dom";
-import Message from "../../../components/ui/Message/Message.tsx";
-import TilesContainer from "../../../components/ui/containers/TilesContainer/TilesContainer.tsx";
-import Tile from "../../../components/ui/Tile/Tile.tsx";
-import styles from "./SettingsRoom.module.css";
-import ChangeName from "../../../components/ChangeName/ChangeName.tsx";
-import ConfirmDelete from "../../../components/ConfirmDelete/ConfirmDelete.tsx";
-import {useState} from "react";
-import useRoomMutation from "../../../hooks/queries/room/useRoomMutation.tsx";
+import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Panel, Input, InputGroup, Button, Modal, toaster, Message, Divider, Toggle } from "rsuite";
+import PageContainer from "../../../components/ui/containers/PageContainer/PageContainer";
+import PageHeader from "../../../components/ui/Headers/PageHeader/PageHeader";
 import useRoomQuery from "../../../hooks/queries/room/useRoomQuery.tsx";
+import useRoomMutation from "../../../hooks/queries/room/useRoomMutation.tsx";
+import styles from "./SettingsRoom.module.css";
+import LoadingAnimation from "../../../components/ui/LoadingAnimation/LoadingAnimation.tsx";
 
 export default function SettingsRoom() {
     const params = useParams();
-    const id = parseInt(params.id ? params.id : "0");
-    const { room } = useRoomQuery(id);
-    const [changeNameSuccess, setChangeNameSuccess] = useState(false)
-    const [deleteRoomForm, setDeleteRoomForm] = useState(false)
-    const {deleteRoom , updateRoom} = useRoomMutation();
-    const deleteMutation = deleteRoom(id);
-    const updateMutation = updateRoom(id);
-
     const navigate = useNavigate();
+    const id = parseInt(params.id || "0");
+    const { room, isLoading } = useRoomQuery(id);
+    const { updateRoom, deleteRoom } = useRoomMutation();
+    const updateMutation = updateRoom(id);
+    const deleteMutation = deleteRoom(id);
 
-    function handleDeleteRoom(){
-        deleteMutation.mutate();
-        navigate("/", {replace: true});
+    const [roomName, setRoomName] = useState(room?.name || "");
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [isUpdating, setIsUpdating] = useState(false);
+
+    // Update state when room data loads
+    useState(() => {
+        if (room) {
+            setRoomName(room.name);
+        }
+    });
+
+    const handleSaveName = async () => {
+        if (!roomName.trim()) {
+            toaster.push(
+                <Message closable type="warning" showIcon>
+                    Nazwa nie może być pusta
+                </Message>,
+                { placement: "topCenter", duration: 3000 }
+            );
+            return;
+        }
+        setIsUpdating(true);
+        try {
+            await updateMutation.mutateAsync({ name: roomName });
+            toaster.push(
+                <Message closable type="success" showIcon>
+                    Nazwa pokoju została zaktualizowana
+                </Message>,
+                { placement: "topCenter", duration: 3000 }
+            );
+        } catch (error) {
+            toaster.push(
+                <Message closable type="error" showIcon>
+                    Błąd podczas aktualizacji nazwy
+                </Message>,
+                { placement: "topCenter", duration: 3000 }
+            );
+        } finally {
+            setIsUpdating(false);
+        }
+    };
+
+    const handleChangeVisibility = async (checked: boolean) => {
+        const visibility = checked ? "PU" : "PR";
+        try {
+            await updateMutation.mutateAsync({ visibility });
+            toaster.push(
+                <Message closable type="success" showIcon>
+                    Zmieniono widoczność pokoju
+                </Message>,
+                { placement: "topCenter", duration: 3000 }
+            );
+        } catch (error) {
+            toaster.push(
+                <Message closable type="error" showIcon>
+                    Błąd podczas zmiany widoczności
+                </Message>,
+                { placement: "topCenter", duration: 3000 }
+            );
+        }
+    };
+
+    const handleDeleteRoom = async () => {
+        setShowDeleteModal(false);
+        try {
+            await deleteMutation.mutateAsync();
+            toaster.push(
+                <Message closable type="success" showIcon>
+                    Pokój został usunięty
+                </Message>,
+                { placement: "topCenter", duration: 3000 }
+            );
+            navigate("/", { replace: true });
+        } catch (error) {
+            toaster.push(
+                <Message closable type="error" showIcon>
+                    Błąd podczas usuwania pokoju
+                </Message>,
+                { placement: "topCenter", duration: 3000 }
+            );
+        }
+    };
+
+    if (isLoading || !room) {
+        return <LoadingAnimation size="xlarge" type="spinner" glow={true} />;
     }
-    function handleChangeVisibility(){
-        const visibility = room.visibility === "private" ? "PU" : "PR"
-        console.log(visibility)
-        updateMutation.mutate({visibility});
-    }
+
     return (
-        <PageContainer>
+        <PageContainer className={styles.container}>
             <PageHeader title="Ustawienia pokoju">
-                <Message type="success"
-                         show={changeNameSuccess}
-                         timeout={3000}
-                         onTimeout={() => setChangeNameSuccess(false)}
-                >
-                    Zmiana nazwy powiodła się
-                </Message>
-                <Button type="fancy" onClick={() => navigate(-1)}>Wróć</Button>
             </PageHeader>
-            <TilesContainer>
-                <Tile className={styles.changeName}>
-                    <ChangeName type="room" id={id} onSuccess={() => setChangeNameSuccess(true)}>Zmień nazwę</ChangeName>
-                </Tile>
-                <Tile className={styles.tile}>
-                    <div className={styles.visibility}>
-                        <div className={styles.delete} onClick={handleChangeVisibility}>Zmień widoczność</div>
-                        <Message show={updateMutation.isSuccess}>Zmieniono widoczność pokoju</Message>
+            <div className={styles.content}>
+                <Panel
+                    header={
+                        <div className={styles.panelHeader}>
+                            <span className={styles.panelIcon}>⚙️</span>
+                            <span className={styles.panelTitle}>Konfiguracja pokoju</span>
+                        </div>
+                    }
+                    bordered
+                    className={styles.panel}
+                >
+                    <div className={styles.configSection}>
+                        <label className={styles.configLabel}>📝 Nazwa pokoju</label>
+                        <div className={styles.nameSection}>
+                            <InputGroup className={styles.inputGroup}>
+                                <Input
+                                    value={roomName}
+                                    onChange={setRoomName}
+                                    placeholder="Wprowadź nazwę pokoju"
+                                    size="lg"
+                                />
+                            </InputGroup>
+                            <Button
+                                appearance="primary"
+                                size="lg"
+                                onClick={handleSaveName}
+                                loading={isUpdating}
+                                className={styles.saveButton}
+                            >
+                                Zapisz
+                            </Button>
+                        </div>
                     </div>
-                </Tile>
-                <Tile className={styles.tile} type="danger">
-                    <div className={styles.delete} onClick={() => setDeleteRoomForm(true)}>Usuń pokój</div>
-                    <ConfirmDelete name="z pokoju" onConfirm={handleDeleteRoom} onCancel={() => setDeleteRoomForm(false)}
-                                   show={deleteRoomForm}/>
-                </Tile>
-            </TilesContainer>
+                    <Divider className={styles.divider} />
+                    <div className={styles.configSection}>
+                        <div className={styles.toggleSection}>
+                            <div className={styles.toggleInfo}>
+                                <label className={styles.configLabel}>🔒 Widoczność</label>
+                                <p className={styles.configDesc}>
+                                    Zmień widoczność pokoju (publiczny/prywatny)
+                                </p>
+                            </div>
+                            <Toggle
+                                checked={room.visibility === "public"}
+                                onChange={handleChangeVisibility}
+                                size="lg"
+                                checkedChildren="Publiczny"
+                                unCheckedChildren="Prywatny"
+                            />
+                        </div>
+                    </div>
+                </Panel>
+                <Panel
+                    header={
+                        <div className={styles.panelHeader}>
+                            <span className={styles.panelIcon}>🛠️</span>
+                            <span className={styles.panelTitle}>Akcje zaawansowane</span>
+                        </div>
+                    }
+                    bordered
+                    className={styles.panel}
+                >
+                    <div className={styles.actionsSection}>
+                        <div className={styles.actionItem}>
+                            <div className={styles.actionInfo}>
+                                <h4 className={styles.actionTitle}>🗑️ Usuń pokój</h4>
+                                <p className={styles.actionDesc}>
+                                    Trwale usuń pokój z systemu. Tej operacji nie można cofnąć.
+                                </p>
+                            </div>
+                            <Button
+                                appearance="ghost"
+                                color="red"
+                                size="lg"
+                                onClick={() => setShowDeleteModal(true)}
+                                className={styles.deleteButton}
+                            >
+                                Usuń pokój
+                            </Button>
+                        </div>
+                    </div>
+                </Panel>
+            </div>
+            <Modal
+                open={showDeleteModal}
+                onClose={() => setShowDeleteModal(false)}
+                size="xs"
+                className={styles.modalDanger}
+            >
+                <Modal.Header>
+                    <Modal.Title className={styles.modalTitle}>
+                        ⚠️ Potwierdź usunięcie
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body className={styles.modalBody}>
+                    <p>
+                        Czy na pewno chcesz usunąć pokój <strong>{room.name}</strong>?
+                    </p>
+                    <p className={styles.modalWarning}>
+                        ⚠️ Ta operacja jest <strong>nieodwracalna</strong>. Wszystkie dane
+                        pokoju zostaną trwale usunięte.
+                    </p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button
+                        onClick={handleDeleteRoom}
+                        appearance="primary"
+                        color="red"
+                    >
+                        Tak, usuń pokój
+                    </Button>
+                    <Button
+                        onClick={() => setShowDeleteModal(false)}
+                        appearance="subtle"
+                    >
+                        Anuluj
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </PageContainer>
-    )
+    );
 }
