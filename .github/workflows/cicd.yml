@@ -18,7 +18,7 @@ jobs:
       - name: List frontend repo
         run: |
           echo "=== FRONTEND REPO ==="
-          ls 
+          ls -R
 
       # Checkout smart-home repository
       - name: Checkout smart-home
@@ -30,7 +30,7 @@ jobs:
       - name: List smart_home repo
         run: |
           echo "=== SMART_HOME REPO ==="
-          ls
+          ls -R
 
 #      # Docker login
 #      - name: Login to Docker Hub
