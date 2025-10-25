@@ -1,8 +1,15 @@
 name: Build and Push Smart Home Docker Image
 
+#on:
 on:
-  push:
-    branches: ["*"]
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to use'
+        default: 'workflow'
+        required: true
+#  push:
+ #   branches: ["*"]
 
 jobs:
   build-and-push:
