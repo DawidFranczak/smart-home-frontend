@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useState, SyntheticEvent } from "react";
+import {useState, SyntheticEvent, useEffect} from "react";
 import { DateRangePicker, Panel, Grid, Row, Col } from 'rsuite';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
@@ -21,8 +21,13 @@ export default function TempHumPage() {
 
     const [startDate, setStartDate] = useState<string | null>(null);
     const [endDate, setEndDate] = useState<string | null>(null);
-
+    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     const { tempHumHistoryData } = useTempHumHistoryQuery(sensor_id, startDate, endDate);
+    useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    },[])
 
     const prepareChartData = () => {
         if (!tempHumHistoryData?.temperature?.chart_data || !tempHumHistoryData?.humidity?.chart_data) return [];
@@ -30,7 +35,7 @@ export default function TempHumPage() {
         return tempHumHistoryData.temperature.chart_data
             .map((tempItem: any, index: number) => {
                 const humItem = tempHumHistoryData.humidity.chart_data[index];
-                const dataPoint: any = { timestamp: tempItem.timestamp };
+                const dataPoint: any = { timestamp: tempItem.timestamp.replace("T"," ") };
                 if (tempItem.value !== null && tempItem.value !== undefined) dataPoint.temperature = tempItem.value;
                 if (humItem?.value !== null && humItem?.value !== undefined) dataPoint.humidity = humItem.value;
                 return dataPoint;
@@ -63,7 +68,6 @@ export default function TempHumPage() {
         if (!tempHumHistoryData?.temperature?.aggregation_data || !tempHumHistoryData?.humidity?.aggregation_data) return null;
         const tempAgg = tempHumHistoryData.temperature.aggregation_data;
         const humAgg = tempHumHistoryData.humidity.aggregation_data;
-
         return (
             <div className={styles.aggregationSection}>
                 <h3>Statystyki dla wybranego okresu</h3>
@@ -94,47 +98,48 @@ export default function TempHumPage() {
                     showWifi={true}
                 />
             </PageHeader>
+            {windowWidth > 786 ? <>
+                <div className={styles.datePickerContainer}>
+                    <DateRangePicker
+                        format="dd.MM.yyyy"
+                        character=" – "
+                        onChange={handleDateChange}
+                        style={{ width: '100%', maxWidth: '400px' }}
+                        placeholder="Wybierz zakres dat"
+                        cleanable
+                    />
+                </div>
 
-            <div className={styles.datePickerContainer}>
-                <DateRangePicker
-                    format="dd.MM.yyyy"
-                    character=" – "
-                    onChange={handleDateChange}
-                    style={{ width: '100%', maxWidth: '400px' }}
-                    placeholder="Wybierz zakres dat"
-                    cleanable
-                />
-            </div>
-
-            <div className={styles.chartContainer}>
-                {!tempHumHistoryData ? (
-                    <LoadingAnimation size="large" type="spinner" glow={true}/>
-                ) : chartData.length > 0 ? (
-                    <Panel bordered className={styles.chartPanel}>
-                        <h3>Historia temperatury i wilgotności</h3>
-                        <div className={styles.chartWrapper}>
-                            <ResponsiveContainer width="100%" height="100%">
-                                <LineChart data={chartData}>
-                                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                                    <XAxis dataKey="timestamp" tickFormatter={(v) => formatDate(v,"DD/MM HH")} stroke="rgba(255,255,255,0.4)" tick={{ fontSize: 11, fill: '#aaa' }}/>
-                                    <YAxis yAxisId="left" orientation="left" stroke="#4dabf7" tick={{ fontSize: 11, fill: '#aaa' }} label={{ value: 'Temperatura (°C)', angle: -90, position: 'insideLeft', fontSize: 18, fill: '#777' }} />
-                                    <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" tick={{ fontSize: 11, fill: '#aaa' }} label={{ value: 'Wilgotność (%)', angle: 90, position: 'insideRight', fontSize: 18, fill: '#777' }} />
-                                    <Tooltip contentStyle={{ backgroundColor: 'rgba(30,30,35,0.95)', color: '#fff', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }} />
-                                    <Legend wrapperStyle={{ color: '#ccc', fontSize: 14 }} />
-                                    <Line yAxisId="left" type="monotone" dataKey="temperature" stroke="#4dabf7" strokeWidth={2} dot={false}/>
-                                    <Line yAxisId="right" type="monotone" dataKey="humidity" stroke="#82ca9d" strokeWidth={2} dot={false}/>
-                                </LineChart>
-                            </ResponsiveContainer>
-                        </div>
-                    </Panel>
-                ) : (
-                    <Panel bordered className={styles.noDataPanel}>
-                        <div>📊 Brak danych dla wybranego zakresu</div>
-                    </Panel>
-                )}
-
-                <AggregationSection />
-            </div>
+                <div className={styles.chartContainer}>
+                    {!tempHumHistoryData ? (
+                        <LoadingAnimation size="large" type="spinner" glow={true}/>
+                    ) : chartData.length > 0 ? (
+                        <Panel bordered className={styles.chartPanel}>
+                            <h3>Historia temperatury i wilgotności</h3>
+                            <div className={styles.chartWrapper}>
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <LineChart data={chartData}>
+                                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                                        <XAxis dataKey="timestamp" tickFormatter={(v) => formatDate(v,"DD/MM HH")} stroke="rgba(255,255,255,0.4)" tick={{ fontSize: 11, fill: '#aaa' }}/>
+                                        <YAxis yAxisId="left" orientation="left" stroke="#4dabf7" tick={{ fontSize: 11, fill: '#aaa' }} label={{ value: 'Temperatura (°C)', angle: -90, position: 'insideLeft', fontSize: 18, fill: '#777' }} />
+                                        <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" tick={{ fontSize: 11, fill: '#aaa' }} label={{ value: 'Wilgotność (%)', angle: 90, position: 'insideRight', fontSize: 18, fill: '#777' }} />
+                                        <Tooltip contentStyle={{ backgroundColor: 'rgba(30,30,35,0.95)', color: '#fff', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }} />
+                                        <Legend wrapperStyle={{ color: '#ccc', fontSize: 14 }} />
+                                        <Line yAxisId="left" type="monotone" dataKey="temperature" stroke="#4dabf7" strokeWidth={2} dot={false}/>
+                                        <Line yAxisId="right" type="monotone" dataKey="humidity" stroke="#82ca9d" strokeWidth={2} dot={false}/>
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </Panel>
+                    ) : (
+                        <Panel bordered className={styles.noDataPanel}>
+                            <div>📊 Brak danych dla wybranego zakresu</div>
+                        </Panel>
+                    )}
+                </div></>: <div className={styles.noChartMessage}>
+                📱 Wyświetlacz jest zbyt wąski aby wyświetlić wykres
+            </div>}
+            <AggregationSection />
         </PageContainer>
     );
 }
