@@ -12,11 +12,13 @@ jobs:
       # Checkout frontend repository
       - name: Checkout frontend
         uses: actions/checkout@v3
-
+        with:
+          path: ./frontend
+        
       - name: List frontend repo
         run: |
           echo "=== FRONTEND REPO ==="
-          ls -R
+          ls 
 
       # Checkout smart-home repository
       - name: Checkout smart-home
@@ -28,7 +30,7 @@ jobs:
       - name: List smart_home repo
         run: |
           echo "=== SMART_HOME REPO ==="
-          ls -R smart_home
+          ls
 
 #      # Docker login
 #      - name: Login to Docker Hub
