@@ -1,0 +1,36 @@
+.statCard {
+    border-radius: 5px !important;
+    background: linear-gradient(145deg, rgba(30,30,35,0.9), rgba(25,25,30,0.85)) !important;
+    border-color: rgba(255,255,255,0.05) !important;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.statCardContent {
+    text-align: center;
+}
+
+.statCardIcon {
+    font-size: 20px;
+    margin-bottom: 6px;
+}
+
+.statCardTitle {
+    font-size: 12px;
+    color: #aaa;
+    margin-bottom: 4px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.statCardValue {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.statCardUnit {
+    font-size: 12px;
+    color: #777;
+    font-weight: 500;
+}

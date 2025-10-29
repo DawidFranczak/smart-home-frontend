@@ -1,0 +1,23 @@
+.form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.wrapper {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+}
+.button{
+    max-width: 300px;
+}
+.formSection{
+    width: 95%;
+}
+.formGroup{
+    padding: 0.5rem;
+}
+.formInput{
+    margin-bottom: 1rem;
+}
