@@ -1,0 +1,9 @@
+.aggregationSection h3 {
+    margin-bottom: 16px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #ddd;
+}
+.statRow {
+    margin-bottom: 12px;
+}

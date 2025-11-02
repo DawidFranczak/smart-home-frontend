@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FlexboxGrid, Panel, Form, Button, SelectPicker, Message, Schema } from "rsuite";
 import useAvailableActionQuery from "../../hooks/queries/useAvailableActionQuery";
 import useDeviceByFunctionQuery from "../../hooks/queries/device/useDeviceByFunctionQuery";
-import useActionByFunctionQuery from "../../hooks/queries/useActionByFunctionQuery";
+import useActionSettingsByFunctionQuery from "../../hooks/queries/useActionSettingsByFunctionQuery.tsx";
 import useEventMutation from "../../hooks/queries/useEventMutation";
 import { IDevice } from "../../interfaces/IDevice.tsx";
 import styles from "./DeviceEventWizard.module.css";
@@ -28,7 +28,7 @@ export default function DeviceEventWizard() {
     const [errorMsg, setErrorMsg] = useState("");
     const { availableAction } = useAvailableActionQuery(device_id, params.deviceFun ?? "");
     const { deviceByFunction } = useDeviceByFunctionQuery(formValue.deviceFunction);
-    const { actionByFunction } = useActionByFunctionQuery(formValue.deviceFunction);
+    const { actionSettingsByFunction } = useActionSettingsByFunctionQuery(formValue.deviceFunction);
     const { createEvent } = useEventMutation();
     const createMutation = createEvent(device_id);
 
@@ -42,7 +42,6 @@ export default function DeviceEventWizard() {
     useEffect(() => {
         if (createMutation.isSuccess) navigate(-1);
     }, [createMutation.isSuccess, navigate]);
-
     const handleSubmit = () => {
         if (!model.check(formValue)) {
             setErrorMsg("Wypełnij wszystkie pola formularza.");
@@ -128,7 +127,7 @@ export default function DeviceEventWizard() {
                                 <Form.Control
                                     name="action"
                                     accepter={SelectPicker}
-                                    data={actionByFunction?.map((a: string) => ({
+                                    data={actionSettingsByFunction?.actions.map((a: string) => ({
                                         label: a,
                                         value: a,
                                     })) ?? []}
