@@ -80,7 +80,7 @@ export default function TemperatureChart({onDataChange, temperatureData, humidit
                 <Panel bordered className={styles.chartPanel}>
                     <h3>Historia temperatury i wilgotności</h3>
                     <div className={styles.chartWrapper}>
-                        <ResponsiveContainer width="100%" height="100%">
+                        <ResponsiveContainer className={styles.responsiveContainer}>
                             <LineChart data={chartData}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)"/>
                                 <XAxis dataKey="timestamp" tickFormatter={(v) => formatDate(v, "DD/MM HH")}
