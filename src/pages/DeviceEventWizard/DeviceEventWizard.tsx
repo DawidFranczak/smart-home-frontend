@@ -10,8 +10,14 @@ import styles from "./DeviceEventWizard.module.css";
 import PageHeader from "../../components/ui/Headers/PageHeader/PageHeader.tsx";
 import PageContainer from "../../components/ui/containers/PageContainer/PageContainer.tsx";
 import LoadingAnimation from "../../components/ui/LoadingAnimation/LoadingAnimation.tsx";
+import renderInputFieldByType from "../../utils/getInputFieldByType.tsx";
 
 const { StringType, NumberType } = Schema.Types;
+export type SettingType = 'bool' | 'int' | 'text' | 'select';
+
+interface IActionSettings {
+    [key: string]: SettingType;
+}
 
 export default function DeviceEventWizard() {
     const params = useParams();
@@ -24,6 +30,7 @@ export default function DeviceEventWizard() {
         selectDevice: 0,
         action: "",
     });
+    const [extraSettingsForm, setExtraSettingsForm] = useState({});
 
     const [errorMsg, setErrorMsg] = useState("");
     const { availableAction } = useAvailableActionQuery(device_id, params.deviceFun ?? "");
@@ -31,14 +38,13 @@ export default function DeviceEventWizard() {
     const { actionSettingsByFunction } = useActionSettingsByFunctionQuery(formValue.deviceFunction);
     const { createEvent } = useEventMutation();
     const createMutation = createEvent(device_id);
-
     const model = Schema.Model({
         event: StringType().isRequired("Wybierz event."),
         deviceFunction: StringType().isRequired("Wybierz typ urządzenia."),
         selectDevice: NumberType().isRequired("Wybierz urządzenie."),
         action: StringType().isRequired("Wybierz akcję."),
     });
-
+    const settings = actionSettingsByFunction?.settings as IActionSettings || {}
     useEffect(() => {
         if (createMutation.isSuccess) navigate(-1);
     }, [createMutation.isSuccess, navigate]);
@@ -53,7 +59,7 @@ export default function DeviceEventWizard() {
             action: formValue.action,
             device: device_id,
             event: formValue.event,
-            extra_settings: {},
+            extra_settings: extraSettingsForm,
         };
         createMutation.mutate(data);
     };
@@ -61,7 +67,7 @@ export default function DeviceEventWizard() {
     if (!availableAction) {
         return <LoadingAnimation size="xlarge"/>
     }
-
+    console.log(actionSettingsByFunction)
     return (
         <PageContainer>
         <PageHeader title="Dodawanie akcji"></PageHeader>
@@ -135,6 +141,13 @@ export default function DeviceEventWizard() {
                                     block
                                 />
                             </Form.Group>
+                            { !!settings &&
+                                <Form.Group controlId="extra_settings">
+                                    <Form.ControlLabel>Opcje dodatkowe</Form.ControlLabel>
+                                    {Object.entries(settings).map(([key, type]) =>
+                                        (renderInputFieldByType(key, type, extraSettingsForm, setExtraSettingsForm)))}
+                                </Form.Group>
+                            }
 
                             {errorMsg && (
                                 <Message showIcon type="error" className={styles.message}>

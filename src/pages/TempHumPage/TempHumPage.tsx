@@ -31,6 +31,7 @@ export default function TempHumPage() {
         setEndDate(formatDate(value[1] as Date, "YYYY-MM-DD"));
     }
     if (!tempHum) return <LoadingAnimation size="xlarge" type="spinner" glow={true} />;
+    console.log(tempHum)
     return (
         <PageContainer>
             <PageHeader title={tempHum.name}>

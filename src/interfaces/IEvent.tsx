@@ -4,5 +4,5 @@ export default interface IEvent {
   event: string;
   action: string;
   target_device: number;
-  extra_settings?: object;
+  extra_settings: object;
 }

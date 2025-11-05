@@ -55,7 +55,6 @@ export default function TemperatureChart({onDataChange, temperatureData, humidit
     },[])
 
     const chartData = useMemo(()=> prepareChartData(temperatureData,humidityData),[temperatureData,humidityData]);
-    console.log(chartData)
     if (windowWidth < 786){
         return <div className={styles.noChartMessage}>
             📱 Wyświetlacz jest zbyt wąski aby wyświetlić wykres
