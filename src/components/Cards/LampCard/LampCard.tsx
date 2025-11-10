@@ -5,9 +5,11 @@ import { ILamp } from "../../../interfaces/ILamp";
 import InfoCard from "../../ui/InfoCard/InfoCard.tsx";
 import CardIconContainer from "../../ui/containers/CardIconContainer/CardIconContainer.tsx";
 import TimeRange from "../../ui/TimeRange/TimeRange.tsx";
+import {useTranslation} from "react-i18next";
 
 export default function LampCard(lamp: ILamp) {
-  return (
+  const {t} = useTranslation();
+    return (
       <DeviceCardContainer
           isFavourite={lamp.is_favourite}
           name={lamp.name}
@@ -23,7 +25,7 @@ export default function LampCard(lamp: ILamp) {
           </InfoCard>
         </CardIconContainer>
         <StyledLink type="fancy" to={`/lamp/${lamp.id}/`}>
-          Szczegóły
+            {t("buttons.select")}
         </StyledLink>
       </DeviceCardContainer>
   );

@@ -14,12 +14,13 @@ import PageContainer from "../../../components/ui/containers/PageContainer/PageC
 import PageHeader from "../../../components/ui/Headers/PageHeader/PageHeader.tsx";
 import styles from "./SelectRoom.module.css";
 import {Button} from "rsuite";
+import {useTranslation} from "react-i18next";
 
 export default function SelectRoom() {
     const [dataToDisplay, setDataToDisplay] = useState<IRoom[]>([]);
     const [openAddRoom, setOpenAddRoom] = useState<boolean>(false);
     const { roomData }: { roomData: IRoom[] } = usePrefetchRoomQuery()
-
+    const {t} = useTranslation();
     useEffect(() => {
         if (!roomData) return;
         setDataToDisplay(roomData);
@@ -34,7 +35,7 @@ export default function SelectRoom() {
  if (!roomData) return <LoadingAnimation size="xlarge" type="spinner" glow={true}/>;
   return (
     <PageContainer>
-      <PageHeader title="Pokoje" className={styles.header}>
+      <PageHeader title={t("selectRoom.title")} className={styles.header}>
           <div className={styles.buttonContainer}>
               <QueryInput onChange={handleFilter}/>
               <Button
@@ -42,7 +43,7 @@ export default function SelectRoom() {
                   onClick={() => setOpenAddRoom(true)}
                   className={styles.addButton}
               >
-                  Dodaj
+                  {t("buttons.addButton")}
               </Button>
           </div>
       </PageHeader>

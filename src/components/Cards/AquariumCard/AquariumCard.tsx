@@ -5,9 +5,11 @@ import DeviceCardContainer from "../../ui/containers/DeviceCardContainer/DeviceC
 import InfoCard from "../../ui/InfoCard/InfoCard";
 import CardIconContainer from "../../ui/containers/CardIconContainer/CardIconContainer.tsx";
 import TimeRange from "../../ui/TimeRange/TimeRange.tsx";
+import {useTranslation} from "react-i18next";
 
 export default function AquariumCard(aquarium: IAquarium) {
-  return (
+  const {t } = useTranslation();
+    return (
       <DeviceCardContainer
           isFavourite={aquarium.is_favourite}
           isOnline={aquarium.is_online}
@@ -44,7 +46,7 @@ export default function AquariumCard(aquarium: IAquarium) {
               </div>
           )}
         <StyledLink type="fancy" to={`/aquarium/${aquarium.id}/`}>
-          Szczegóły
+            {t("buttons.select")}
         </StyledLink>
       </DeviceCardContainer>
   );

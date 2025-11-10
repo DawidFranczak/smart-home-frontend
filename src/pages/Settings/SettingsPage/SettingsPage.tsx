@@ -8,9 +8,12 @@ import HomeCode from "../../../components/HomeCode/HomeCode.tsx";
 import HomeLeave from "../../../components/HomeLeave/HomeLeave.tsx";
 import PageContainer from "../../../components/ui/containers/PageContainer/PageContainer.tsx";
 import PageHeader from "../../../components/ui/Headers/PageHeader/PageHeader.tsx";
+import {useTranslation} from "react-i18next";
+
 export default function SettingsPage() {
   const [selectedSettings, setSelectedSettings] =
     useState<TSettings>("passwordChange");
+  const {t} = useTranslation();
 
   const componentMap: Record<TSettings, React.ReactNode> = {
     passwordChange: <ChangePasswordForm />,
@@ -22,11 +25,11 @@ export default function SettingsPage() {
   const selectedSettingsComponent = componentMap[selectedSettings] || null;
   return (
       <PageContainer>
-          <PageHeader title="Ustawienia"></PageHeader>
-        <div className={styles.container}>
-          <NavbarSettings onChange={setSelectedSettings} value={selectedSettings} />
-          {selectedSettingsComponent}
-        </div>
+          <PageHeader title={t("settings.title")}></PageHeader>
+          <div className={styles.container}>
+              <NavbarSettings onChange={setSelectedSettings} value={selectedSettings} />
+              {selectedSettingsComponent}
+          </div>
       </PageContainer>
   );
 }

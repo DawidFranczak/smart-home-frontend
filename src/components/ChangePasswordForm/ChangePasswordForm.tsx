@@ -3,7 +3,7 @@ import { Form, ButtonToolbar, Button, Panel, Message, useToaster } from "rsuite"
 import useChangePasswordMutation from "../../hooks/queries/useChangePasswordMutation";
 import { ICustomError } from "../../interfaces/ICustomError";
 import styles from "./ChangePasswordForm.module.css";
-
+import { useTranslation } from "react-i18next";
 interface IError {
     empty?: string;
     current_password?: string;
@@ -11,6 +11,7 @@ interface IError {
 }
 
 export default function ChangePasswordForm() {
+    const { t } = useTranslation();
     const [formValue, setFormValue] = useState({
         currentPassword: "",
         newPassword: "",
@@ -35,7 +36,7 @@ export default function ChangePasswordForm() {
             onSuccess: () => {
                 toaster.push(
                     <Message type="success" showIcon closable>
-                        Hasło zostało zmienione pomyślnie 🎉
+                        {t("changePassword.successMessage")}
                     </Message>,
                     { placement: "topCenter", duration: 3000 }
                 );
@@ -51,37 +52,35 @@ export default function ChangePasswordForm() {
     return (
         <div className={styles.pageWrapper}>
             <Panel bordered shaded className={styles.panel}>
-                <h3 className={styles.title}>Zmiana hasła</h3>
-                <p className={styles.subtitle}>
-                    Upewnij się, że Twoje nowe hasło jest silne i różni się od poprzednich.
-                </p>
+                <h3 className={styles.title}>{t("changePassword.title")}</h3>
+                <p className={styles.subtitle}>{t("changePassword.subtitle")}</p>
 
                 <Form fluid formValue={formValue} onChange={setFormValue} onSubmit={handleSubmit}>
                     <Form.Group controlId="currentPassword">
-                        <Form.ControlLabel>Obecne hasło</Form.ControlLabel>
+                        <Form.ControlLabel>{t("changePassword.currentPassword")}</Form.ControlLabel>
                         <Form.Control
                             name="currentPassword"
                             type="password"
-                            placeholder="Wpisz obecne hasło"
+                            placeholder={t("changePassword.currentPasswordPlaceholder")}
                             errorMessage={error?.current_password || undefined}
                         />
                     </Form.Group>
 
                     <Form.Group controlId="newPassword">
-                        <Form.ControlLabel>Nowe hasło</Form.ControlLabel>
+                        <Form.ControlLabel>{t("changePassword.newPassword")}</Form.ControlLabel>
                         <Form.Control
                             name="newPassword"
                             type="password"
-                            placeholder="Wpisz nowe hasło"
+                            placeholder={t("changePassword.newPasswordPlaceholder")}
                         />
                     </Form.Group>
 
                     <Form.Group controlId="newPassword2">
-                        <Form.ControlLabel>Powtórz nowe hasło</Form.ControlLabel>
+                        <Form.ControlLabel>{t("changePassword.newPassword2")}</Form.ControlLabel>
                         <Form.Control
                             name="newPassword2"
                             type="password"
-                            placeholder="Powtórz nowe hasło"
+                            placeholder={t("changePassword.newPassword2Placeholder")}
                             errorMessage={error?.new_password2 || error?.empty || undefined}
                         />
                     </Form.Group>
@@ -93,7 +92,7 @@ export default function ChangePasswordForm() {
                             loading={mutation.isPending}
                             block
                         >
-                            Zapisz hasło
+                            {t("changePassword.saveButton")}
                         </Button>
                     </ButtonToolbar>
                 </Form>

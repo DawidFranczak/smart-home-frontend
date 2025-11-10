@@ -10,6 +10,7 @@ import useLampMutation from "../../../hooks/queries/useLampMutation";
 import useDeviceQuery from "../../../hooks/queries/device/useDeviceQuery";
 import LoadingAnimation from "../../../components/ui/LoadingAnimation/LoadingAnimation";
 import DeviceActionPanel from "../../../components/DeviceActionPanel/DeviceActionPanel.tsx";
+import {useTranslation} from "react-i18next";
 
 function reducer(state: ILamp, action: { type: string; payload: any }) {
     switch (action.type) {
@@ -31,6 +32,7 @@ function reducer(state: ILamp, action: { type: string; payload: any }) {
 }
 
 export default function LampPage() {
+    const { t } = useTranslation();
     const params = useParams();
     const lampId = parseInt(params.id ?? "0");
     const { device, isLoading } = useDeviceQuery(lampId);
@@ -46,9 +48,9 @@ export default function LampPage() {
 
     useEffect(() => {
         if (updateMutate.isSuccess)
-            toaster.push(<Message type="success" closable>💾 Dane zapisane pomyślnie.</Message>);
+            toaster.push(<Message type="success" closable>💾 {t("message.success")}</Message>);
         if (updateMutate.isError)
-            toaster.push(<Message type="error" closable>❌ Błąd podczas zapisu danych.</Message>);
+            toaster.push(<Message type="error" closable>{t("message.error")}</Message>);
     }, [updateMutate.isSuccess, updateMutate.isError]);
 
     if (!state || isLoading) return <LoadingAnimation size="xlarge" type="spinner" glow={true} />;
@@ -62,7 +64,7 @@ export default function LampPage() {
             <PageHeader title={state.name}>
                 <DeviceActionPanel
                     buttons={[
-                        { label: "Ustawienia urządzenia", to: `/lamp/${state.id}/settings/`, type: "default", tooltip: "Zmień ustawienia przycisku" }
+                        { label: t("buttons.deviceSettings"), to: `/lamp/${state.id}/settings/`, type: "default", tooltip: t("buttons.deviceSettingsTooltip")}
                     ]}
                     wifiStrength={state.is_online ? state.wifi_strength : -100}
                     showWifi={true}
@@ -73,7 +75,7 @@ export default function LampPage() {
                     header={
                         <div className={styles.panelHeader}>
                             <span className={styles.panelIcon}>💡</span>
-                            <span className={styles.panelTitle}>Harmonogram lampy</span>
+                            <span className={styles.panelTitle}>{t("lampPage.schedule")}</span>
                             <Badge content={state.is_online ? "ONLINE" : "OFFLINE"} color={state.is_online ? "green" : "red"} />
                         </div>
                     }
@@ -81,7 +83,7 @@ export default function LampPage() {
                     className={styles.panel}
                 >
                     <div className={styles.inputGroup}>
-                        <label className={styles.label}>Godzina rozpoczęcia</label>
+                        <label className={styles.label}>{t("lampPage.lightStart")}</label>
                         <input
                             type="time"
                             value={state.light_start}
@@ -93,7 +95,7 @@ export default function LampPage() {
                     </div>
 
                     <div className={styles.inputGroup}>
-                        <label className={styles.label}>Godzina zakończenia</label>
+                        <label className={styles.label}>{t("lampPage.lightStop")}</label>
                         <input
                             type="time"
                             value={state.light_stop}
@@ -104,11 +106,11 @@ export default function LampPage() {
                         />
                     </div>
 
-                    <Divider>Parametry oświetlenia</Divider>
+                    <Divider>{t("lampPage.lightingParams")}</Divider>
 
                     <div className={styles.rangeGroup}>
                         <label className={styles.label}>
-                            Jasność: <strong>{state.brightness}%</strong>
+                            {t("lampPage.brightness")}: <strong>{state.brightness}%</strong>
                         </label>
                         <Slider
                             progress
@@ -121,7 +123,7 @@ export default function LampPage() {
 
                     <div className={styles.rangeGroup}>
                         <label className={styles.label}>
-                            Szybkość zmian: <strong>{state.step}%</strong>
+                            {t("lampPage.speed")}: <strong>{state.step}%</strong>
                         </label>
                         <Slider
                             progress
@@ -133,7 +135,7 @@ export default function LampPage() {
                     </div>
 
                     <div className={styles.inputGroup}>
-                        <label className={styles.label}>Czas świecenia (s)</label>
+                        <label className={styles.label}>{t("lampPage.lightingTime")}</label>
                         <InputNumber
                             min={0}
                             value={state.lighting_time}
@@ -154,7 +156,7 @@ export default function LampPage() {
                     onClick={handleSave}
                     className={styles.saveButton}
                 >
-                    💾 Zapisz ustawienia
+                    💾 {t("buttons.saveButton")}
                 </Button>
             </div>
         </PageContainer>

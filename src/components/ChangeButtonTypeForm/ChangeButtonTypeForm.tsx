@@ -3,6 +3,7 @@ import {TButton} from "../../type/TButton.ts";
 import {useEffect, useState} from "react";
 import styles from "./ChangeButtonTypeForm.module.css"
 import useButtonTypeMutation from "../../hooks/queries/useButtonTypeMutation.tsx";
+import {useTranslation} from "react-i18next";
 
 interface Props {
     id: number,
@@ -14,6 +15,7 @@ interface IFormValue {
 }
 
 export default function ChangeButtonTypeForm ({id, current_type}:Props){
+    const {t} = useTranslation();
     const [formValue, setFormValue] = useState<IFormValue>({button_type:current_type});
     const mutation = useButtonTypeMutation(id);
     const toaster = useToaster();
@@ -25,7 +27,7 @@ export default function ChangeButtonTypeForm ({id, current_type}:Props){
         if (mutation.isSuccess) {
             toaster.push(
                 <Message closable type="success" showIcon >
-                    Zapisano
+                    {t("message.success")}
                 </Message>,
                 { placement: "topCenter", duration: 3000 }
             );
@@ -33,7 +35,7 @@ export default function ChangeButtonTypeForm ({id, current_type}:Props){
         if (mutation.isError) {
             toaster.push(
                 <Message closable type="error" showIcon >
-                    Nie udało się zapisać
+                    {t("message.error")}
                 </Message>,
                 { placement: "topCenter", duration: 3000 }
             );
@@ -47,12 +49,12 @@ export default function ChangeButtonTypeForm ({id, current_type}:Props){
          onSubmit={handleSubmit}
          className={styles.form}>
         <Form.Group controlId="buttonType" className={styles.formGroup}>
-            <Form.ControlLabel>Wybierz typ przycisku</Form.ControlLabel>
+            <Form.ControlLabel>{t("changeButtonTypeForm.selectLabel")}</Form.ControlLabel>
             <Form.Control
                 name="button_type"
                 accepter={SelectPicker}
                 data={["MONO","BI"].map(option =>({
-                    label: option,
+                    label: t(`buttonTypes.${option}`),
                     value: option,
                 }))}
                 placeholder={current_type}
@@ -60,6 +62,6 @@ export default function ChangeButtonTypeForm ({id, current_type}:Props){
                 searchable={false}
             />
         </Form.Group>
-        <Button appearance="primary" type="submit">Zapisz</Button>
+        <Button appearance="primary" type="submit">{t("buttons.saveButton")}</Button>
     </Form>
 }

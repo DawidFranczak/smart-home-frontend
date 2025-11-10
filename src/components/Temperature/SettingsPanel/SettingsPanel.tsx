@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {Button, Form, InputNumber, Message, useToaster} from "rsuite";
 import styles from "./SettingsPanel.module.css";
 import useTempHumMutation from "../../../hooks/queries/useTempHumMutation.ts";
-
+import {useTranslation} from "react-i18next";
 interface ISettings{
     id:number,
     humidityHysteresis?:number,
@@ -19,15 +19,16 @@ interface ISensorData extends ISettings{
 
 
 export default function SettingsPanel(sensorData:ISensorData){
+    const {t} = useTranslation();
     const [data, setData] = useState<ISettings>(sensorData);
     const mutation = useTempHumMutation(sensorData.id)
     const toaster = useToaster();
 
     useEffect(()=>{
         if (mutation.isError){
-            toaster.push(<Message showIcon closable type="error">Błąd w komunikacji.</Message>)
+            toaster.push(<Message showIcon closable type="error">{t("message.error")}</Message>)
         }else if (mutation.isSuccess){
-            toaster.push(<Message showIcon closable type="success"> Zapisano dane.</Message>)
+            toaster.push(<Message showIcon closable type="success">{t("message.success")}</Message>)
         }
     },[mutation.isError,mutation.isSuccess])
 
@@ -53,8 +54,8 @@ export default function SettingsPanel(sensorData:ISensorData){
         <div className={styles.wrapper}>
             <div className={styles.formSection}>
                 <Form.Group controlId="temperature" className={styles.formGroup}>
-                    <h4>Ustawienia temperatury</h4>
-                    <Form.ControlLabel>Histereza czujnika temperatury</Form.ControlLabel>
+                    <h4>{t("settingsPanel.temperatureSettings")}</h4>
+                    <Form.ControlLabel>{t("settingsPanel.temperatureHysteresis")}</Form.ControlLabel>
                     <Form.Control
                         className={styles.formInput}
                         name="temperatureHysteresis"
@@ -62,14 +63,14 @@ export default function SettingsPanel(sensorData:ISensorData){
                         step={0.1}
                         min={0.5}
                     />
-                    <Form.ControlLabel>Uruchom akcję, gdy temperatura spadnie poniżej</Form.ControlLabel>
+                    <Form.ControlLabel>{t("settingsPanel.triggerTempDown")}</Form.ControlLabel>
                     <Form.Control
                         className={styles.formInput}
                         name="triggerTempDown"
                         accepter={InputNumber}
                         step={0.1}
                     />
-                    <Form.ControlLabel>Uruchom akcję, gdy temperatura wzrośnie powyżej</Form.ControlLabel>
+                    <Form.ControlLabel>{t("settingsPanel.triggerTempUp")}</Form.ControlLabel>
                     <Form.Control
                         className={styles.formInput}
                         name="triggerTempUp"
@@ -80,8 +81,8 @@ export default function SettingsPanel(sensorData:ISensorData){
             </div>
             <div className={styles.formSection}>
                 <Form.Group controlId="humidity" className={styles.formGroup}>
-                    <h4>Ustawienia wilgotności</h4>
-                    <Form.ControlLabel>Histereza czujnika wilgotności</Form.ControlLabel>
+                    <h4>{t("settingsPanel.humiditySettings")}</h4>
+                    <Form.ControlLabel>{t("settingsPanel.humidityHysteresis")}</Form.ControlLabel>
                     <Form.Control
                         className={styles.formInput}
                         name="humidityHysteresis"
@@ -89,14 +90,14 @@ export default function SettingsPanel(sensorData:ISensorData){
                         step={0.1}
                         min={1.0}
                     />
-                    <Form.ControlLabel>Uruchom akcję, gdy wilgotność spadnie poniżej</Form.ControlLabel>
+                    <Form.ControlLabel>{t("settingsPanel.triggerHumDown")}</Form.ControlLabel>
                     <Form.Control
                         className={styles.formInput}
                         name="triggerHumDown"
                         accepter={InputNumber}
                         step={0.1}
                     />
-                    <Form.ControlLabel>Uruchom akcję, gdy wilgotność wzrośnie powyżej</Form.ControlLabel>
+                    <Form.ControlLabel>{t("settingsPanel.triggerHumUp")}</Form.ControlLabel>
                     <Form.Control
                         className={styles.formInput}
                         name="triggerHumUp"
@@ -114,7 +115,7 @@ export default function SettingsPanel(sensorData:ISensorData){
             block
             loading={mutation.isPending}
         >
-            Zapisz
+            {t("buttons.saveButton")}
         </Button>
     </Form>
 }

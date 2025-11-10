@@ -11,60 +11,59 @@ import PageHeader from "../../../components/ui/Headers/PageHeader/PageHeader.tsx
 import useDevicesQuery from "../../../hooks/queries/device/useDevicesQuery.tsx";
 import useRoomQuery from "../../../hooks/queries/room/useRoomQuery.tsx";
 import DeviceActionPanel from "../../../components/DeviceActionPanel/DeviceActionPanel.tsx";
+import { useTranslation } from "react-i18next";
+
 export default function Room() {
+    const { t } = useTranslation();
     const state = useParams();
-    const { room } = useRoomQuery(state.id? parseInt(state.id):0);
-    const deviceIds = useMemo(()=>room?.device || [],[room?.device])
+    const { room } = useRoomQuery(state.id ? parseInt(state.id) : 0);
+    const deviceIds = useMemo(() => room?.device || [], [room?.device]);
     const { devices } = useDevicesQuery(deviceIds);
     const [filtratedData, setFiltratedData] = useState<IDevice[]>([]);
-    const memoizedDevices = useMemo(()=> devices, [JSON.stringify(devices)]);
+    const memoizedDevices = useMemo(() => devices, [JSON.stringify(devices)]);
 
     useEffect(() => {
         if (!memoizedDevices) return;
         setFiltratedData(memoizedDevices);
-      }, [memoizedDevices]);
+    }, [memoizedDevices]);
 
     function handleFilter(value: string) {
         if (!devices) return;
-
         const filter = value.toLowerCase();
-        const dataToDisplay = devices.filter((device:IDevice) => {
-          return device.name.toLowerCase().includes(filter);
-        });
+        const dataToDisplay = devices.filter((device: IDevice) =>
+            device.name.toLowerCase().includes(filter)
+        );
         setFiltratedData(dataToDisplay);
-      }
+    }
 
     if (!room) {
-    return (<LoadingAnimation size="xlarge" type="spinner" glow={true}/>)
+        return <LoadingAnimation size="xlarge" type="spinner" glow={true} />;
     }
 
     return (
-      <PageContainer>
-        <PageHeader title={room.name}>
-          <div className={styles.buttonContainer}>
-              <QueryInput
-                  onChange={handleFilter}
-              />
-              <DeviceActionPanel
-                  buttons={[
-                      { label: "Edytuj", to: `/room/${state.id}/settings`, type: "primary", tooltip: "Edytuj ustawianie pokoju" },
-                      { label: "Dodaj urządzenie", to: `/room/${state.id}/add`, type: "default", tooltip: "Dodaj nowe urzadzenie do pokoju" },
-                  ]}
-                  showWifi={false}
-              />
-          </div>
-        </PageHeader>
-          {filtratedData?.length === 0 ? (
-              <div className={styles.emptyState}>
-                <p>Nie znaleziono urządzeń</p>
-              </div>
-          ) : (
-              <CardContainer>
-                {filtratedData?.map((device: IDevice) =>
-                    getDeviceComponent(device)
-                )}
-              </CardContainer>
-          )}
-      </PageContainer>
+        <PageContainer>
+            <PageHeader title={room.name}>
+                <div className={styles.buttonContainer}>
+                    <QueryInput onChange={handleFilter} />
+                    <DeviceActionPanel
+                        buttons={[
+                            { label: t("room.editButton"), to: `/room/${state.id}/settings`, type: "primary", tooltip: t("room.editTooltip") },
+                            { label: t("room.addDeviceButton"), to: `/room/${state.id}/add`, type: "default", tooltip: t("room.addDeviceTooltip") },
+                        ]}
+                        showWifi={false}
+                    />
+                </div>
+            </PageHeader>
+
+            {filtratedData?.length === 0 ? (
+                <div className={styles.emptyState}>
+                    <p>{t("room.emptyState")}</p>
+                </div>
+            ) : (
+                <CardContainer>
+                    {filtratedData?.map((device: IDevice) => getDeviceComponent(device))}
+                </CardContainer>
+            )}
+        </PageContainer>
     );
 }

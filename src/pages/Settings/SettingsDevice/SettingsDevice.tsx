@@ -22,8 +22,10 @@ import useDeviceMutation from "../../../hooks/queries/device/useDeviceMutation";
 import styles from "./SettingsDevice.module.css";
 import usePrefetchRoomQuery from "../../../hooks/queries/room/usePrefetchRoomQuery.tsx";
 import useFavouriteMutation from "../../../hooks/queries/useFavouriteMutation.tsx";
+import {useTranslation} from "react-i18next";
 
 export default function SettingsDevice() {
+    const { t } = useTranslation();
     const params = useParams();
     const navigate = useNavigate();
     const id = parseInt(params.id || "0");
@@ -56,7 +58,7 @@ export default function SettingsDevice() {
         if (!deviceName.trim()) {
             toaster.push(
                 <Message closable type="warning" showIcon >
-                    Nazwa nie może być pusta
+                    {t("settingsDevice.nameEmpty")}
                 </Message>,
                 { placement: "topCenter", duration: 3000 }
             );
@@ -68,14 +70,14 @@ export default function SettingsDevice() {
             await updateMutation.mutateAsync({ name: deviceName });
             toaster.push(
                 <Message closable type="success" showIcon>
-                    Nazwa urządzenia została zaktualizowana
+                    {t("settingsDevice.nameUpdated")}
                 </Message>,
                 { placement: "topCenter", duration: 3000 }
             );
         } catch (error) {
             toaster.push(
                 <Message closable type="error" showIcon>
-                    Błąd podczas aktualizacji nazwy
+                    {t("settingsDevice.nameUpdateError")}
                 </Message>,
                 { placement: "topCenter", duration: 3000 }
             );
@@ -90,14 +92,14 @@ export default function SettingsDevice() {
             await updateMutation.mutateAsync({ room: roomId });
             toaster.push(
                 <Message closable type="success" showIcon>
-                    {roomId ? "Przypisano do pokoju" : "Usunięto z pokoju"}
+                    {roomId ? t("settingsDevice.roomAssigned") : t("settingsDevice.roomRemoved")}
                 </Message>,
                 { placement: "topCenter", duration: 3000 }
             );
         } catch (error) {
             toaster.push(
                 <Message closable type="error" showIcon>
-                    Błąd podczas zmiany pokoju
+                    {t("settingsDevice.roomChangeError")}
                 </Message>,
                 { placement: "topCenter", duration: 3000 }
             );
@@ -107,19 +109,18 @@ export default function SettingsDevice() {
 
     const handleFavouriteToggle = async (checked: boolean) => {
         setIsFavourite(checked);
-        console.log("favourite",checked)
         try {
             await favouriteMutation.mutateAsync({id: id, is_favourite: !checked, type:"device"});
             toaster.push(
                 <Message closable type="success" showIcon>
-                    {checked ? "Dodano do ulubionych" : "Usunięto z ulubionych"}
+                    {checked ? t("settingsDevice.favouriteAdded") : t("settingsDevice.favouriteRemoved")}
                 </Message>,
                 { placement: "topCenter", duration: 3000 }
             );
         } catch (error) {
             toaster.push(
                 <Message closable type="error" showIcon>
-                    Błąd podczas zmiany ulubionych
+                    {t("settingsDevice.favouriteError")}
                 </Message>,
                 { placement: "topCenter", duration: 3000 }
             );
@@ -134,7 +135,7 @@ export default function SettingsDevice() {
             setSelectedRoom(null);
             toaster.push(
                 <Message closable type="success" showIcon>
-                    Urządzenie usunięte z pokoju
+                    {t("settingsDevice.removedFromRoom")}
                 </Message>,
                 { placement: "topCenter", duration: 3000 }
             );
@@ -142,7 +143,7 @@ export default function SettingsDevice() {
         } catch (error) {
             toaster.push(
                 <Message closable type="error" showIcon>
-                    Błąd podczas usuwania z pokoju
+                    {t("settingsDevice.deleteError")}
                 </Message>,
                 { placement: "topCenter", duration: 3000 }
             );
@@ -155,7 +156,7 @@ export default function SettingsDevice() {
             await deleteMutation.mutateAsync();
             toaster.push(
                 <Message closable type="success" showIcon>
-                    Urządzenie zostało usunięte
+                    {t("settingsDevice.deleteSuccess")}
                 </Message>,
                 { placement: "topCenter", duration: 3000 }
             );
@@ -163,7 +164,7 @@ export default function SettingsDevice() {
         } catch (error) {
             toaster.push(
                 <Message closable type="error" showIcon>
-                    Błąd podczas usuwania urządzenia
+                    {t("settingsDevice.deleteError")}
                 </Message>,
                 { placement: "topCenter", duration: 3000 }
             );
@@ -180,14 +181,14 @@ export default function SettingsDevice() {
     })) || [];
 
     const formatLastSeen = (dateString: string) => {
-        if (!dateString) return "Nigdy";
+        if (!dateString) return t("settingsDevice.never");
         const date = new Date(dateString);
         return date.toLocaleString("pl-PL");
     };
 
     return (
         <PageContainer className={styles.container}>
-            <PageHeader title="Ustawienia urządzenia">
+            <PageHeader title={t("settingsDevice.title")}>
                 <WifiStrength
                     size="large"
                     strength={device.is_online ? device.wifi_strength : -100}
@@ -199,7 +200,7 @@ export default function SettingsDevice() {
                     header={
                         <div className={styles.panelHeader}>
                             <span className={styles.panelIcon}>ℹ️</span>
-                            <span className={styles.panelTitle}>Informacje podstawowe</span>
+                            <span className={styles.panelTitle}>{t("settingsDevice.basicInfo")}</span>
                         </div>
                     }
                     bordered
@@ -207,21 +208,21 @@ export default function SettingsDevice() {
                 >
                     <List>
                         <List.Item className={styles.infoItem}>
-                            <span className={styles.infoLabel}>Typ:</span>
+                            <span className={styles.infoLabel}>{t("settingsDevice.type")}:</span>
                             <span className={styles.infoValue}>{device.fun || "N/A"}</span>
                         </List.Item>
                         <List.Item className={styles.infoItem}>
-                            <span className={styles.infoLabel}>Status:</span>
+                            <span className={styles.infoLabel}>{t("settingsDevice.status")}:</span>
                             <span className={`${styles.infoValue} ${device.is_online ? styles.online : styles.offline}`}>
                                 {device.is_online ? "🟢 Online" : "🔴 Offline"}
                               </span>
                         </List.Item>
                         <List.Item className={styles.infoItem}>
-                            <span className={styles.infoLabel}>Siła WiFi:</span>
+                            <span className={styles.infoLabel}>{t("settingsDevice.wifiStrength")}:</span>
                             <span className={styles.infoValue}>{device.wifi_strength || "N/A"} dBm</span>
                         </List.Item>
                         <List.Item className={styles.infoItem}>
-                            <span className={styles.infoLabel}>Ostatnio widziane:</span>
+                            <span className={styles.infoLabel}>{t("settingsDevice.lastSeen")}:</span>
                             <span className={styles.infoValue}>{formatLastSeen(device.last_seen)}</span>
                         </List.Item>
                     </List>
@@ -231,20 +232,20 @@ export default function SettingsDevice() {
                     header={
                         <div className={styles.panelHeader}>
                             <span className={styles.panelIcon}>⚙️</span>
-                            <span className={styles.panelTitle}>Konfiguracja</span>
+                            <span className={styles.panelTitle}>{t("settingsDevice.config")}</span>
                         </div>
                     }
                     bordered
                     className={styles.panel}
                 >
                     <div className={styles.configSection}>
-                        <label className={styles.configLabel}>📝 Nazwa urządzenia</label>
+                        <label className={styles.configLabel}>📝{t("settingsDevice.deviceName")}</label>
                         <div className={styles.nameSection}>
                             <InputGroup className={styles.inputGroup}>
                                 <Input
                                     value={deviceName}
                                     onChange={setDeviceName}
-                                    placeholder="Wprowadź nazwę urządzenia"
+                                    placeholder={t("settingsDevice.setDeviceName")}
                                     size="lg"
                                 />
                             </InputGroup>
@@ -255,7 +256,7 @@ export default function SettingsDevice() {
                                 loading={isUpdating}
                                 className={styles.saveButton}
                             >
-                                Zapisz
+                                {t("buttons.saveButton")}
                             </Button>
                         </div>
                     </div>
@@ -263,12 +264,12 @@ export default function SettingsDevice() {
                     <Divider className={styles.divider} />
 
                     <div className={styles.configSection}>
-                        <label className={styles.configLabel}>🏠 Przypisanie do pokoju</label>
+                        <label className={styles.configLabel}>🏠 {t("settingsDevice.roomAssignment")}</label>
                         <SelectPicker
                             data={roomOptions}
                             value={selectedRoom}
                             onChange={handleRoomChange}
-                            placeholder="Wybierz pokój"
+                            placeholder={t("settingsDevice.selectRoom")}
                             size="lg"
                             block
                             searchable={false}
@@ -282,17 +283,17 @@ export default function SettingsDevice() {
                     <div className={styles.configSection}>
                         <div className={styles.toggleSection}>
                             <div className={styles.toggleInfo}>
-                                <label className={styles.configLabel}>⭐ Ulubione</label>
+                                <label className={styles.configLabel}>⭐{t("settingsDevice.favourite")}</label>
                                 <p className={styles.configDesc}>
-                                    Oznacz urządzenie jako ulubione, aby łatwiej je znaleźć
+                                    {t("settingsDevice.favouriteDescription")}
                                 </p>
                             </div>
                             <Toggle
                                 checked={isFavourite}
                                 onChange={handleFavouriteToggle}
                                 size="lg"
-                                checkedChildren="TAK"
-                                unCheckedChildren="NIE"
+                                checkedChildren={t("settingsDevice.yes")}
+                                unCheckedChildren={t("settingsDevice.no")}
                             />
                         </div>
                     </div>
@@ -302,7 +303,7 @@ export default function SettingsDevice() {
                     header={
                         <div className={styles.panelHeader}>
                             <span className={styles.panelIcon}>🛠️</span>
-                            <span className={styles.panelTitle}>Akcje zaawansowane</span>
+                            <span className={styles.panelTitle}>{t("settingsDevice.actions")}</span>
                         </div>
                     }
                     bordered
@@ -313,9 +314,9 @@ export default function SettingsDevice() {
                             <>
                                 <div className={styles.actionItem}>
                                     <div className={styles.actionInfo}>
-                                        <h4 className={styles.actionTitle}>🚪 Usuń z pokoju</h4>
+                                        <h4 className={styles.actionTitle}>🚪{t("settingsDevice.removeFromRoom")}</h4>
                                         <p className={styles.actionDesc}>
-                                            Usuń urządzenie z przypisanego pokoju
+                                            {t("settingsDevice.removeDeviceFromRoom")}
                                         </p>
                                     </div>
                                     <Button
@@ -324,7 +325,7 @@ export default function SettingsDevice() {
                                         onClick={() => setShowRemoveFromRoomModal(true)}
                                         className={styles.removeButton}
                                     >
-                                        Usuń z pokoju
+                                        {t("settingsDevice.deleteDevice")}
                                     </Button>
                                 </div>
                                 <Divider className={styles.divider} />
@@ -333,9 +334,9 @@ export default function SettingsDevice() {
 
                         <div className={styles.actionItem}>
                             <div className={styles.actionInfo}>
-                                <h4 className={styles.actionTitle}>🗑️ Usuń urządzenie</h4>
+                                <h4 className={styles.actionTitle}>🗑️ {t("settingsDevice.deleteDevice")}</h4>
                                 <p className={styles.actionDesc}>
-                                    Trwale usuń urządzenie z systemu. Tej operacji nie można cofnąć.
+                                    {t("settingsDevice.deleteWarning")}
                                 </p>
                             </div>
                             <Button
@@ -345,7 +346,7 @@ export default function SettingsDevice() {
                                 onClick={() => setShowDeleteModal(true)}
                                 className={styles.deleteButton}
                             >
-                                Usuń urządzenie
+                                {t("settingsDevice.deleteDevice")}
                             </Button>
                         </div>
                     </div>
@@ -360,19 +361,19 @@ export default function SettingsDevice() {
             >
                 <Modal.Header>
                     <Modal.Title className={styles.modalTitle}>
-                        🚪 Potwierdź usunięcie z pokoju
+                        🚪{t("settingsDevice.removeConfirmTitle")}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body className={styles.modalBody}>
-                    <p>Czy na pewno chcesz usunąć urządzenie <strong>{device.name}</strong> z pokoju?</p>
-                    <p className={styles.modalNote}>Będziesz mógł przypisać je ponownie później.</p>
+                    <p>{t("settingsDevice.removeConfirmText")}</p>
+                    <p className={styles.modalNote}>{t("settingsDevice.removeFromRoomNote")}</p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={handleRemoveFromRoom} appearance="primary">
-                        Tak, usuń z pokoju
+                        {t("settingsDevice.confirmRemoveFromRoom")}
                     </Button>
                     <Button onClick={() => setShowRemoveFromRoomModal(false)} appearance="subtle">
-                        Anuluj
+                        {t("buttons.cancelButton")}
                     </Button>
                 </Modal.Footer>
             </Modal>
@@ -385,21 +386,21 @@ export default function SettingsDevice() {
             >
                 <Modal.Header>
                     <Modal.Title className={styles.modalTitle}>
-                        ⚠️ Potwierdź usunięcie
+                        ⚠️{t("settingsDevice.deleteConfirmTitle")}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body className={styles.modalBody}>
-                    <p>Czy na pewno chcesz usunąć urządzenie <strong>{device.name}</strong>?</p>
+                    <p>{t("settingsDevice.deleteConfirmText")}</p>
                     <p className={styles.modalWarning}>
-                        ⚠️ Ta operacja jest <strong>nieodwracalna</strong>. Wszystkie dane urządzenia zostaną trwale usunięte.
+                        ⚠️ {t("settingsDevice.deleteWarning")}
                     </p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={handleDeleteDevice} appearance="primary" color="red">
-                        Tak, usuń urządzenie
+                        {t("settingsDevice.deleteConfirmTitle")}
                     </Button>
                     <Button onClick={() => setShowDeleteModal(false)} appearance="subtle">
-                        Anuluj
+                        {t("buttons.cancelButton")}
                     </Button>
                 </Modal.Footer>
             </Modal>

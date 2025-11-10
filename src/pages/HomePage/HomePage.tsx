@@ -10,8 +10,10 @@ import PageContainer from "../../components/ui/containers/PageContainer/PageCont
 import PageHeader from "../../components/ui/Headers/PageHeader/PageHeader.tsx";
 import useDevicesQuery from "../../hooks/queries/device/useDevicesQuery.tsx";
 import useRoomsQuery from "../../hooks/queries/room/useRoomsQuery.tsx";
+import { useTranslation } from "react-i18next";
 
 export default function HomePage() {
+    const { t } = useTranslation();
     const { favouriteData } = useFavouriteQuery();
     const { devices } = useDevicesQuery(favouriteData?.devices || []);
     const { rooms } = useRoomsQuery(favouriteData?.rooms || []);
@@ -38,7 +40,7 @@ export default function HomePage() {
     if (!favouriteDevice || !favouriteRoom) return null;
     return (
       <PageContainer>
-        <PageHeader title="Dashboard" subtitle="Witaj z powrotem w Smart Home">
+        <PageHeader title={t("home.title")} subtitle={t("home.subtitle")}>
           <QueryInput onChange={handleSearch}/>
         </PageHeader>
         <CardContainer>

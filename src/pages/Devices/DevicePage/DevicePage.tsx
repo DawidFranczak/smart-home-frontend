@@ -7,10 +7,12 @@ import CardContainer from "../../../components/ui/containers/CardContainer/CardC
 import PageContainer from "../../../components/ui/containers/PageContainer/PageContainer.tsx";
 import LoadingAnimation from "../../../components/ui/LoadingAnimation/LoadingAnimation.tsx";
 import PageHeader from "../../../components/ui/Headers/PageHeader/PageHeader.tsx";
+import {useTranslation} from "react-i18next";
 
 export default function Device() {
   const { deviceData } = usePrefetchDeviceQuery();
   const [query, setQuery] = useState<IDevice[]>([]);
+  const {t} = useTranslation();
   useEffect(() => {
     if (deviceData) {
       setQuery(deviceData);
@@ -29,7 +31,7 @@ export default function Device() {
   console.log(query)
   return (
     <PageContainer>
-      <PageHeader title="Urządzenia">
+      <PageHeader title={t("device.title")}>
         <QueryInput onChange={handleDeviceQuery} />
       </PageHeader>
       <CardContainer>

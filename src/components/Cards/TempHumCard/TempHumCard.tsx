@@ -4,7 +4,7 @@ import StyledLink from "../../ui/StyledLink/StyledLink.tsx";
 import InfoCard from "../../ui/InfoCard/InfoCard";
 import styles from "./TempHumCard.module.css";
 import { IDevice } from "../../../interfaces/IDevice";
-
+import {useTranslation} from "react-i18next";
 type TempHumDevice = IDevice & {
     temperature?: number;
     humidity?: number;
@@ -24,7 +24,7 @@ export default function TempHumCard(tempHum: TempHumDevice) {
     const lastDate = formatIsoSeconds(tempHum.timestamp);
     const temperature = formatNumber((tempHum as any).temperature);
     const humidity = formatNumber((tempHum as any).humidity);
-
+    const {t} = useTranslation();
     return (
         <DeviceCardContainer
             name={tempHum.name}
@@ -39,7 +39,7 @@ export default function TempHumCard(tempHum: TempHumDevice) {
                 <InfoCard  className={styles.infoCardValue}>{humidity} %</InfoCard>
             </CardIconContainer>
             <StyledLink type="fancy" to={`/temperature/${tempHum.id}/`}>
-                Wybierz
+                {t("buttons.select")}
             </StyledLink>
         </DeviceCardContainer>
     );

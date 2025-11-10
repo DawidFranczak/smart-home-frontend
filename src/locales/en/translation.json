@@ -1,0 +1,293 @@
+{
+  "events": {
+    "button": {
+      "toggle": "Toggle",
+      "hold": "Hold",
+      "click": "Click"
+    }
+  },
+  "buttons": {
+    "select": "Select",
+    "deviceSettings": "Device settings",
+    "deviceSettingsTooltip": "Change device settings",
+    "deviceEvent": "Event Settings",
+    "deviceEventTooltip": "Configure events for this device",
+    "saveButton": "Save",
+    "addButton": "Add",
+    "cancelButton": "Cancel"
+  },
+  "selectRoom": {
+    "title": "Rooms",
+    "active": "Active",
+    "all":"All"
+  },
+  "deviceEventWizard": {
+    "title": "Add Action",
+    "subtitle": "Configure an event for your device",
+    "eventLabel": "Select event",
+    "eventPlaceholder": "Select event",
+    "deviceFunctionLabel": "Select type",
+    "deviceFunctionPlaceholder": "Select device type",
+    "selectDeviceLabel": "Select device",
+    "selectDevicePlaceholder": "Select device",
+    "actionLabel": "Select action",
+    "actionPlaceholder": "Select action",
+    "extraSettingsLabel": "Additional options",
+    "errorFillAllFields": "Please fill in all form fields.",
+    "validation": {
+      "eventRequired": "Please select an event.",
+      "deviceFunctionRequired": "Please select a device type.",
+      "selectDeviceRequired": "Please select a device.",
+      "actionRequired": "Please select an action."
+    }
+  },
+  "settingsDevice": {
+    "never": "Never",
+    "setDeviceName": "Enter device name",
+    "selectRoom": "Select room",
+    "yes": "YES",
+    "no": "NO",
+    "favouriteDescription": "Mark the device as favourite to find it easier",
+    "removeFromRoomNote": "You will be able to assign it again later.",
+    "confirmRemoveFromRoom": "Yes, remove from room",
+    "removeDeviceFromRoom": "Remove device from assigned room",
+    "title": "Device settings",
+    "basicInfo": "Basic information",
+    "type": "Type",
+    "status": "Status",
+    "wifiStrength": "WiFi Strength",
+    "lastSeen": "Last seen",
+    "config": "Configuration",
+    "deviceName": "Device name",
+    "roomAssignment": "Assign to room",
+    "favourite": "Favourite",
+    "actions": "Advanced actions",
+    "removeFromRoom": "Remove from room",
+    "deleteDevice": "Delete device",
+    "removeConfirmTitle": "Confirm removal from room",
+    "removeConfirmText": "Are you sure you want to remove the device from the room?",
+    "deleteConfirmTitle": "Confirm deletion",
+    "deleteConfirmText": "Are you sure you want to delete the device?",
+    "deleteWarning": "This operation is irreversible. All device data will be permanently deleted.",
+    "save": "Save",
+    "nameEmpty": "Name cannot be empty",
+    "nameUpdated": "Device name has been updated",
+    "nameUpdateError": "Error updating name",
+    "roomAssigned": "Assigned to room",
+    "roomRemoved": "Removed from room",
+    "roomChangeError": "Error changing room",
+    "favouriteAdded": "Added to favourites",
+    "favouriteRemoved": "Removed from favourites",
+    "favouriteError": "Error updating favourites",
+    "removedFromRoom": "Device removed from room",
+    "deleteSuccess": "Device has been deleted",
+    "deleteError": "Error deleting device"
+  },
+  "lampPage": {
+    "schedule": "Lamp Schedule",
+    "lightStart": "Start Time",
+    "lightStop": "End Time",
+    "lightingParams": "Lighting Parameters",
+    "brightness": "Brightness",
+    "speed": "Change Speed",
+    "lightingTime": "Lighting Time (s)"
+  },
+  "confirmDelete": {
+    "title": "Confirm Deletion",
+    "message": "Are you sure you want to delete",
+    "confirm": "Yes, delete",
+    "cancel": "Cancel"
+  },
+  "rfidPage": {
+    "addCard": "Add card",
+    "automaticEventsDescription": "Automatic events triggered by the RFID reader",
+    "registeredCards": "Registered cards",
+    "allCardsDescription": "List of all cards assigned to this reader",
+    "noCardsTitle": "No cards",
+    "noCardsDescription": "No RFID cards registered yet. Click the \"Add card\" button to add the first card.",
+    "addFirstCard": "Add the first card"
+  },
+  "addCardForm": {
+    "addCardTitle": " Add new card",
+    "pendingMessage": "Hold the card near the reader...",
+    "instruction": "Enter the card name and hold it near the RFID reader.",
+    "cardNamePlaceholder": "Card name",
+    "errorNameRequired": "This field is required",
+    "error400": "Failed to add card, please try again.",
+    "error409": "This card is already registered."
+  },
+  "cardCard": {
+    "lastUsed": "Last used",
+    "delete": "Delete",
+    "deleting": "Deleting...",
+    "confirmDelete": "card"
+  },
+  "temperatureChart": {
+    "tooNarrow": "The screen is too narrow to display the chart",
+    "datePickerPlaceholder": "Select date range",
+    "historyTitle": "Temperature and Humidity History",
+    "temperatureLabel": "Temperature (°C)",
+    "humidityLabel": "Humidity (%)",
+    "noData": "No data for the selected range"
+  },
+  "settingsPanel": {
+    "temperatureSettings": "Temperature Settings",
+    "temperatureHysteresis": "Temperature Sensor Hysteresis",
+    "triggerTempDown": "Trigger action when temperature falls below",
+    "triggerTempUp": "Trigger action when temperature rises above",
+    "humiditySettings": "Humidity Settings",
+    "humidityHysteresis": "Humidity Sensor Hysteresis",
+    "triggerHumDown": "Trigger action when humidity falls below",
+    "triggerHumUp": "Trigger action when humidity rises above"
+  },
+  "aggregationData": {
+    "sectionTitle": "Statistics for the selected period",
+    "temperature": {
+      "avg": "Average Temperature",
+      "max": "Maximum Temperature",
+      "min": "Minimum Temperature"
+    },
+    "humidity": {
+      "avg": "Average Humidity",
+      "max": "Maximum Humidity",
+      "min": "Minimum Humidity"
+    }
+  },
+  "buttonTypes": {
+    "MONO": "MONO",
+    "BI": "BI"
+  },
+  "message": {
+    "success": "Saved",
+    "error": "Failed to save"
+  },
+  "deviceEventSection": {
+    "title": "Active events"
+  },
+  "changeButtonTypeForm": {
+    "selectLabel": "Select button type"
+  },
+  "tempHumPage": {
+    "eventsDescription": "Automatic events triggered by the sensor"
+  },
+  "buttonPage": {
+    "automaticEventsDescription": "Automatic events triggered by pressing the button"
+  },
+  "aquariumPage": {
+    "ledColor": "LED Color",
+    "lightingSchedule": "Lighting Schedule",
+    "controls": "Controls",
+    "modeSection": "Mode",
+    "ledStart": "LED - Start",
+    "ledStop": "LED - Stop",
+    "fluoStart": "Fluorescent - Start",
+    "fluoStop": "Fluorescent - Stop",
+    "currentColor": "Current color",
+    "fluorescent": "fluorescent",
+    "on": "ON",
+    "off": "OFF",
+    "auto": "AUTO",
+    "manual": "MANUAL",
+    "mode": "Mode",
+    "saveSettings": "Save Settings",
+    "communicationError": "Communication error with aquarium.",
+    "savedMessage": "Settings saved."
+  },
+  "homeLeave": {
+    "homeName": "home"
+  },
+  "homeCode": {
+    "title": "Home Code",
+    "subtitle": "Your one-time access code to the home:",
+    "copyTooltip": "Copy code",
+    "copiedMessage": "Copied to clipboard 📋",
+    "copyButton": "Copy code",
+    "errorMessage": "An error occurred while fetching the code."
+  },
+  "changeHome": {
+    "title": "Change Home",
+    "subtitle": "After changing the home, all devices assigned to the current one will be removed.",
+    "homeCodeLabel": "Home Code",
+    "homeCodePlaceholder": "Enter new home code",
+    "submitButton": "Change Home",
+    "successMessage": "Home has been successfully changed",
+    "emptyError": "Please provide a home code"
+  },
+  "changePassword": {
+    "title": "Change Password",
+    "subtitle": "Make sure your new password is strong and different from previous ones.",
+    "currentPassword": "Current password",
+    "currentPasswordPlaceholder": "Enter current password",
+    "newPassword": "New password",
+    "newPasswordPlaceholder": "Enter new password",
+    "newPassword2": "Repeat new password",
+    "newPassword2Placeholder": "Repeat new password",
+    "saveButton": "Save Password",
+    "successMessage": "Password has been successfully changed"
+  },
+  "settings": {
+    "title": "Settings"
+  },
+  "settingsNavbar": {
+    "passwordChange": "Change password",
+    "homeChange": "Change home",
+    "homeCode": "Home code",
+    "homeLeave": "Leave home"
+  },
+  "camera": {
+  "title": "Cameras",
+  "addButton": "Add Camera",
+  "addTooltip": "Add a new RTSP camera"
+  },
+  "router": {
+    "title": "Router",
+    "ip": "IP",
+    "mac": "MAC",
+    "assignedDevices": "Assigned devices",
+    "activeDevices": "Active devices"
+  },
+  "device": {
+    "title": "Devices"
+  },
+  "room": {
+    "editButton": "Edit",
+    "addDeviceButton": "Add Device",
+    "editTooltip": "Edit room settings",
+    "addDeviceTooltip": "Add a new device to the room",
+    "emptyState": "No devices found"
+  },
+  "home": {
+    "title": "Dashboard",
+    "subtitle": "Welcome back to Smart Home"
+  },
+  "login": {
+    "title": "Smart Home",
+    "subtitle": "Sign in to your account",
+    "username": "Username",
+    "password": "Password",
+    "usernamePlaceholder": "Enter your username",
+    "passwordPlaceholder": "••••••••",
+    "usernameRequired": "Username is required.",
+    "passwordRequired": "Password is required.",
+    "loginButton": "Sign in",
+    "createAccount": "Create a new account"
+  },
+  "registration": {
+    "title": "Smart Home",
+    "subtitle": "Create a new account",
+    "username": "Username",
+    "password": "Password",
+    "password2": "Repeat password",
+    "usernamePlaceholder": "Login",
+    "passwordPlaceholder": "Password",
+    "password2Placeholder": "Repeat password",
+    "usernameRequired": "Username is required.",
+    "passwordRequired": "Password is required.",
+    "password2Required": "Repeat password is required.",
+    "passwordsMismatch": "Passwords do not match",
+    "registrationButton": "Register",
+    "registrationSuccess": "Registration successful. You will be redirected to the login page shortly.",
+    "unexpectedError": "Unexpected server error.",
+    "networkError": "Network error. Please try again."
+  }
+}

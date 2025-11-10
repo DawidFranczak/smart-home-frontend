@@ -15,6 +15,7 @@ import { IRfid } from "../../../interfaces/IRfid.tsx";
 import styles from "./RfidPage.module.css";
 import DeviceEventSection from "../../../components/DeviceEventSection/DeviceEventSection.tsx";
 import QueryInput from "../../../components/ui/QueryInput/QueryInput.tsx";
+import {useTranslation} from "react-i18next";
 
 export default function RfidPage() {
     const [cards, setCards] = useState<ICard[]>([]);
@@ -23,6 +24,7 @@ export default function RfidPage() {
     const id = params.id ? parseInt(params.id) : 0;
     const { device, status } = useDeviceQuery(id);
     const rfidData = device as IRfid;
+    const {t} = useTranslation();
 
     useEffect(() => {
         if (rfidData) setCards(rfidData.cards);
@@ -45,15 +47,15 @@ export default function RfidPage() {
                 <DeviceActionPanel
                     buttons={[
                         {
-                            label: "Ustawienia zdarzeń",
+                            label: t("buttons.deviceEvent"),
                             to: `/rfid/${rfidData.id}/event/wizard/`,
                             type: "primary",
-                            tooltip: "Skonfiguruj zdarzenia",
+                            tooltip: t("buttons.deviceEventTooltip"),
                         },
                         {
-                            label: "Ustawienia urządzenia",
+                            label: t("buttons.deviceSettings"),
                             to: `/rfid/${rfidData.id}/settings/`,
-                            tooltip: "Zmień ustawienia",
+                            tooltip: t("buttons.deviceSettingsTooltip"),
                         },
                     ]}
                     wifiStrength={rfidData.is_online ? rfidData.wifi_strength : -100}
@@ -65,7 +67,7 @@ export default function RfidPage() {
                         onClick={() => setShowAddCardForm(true)}
                         className={styles.addButton}
                     >
-                        Dodaj kartę
+                        {t("rfidPage.addCard")}
                     </Button>
                 </DeviceActionPanel>
             </PageHeader>
@@ -77,17 +79,17 @@ export default function RfidPage() {
                 status={status}
             />
 
-            <DeviceEventSection events={rfidData.events} description="Zdarzenia automatyczne wyzwalane przez czytnik RFID"/>
+            <DeviceEventSection events={rfidData.events} description={t("rfidPage.automaticEventsDescription")}/>
 
             <Panel className={styles.section} bordered>
                 <div className={styles.sectionHeader}>
                     <div>
                         <div className={styles.sectionTitle}>
-                            <h3> Zarejestrowane karty</h3>
+                            <h3>{t("rfidPage.registeredCards")}</h3>
                             <Badge content={cards.length} color="cyan" />
                         </div>
                         <p className={styles.sectionDesc}>
-                            Lista wszystkich kart przypisanych do czytnika
+                            {t("rfidPage.allCardsDescription")}
                         </p>
                     </div>
                     <QueryInput onChange={handleFilterCards}/>
@@ -104,10 +106,9 @@ export default function RfidPage() {
                 ) : (
                     <div className={styles.emptyState}>
                         <span className={styles.emptyIcon}></span>
-                        <h4 className={styles.emptyTitle}>Brak kart</h4>
+                        <h4 className={styles.emptyTitle}> {t("rfidPage.noCardsTitle")}</h4>
                         <p className={styles.emptyDesc}>
-                            Nie zarejestrowano jeszcze żadnych kart RFID.
-                            Kliknij przycisk "Dodaj kartę" aby dodać pierwszą kartę.
+                            {t("rfidPage.noCardsDescription")}
                         </p>
                         <Button
                             appearance="primary"
@@ -115,7 +116,7 @@ export default function RfidPage() {
                             onClick={() => setShowAddCardForm(true)}
                             className={styles.emptyButton}
                         >
-                            Dodaj pierwszą kartę
+                            {t("rfidPage.addFirstCard")}
                         </Button>
                     </div>
                 )}

@@ -5,6 +5,8 @@ import {DateRange} from "rsuite/DateRangePicker";
 import LoadingAnimation from "../../ui/LoadingAnimation/LoadingAnimation.tsx";
 import {CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAxis, Tooltip} from "recharts";
 import formatDate from "../../../utils/formatDate.tsx";
+import {useTranslation} from "react-i18next";
+
 interface IChartData {
     timestamp: string;
     value: number;
@@ -47,7 +49,7 @@ function prepareChartData(temperatureData:IChartData[]| undefined, humidityData:
 
 export default function TemperatureChart({onDataChange, temperatureData, humidityData}: TemperatureChartProps) {
     const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
-
+    const {t} = useTranslation();
     useEffect(() => {
         const handleResize = () => setWindowWidth(window.innerWidth);
         window.addEventListener("resize", handleResize);
@@ -57,7 +59,7 @@ export default function TemperatureChart({onDataChange, temperatureData, humidit
     const chartData = useMemo(()=> prepareChartData(temperatureData,humidityData),[temperatureData,humidityData]);
     if (windowWidth < 786){
         return <div className={styles.noChartMessage}>
-            📱 Wyświetlacz jest zbyt wąski aby wyświetlić wykres
+            📱 {t("temperatureChart.tooNarrow")}
         </div>
     }
 
@@ -68,7 +70,7 @@ export default function TemperatureChart({onDataChange, temperatureData, humidit
                 character=" – "
                 onChange={onDataChange}
                 style={{width: '100%', maxWidth: '400px'}}
-                placeholder="Wybierz zakres dat"
+                placeholder={t("temperatureChart.datePickerPlaceholder")}
                 cleanable
             />
         </div>
@@ -77,7 +79,7 @@ export default function TemperatureChart({onDataChange, temperatureData, humidit
                 <LoadingAnimation size="large" type="spinner" glow={true}/>
             ) : chartData.length > 0 ? (
                 <Panel bordered className={styles.chartPanel}>
-                    <h3>Historia temperatury i wilgotności</h3>
+                    <h3>{t("temperatureChart.historyTitle")}</h3>
                     <div className={styles.chartWrapper}>
                         <ResponsiveContainer className={styles.responsiveContainer}>
                             <LineChart data={chartData}>
@@ -87,7 +89,7 @@ export default function TemperatureChart({onDataChange, temperatureData, humidit
                                 {temperatureData?.length && temperatureData?.length > 1 && <>
                                     <YAxis yAxisId="left" orientation="left" stroke="#4dabf7"
                                            tick={{fontSize: 11, fill: '#aaa'}} label={{
-                                        value: 'Temperatura (°C)',
+                                        value: t("temperatureChart.temperatureLabel"),
                                         angle: -90,
                                         position: 'insideLeft',
                                         fontSize: 18,
@@ -99,7 +101,7 @@ export default function TemperatureChart({onDataChange, temperatureData, humidit
                                 {humidityData?.length && humidityData?.length > 1  && <>
                                     <YAxis yAxisId="right" orientation="right" stroke="#82ca9d"
                                            tick={{fontSize: 11, fill: '#aaa'}} label={{
-                                        value: 'Wilgotność (%)',
+                                        value: t("temperatureChart.humidityLabel"),
                                         angle: 90,
                                         position: 'insideRight',
                                         fontSize: 18,
@@ -122,7 +124,7 @@ export default function TemperatureChart({onDataChange, temperatureData, humidit
                 </Panel>
             ) : (
                 <Panel bordered className={styles.noDataPanel}>
-                    <div>📊 Brak danych dla wybranego zakresu</div>
+                    <div>📊 {t("temperatureChart.noData")}</div>
                 </Panel>
             )}
         </div>

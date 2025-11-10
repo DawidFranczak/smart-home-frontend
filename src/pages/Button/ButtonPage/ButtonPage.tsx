@@ -8,12 +8,14 @@ import DeviceActionPanel from "../../../components/DeviceActionPanel/DeviceActio
 import DeviceEventSection from "../../../components/DeviceEventSection/DeviceEventSection.tsx";
 import styles from "./ButtonPage.module.css";
 import ChangeButtonTypeForm from "../../../components/ChangeButtonTypeForm/ChangeButtonTypeForm.tsx";
+import {useTranslation} from "react-i18next";
 
 export default function ButtonPage() {
   const params = useParams();
   const id = parseInt(params.id ? params.id : "0");
   const { device } = useDeviceQuery(id);
   const buttonData = device as IButton;
+    const {t} = useTranslation();
 
   if (!buttonData) return <LoadingAnimation size="xlarge" type="spinner" glow={true}/>;
   return (
@@ -21,15 +23,15 @@ export default function ButtonPage() {
         <PageHeader title={buttonData.name}>
           <DeviceActionPanel
               buttons={[
-                  { label: "Ustawienia zdarzeń", to: `/button/${buttonData.id}/event/wizard/`, type: "primary", tooltip: "Skonfiguruj zdarzenia dla tego przycisku" },
-                  { label: "Ustawienia urządzenia", to: `/button/${buttonData.id}/settings/`, type: "default", tooltip: "Zmień ustawienia przycisku" }
+                  { label: t("buttons.deviceEvent"), to: `/button/${buttonData.id}/event/wizard/`, type: "primary", tooltip: t("buttons.deviceEventTooltip") },
+                  { label: t("buttons.deviceSettings"), to: `/button/${buttonData.id}/settings/`, type: "default", tooltip: t("buttons.deviceSettingsTooltip") }
               ]}
               wifiStrength={buttonData.is_online ? buttonData.wifi_strength : -100}
               showWifi={true}
           />
         </PageHeader>
           <ChangeButtonTypeForm id={buttonData.id} current_type={buttonData.button_type} />
-          <DeviceEventSection events={buttonData.events} description="Zdarzenia automatyczne wyzwalane przez naciśnięcie przycisku"/>
+          <DeviceEventSection events={buttonData.events} description={t("buttonPage.automaticEventsDescription")}/>
       </PageContainer>
   );
 }

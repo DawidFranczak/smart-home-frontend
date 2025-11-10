@@ -14,6 +14,7 @@ import LoadingAnimation from "../../../components/ui/LoadingAnimation/LoadingAni
 import InputTime from "../../../components/ui/InputTime/InputTime.tsx";
 import useDeviceQuery from "../../../hooks/queries/device/useDeviceQuery.tsx";
 import DeviceActionPanel from "../../../components/DeviceActionPanel/DeviceActionPanel.tsx";
+import {useTranslation} from "react-i18next";
 
 interface IState {
     aquariumData: IAquarium;
@@ -90,6 +91,7 @@ export default function AquariumPage() {
     const [state, dispatch] = useReducer(reducer, initialState);
     const aquariumData = device as IAquarium;
     const toaster = useToaster();
+    const {t} = useTranslation();
 
     useEffect(() => {
         if (!isLoading && aquariumData)
@@ -108,12 +110,12 @@ export default function AquariumPage() {
     }, [isLoading, aquariumData]);
 
     useEffect(() => {
-        if (!!mutation.error){
-            toaster.push(<Message showIcon closable type="error">Błąd w komunikacji z akwarium.</Message>)
-        }else if (!!mutation?.data?.status){
-            toaster.push(<Message showIcon closable type="success"> Zapisano dane.</Message>)
+        if (mutation.isError){
+            toaster.push(<Message showIcon closable type="error">{t("aquariumPage.communicationError")}</Message>)
+        }else if (mutation.isSuccess){
+            toaster.push(<Message showIcon closable type="success">{t("aquariumPage.savedMessage")}</Message>)
         }
-    }, [mutation]);
+    }, [mutation.isError,mutation.isSuccess]);
 
     const handleSaveSettings = (type: string | undefined) => {
         if (type) {
@@ -136,12 +138,11 @@ export default function AquariumPage() {
             <PageHeader title={state.aquariumData.name}>
                 <DeviceActionPanel
                     buttons={[
-                        { label: "Ustawienia urządzenia", to: `/aquarium/${state.aquariumData.id}/settings/`, type: "default", tooltip: "Zmień ustawienia przycisku" }
+                        { label: t("buttons.deviceSettings"), to: `/aquarium/${state.aquariumData.id}/settings/`, type: "default", tooltip: t("buttons.deviceSettingsTooltip") }
                     ]}
                     wifiStrength={state.aquariumData.is_online ? state.aquariumData.wifi_strength : -100}
                     showWifi={true}
                 />
-
             </PageHeader>
 
             <div className={styles.content}>
@@ -149,7 +150,7 @@ export default function AquariumPage() {
                     header={
                         <div className={styles.panelHeader}>
                             <span className={styles.panelIcon}>🎨</span>
-                            <span className={styles.panelTitle}>Kolor LED</span>
+                            <span className={styles.panelTitle}>{t("aquariumPage.ledColor")}</span>
                             <Badge
                                 content={state.aquariumData.led_mode ? "ON" : "OFF"}
                                 color={state.aquariumData.led_mode ? "green" : "red"}
@@ -172,7 +173,7 @@ export default function AquariumPage() {
                             />
                         </div>
                         <div className={styles.colorPreview}>
-                            <div className={styles.colorPreviewLabel}>Aktualny kolor</div>
+                            <div className={styles.colorPreviewLabel}>{t("aquariumPage.currentColor")}</div>
                             <div
                                 className={styles.colorBox}
                                 style={{ backgroundColor: currentColor }}
@@ -190,9 +191,9 @@ export default function AquariumPage() {
                     header={
                         <div className={styles.panelHeader}>
                             <span className={styles.panelIcon}>⏰</span>
-                            <span className={styles.panelTitle}>Harmonogram oświetlenia</span>
+                            <span className={styles.panelTitle}>{t("aquariumPage.lightingSchedule")}</span>
                             <Badge
-                                content={state.aquariumData.mode ? "AUTO" : "MANUAL"}
+                                content={state.aquariumData.mode ? t("aquariumPage.auto") : t("aquariumPage.manual")}
                                 color={state.aquariumData.mode ? "blue" : "orange"}
                             />
                         </div>
@@ -204,7 +205,7 @@ export default function AquariumPage() {
                         <div className={styles.scheduleItem}>
                             <label className={styles.scheduleLabel}>
                                 <span className={styles.labelIcon}>💡</span>
-                                LED - Start
+                                {t("aquariumPage.ledStart")}
                             </label>
                             <InputTime
                                 initialTime={state.aquariumData.led_start}
@@ -216,7 +217,7 @@ export default function AquariumPage() {
                         <div className={styles.scheduleItem}>
                             <label className={styles.scheduleLabel}>
                                 <span className={styles.labelIcon}>💡</span>
-                                LED - Stop
+                                {t("aquariumPage.ledStop")}
                             </label>
                             <InputTime
                                 initialTime={state.aquariumData.led_stop}
@@ -228,7 +229,7 @@ export default function AquariumPage() {
                         <div className={styles.scheduleItem}>
                             <label className={styles.scheduleLabel}>
                                 <span className={styles.labelIcon}>🔆</span>
-                                Świetlówka - Start
+                                {t("aquariumPage.fluoStart")}
                             </label>
                             <InputTime
                                 initialTime={state.aquariumData.fluo_start}
@@ -240,7 +241,7 @@ export default function AquariumPage() {
                         <div className={styles.scheduleItem}>
                             <label className={styles.scheduleLabel}>
                                 <span className={styles.labelIcon}>🔆</span>
-                                Świetlówka - Stop
+                                {t("aquariumPage.fluoStop")}
                             </label>
                             <InputTime
                                 initialTime={state.aquariumData.fluo_stop}
@@ -251,12 +252,11 @@ export default function AquariumPage() {
                     </div>
                 </Panel>
 
-                {/* Sekcja kontroli */}
                 <Panel
                     header={
                         <div className={styles.panelHeader}>
                             <span className={styles.panelIcon}>🎛️</span>
-                            <span className={styles.panelTitle}>Sterowanie</span>
+                            <span className={styles.panelTitle}>{t("aquariumPage.controls")}</span>
                         </div>
                     }
                     bordered
@@ -266,15 +266,15 @@ export default function AquariumPage() {
                         <div className={styles.controlItem}>
                             <div className={styles.controlLabel}>
                                 <span className={styles.controlIcon}>🔆</span>
-                                <span>Świetlówka</span>
+                                <span>{t("aquariumPage.fluorescent")}</span>
                             </div>
                             <Toggle
                                 checked={state.aquariumData.fluo_mode}
                                 onChange={() => handleSaveSettings("fluo_mode")}
                                 disabled={state.aquariumData.mode}
                                 size="lg"
-                                checkedChildren="ON"
-                                unCheckedChildren="OFF"
+                                checkedChildren={t("aquariumPage.on")}
+                                unCheckedChildren={t("aquariumPage.off")}
                             />
                         </div>
 
@@ -288,24 +288,24 @@ export default function AquariumPage() {
                                 onChange={() => handleSaveSettings("led_mode")}
                                 disabled={state.aquariumData.mode}
                                 size="lg"
-                                checkedChildren="ON"
-                                unCheckedChildren="OFF"
+                                checkedChildren={t("aquariumPage.on")}
+                                unCheckedChildren={t("aquariumPage.off")}
                             />
                         </div>
 
-                        <Divider className={styles.divider}>Tryb pracy</Divider>
+                        <Divider className={styles.divider}>{t("aquariumPage.mode")}</Divider>
 
                         <div className={styles.controlItem}>
                             <div className={styles.controlLabel}>
                                 <span className={styles.controlIcon}>⚙️</span>
-                                <span>Tryb</span>
+                                <span>{t("aquariumPage.mode")}</span>
                             </div>
                             <Toggle
                                 checked={state.aquariumData.mode}
                                 onChange={() => handleSaveSettings("mode")}
                                 size="lg"
-                                checkedChildren="AUTO"
-                                unCheckedChildren="MANUAL"
+                                checkedChildren={t("aquariumPage.auto")}
+                                unCheckedChildren={t("aquariumPage.manual")}
                             />
                         </div>
                     </div>
@@ -320,7 +320,7 @@ export default function AquariumPage() {
                     loading={mutation.isPending}
                     className={styles.saveButton}
                 >
-                    💾 Zapisz ustawienia
+                    💾 {t("aquariumPage.saveSettings")}
                 </Button>
             </div>
         </PageContainer>
