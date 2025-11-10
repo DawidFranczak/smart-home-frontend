@@ -17,6 +17,7 @@ export const api = {
   lamp: baseURL + "/api/lamp/",
   button: baseURL + "/api/button/",
   device: baseURL + "/api/device/",
+  buttonType: baseURL + "/api/device/button-type/",
   unassignedDevice: baseURL + "/api/device/?unassigned=true",
   router: baseURL + "/api/device/router/",
   event: baseURL + "/api/event/",

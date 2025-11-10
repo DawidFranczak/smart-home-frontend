@@ -7,6 +7,7 @@ import IButton from "../../../interfaces/IButton.tsx";
 import DeviceActionPanel from "../../../components/DeviceActionPanel/DeviceActionPanel.tsx";
 import DeviceEventSection from "../../../components/DeviceEventSection/DeviceEventSection.tsx";
 import styles from "./ButtonPage.module.css";
+import ChangeButtonTypeForm from "../../../components/ChangeButtonTypeForm/ChangeButtonTypeForm.tsx";
 
 export default function ButtonPage() {
   const params = useParams();
@@ -27,6 +28,7 @@ export default function ButtonPage() {
               showWifi={true}
           />
         </PageHeader>
+          <ChangeButtonTypeForm id={buttonData.id} current_type={buttonData.button_type} />
           <DeviceEventSection events={buttonData.events} description="Zdarzenia automatyczne wyzwalane przez naciśnięcie przycisku"/>
       </PageContainer>
   );

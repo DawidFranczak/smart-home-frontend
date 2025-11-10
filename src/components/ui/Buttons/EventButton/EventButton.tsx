@@ -2,7 +2,7 @@ import styles from "./EventButton.module.css"
 interface IEventButtonProps {
     onClick: () => void;
     className?: string;
-    type: "click" | "hold"
+    type: "click" | "hold" | "toggle"
     children: React.ReactNode
 }
 export default function EventButton({ onClick, className, type,children }: IEventButtonProps) {

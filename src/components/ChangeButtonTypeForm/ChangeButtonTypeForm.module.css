@@ -1,0 +1,10 @@
+.form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0 2rem;
+}
+.formGroup{
+    width: 100%;
+}

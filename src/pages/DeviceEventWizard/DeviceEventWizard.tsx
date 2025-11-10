@@ -11,8 +11,9 @@ import PageHeader from "../../components/ui/Headers/PageHeader/PageHeader.tsx";
 import PageContainer from "../../components/ui/containers/PageContainer/PageContainer.tsx";
 import LoadingAnimation from "../../components/ui/LoadingAnimation/LoadingAnimation.tsx";
 import renderInputFieldByType from "../../utils/getInputFieldByType.tsx";
-
+import useDeviceQuery from "../../hooks/queries/device/useDeviceQuery.tsx";
 const { StringType, NumberType } = Schema.Types;
+
 export type SettingType = 'bool' | 'int' | 'text' | 'select';
 
 interface IActionSettings {
@@ -22,8 +23,8 @@ interface IActionSettings {
 export default function DeviceEventWizard() {
     const params = useParams();
     const device_id = parseInt(params.id ? params.id : "0");
+    const {device} = useDeviceQuery(device_id);
     const navigate = useNavigate();
-
     const [formValue, setFormValue] = useState({
         event: "",
         deviceFunction: "",
@@ -31,7 +32,6 @@ export default function DeviceEventWizard() {
         action: "",
     });
     const [extraSettingsForm, setExtraSettingsForm] = useState({});
-
     const [errorMsg, setErrorMsg] = useState("");
     const { availableAction } = useAvailableActionQuery(device_id, params.deviceFun ?? "");
     const { deviceByFunction } = useDeviceByFunctionQuery(formValue.deviceFunction);
@@ -45,6 +45,7 @@ export default function DeviceEventWizard() {
         action: StringType().isRequired("Wybierz akcję."),
     });
     const settings = actionSettingsByFunction?.settings as IActionSettings || {}
+
     useEffect(() => {
         if (createMutation.isSuccess) navigate(-1);
     }, [createMutation.isSuccess, navigate]);
@@ -67,7 +68,6 @@ export default function DeviceEventWizard() {
     if (!availableAction) {
         return <LoadingAnimation size="xlarge"/>
     }
-    console.log(actionSettingsByFunction)
     return (
         <PageContainer>
         <PageHeader title="Dodawanie akcji"></PageHeader>

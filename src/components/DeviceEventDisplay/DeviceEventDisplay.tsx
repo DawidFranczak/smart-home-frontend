@@ -14,7 +14,6 @@ export default function DeviceEventCard({ event }: IDeviceEventProps) {
     const [displayDeleteConfirm, setDisplayDeleteConfirm] = useState(false);
     const { deleteEvent } = useEventMutation();
     const deleteMutation = deleteEvent(1, event.id);
-    console.log(event.extra_settings)
     return (
         <Panel shaded bordered className={styles.card}>
             <div className={styles.header}>
