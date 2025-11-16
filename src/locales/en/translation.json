@@ -165,7 +165,8 @@
     "title": "Active events"
   },
   "changeButtonTypeForm": {
-    "selectLabel": "Select button type"
+    "selectLabel": "Select button type",
+    "selectLabelDisable": "Selected button type"
   },
   "tempHumPage": {
     "eventsDescription": "Automatic events triggered by the sensor"

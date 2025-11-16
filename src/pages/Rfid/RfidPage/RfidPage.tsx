@@ -16,6 +16,7 @@ import styles from "./RfidPage.module.css";
 import DeviceEventSection from "../../../components/DeviceEventSection/DeviceEventSection.tsx";
 import QueryInput from "../../../components/ui/QueryInput/QueryInput.tsx";
 import {useTranslation} from "react-i18next";
+import ChangeButtonTypeForm from "../../../components/ChangeButtonTypeForm/ChangeButtonTypeForm.tsx";
 
 export default function RfidPage() {
     const [cards, setCards] = useState<ICard[]>([]);
@@ -78,7 +79,7 @@ export default function RfidPage() {
                 handleAddFunction={() => setShowAddCardForm(false)}
                 status={status}
             />
-
+            <ChangeButtonTypeForm id={rfidData.id} current_type={rfidData.button_type} changeable={false}/>
             <DeviceEventSection events={rfidData.events} description={t("rfidPage.automaticEventsDescription")}/>
 
             <Panel className={styles.section} bordered>

@@ -8,13 +8,14 @@ import {useTranslation} from "react-i18next";
 interface Props {
     id: number,
     current_type: TButton
+    changeable?: boolean
 }
 
 interface IFormValue {
     button_type:TButton
 }
 
-export default function ChangeButtonTypeForm ({id, current_type}:Props){
+export default function ChangeButtonTypeForm ({id, current_type,changeable=true}:Props){
     const {t} = useTranslation();
     const [formValue, setFormValue] = useState<IFormValue>({button_type:current_type});
     const mutation = useButtonTypeMutation(id);
@@ -49,7 +50,7 @@ export default function ChangeButtonTypeForm ({id, current_type}:Props){
          onSubmit={handleSubmit}
          className={styles.form}>
         <Form.Group controlId="buttonType" className={styles.formGroup}>
-            <Form.ControlLabel>{t("changeButtonTypeForm.selectLabel")}</Form.ControlLabel>
+            <Form.ControlLabel>{changeable?t("changeButtonTypeForm.selectLabel"):t("changeButtonTypeForm.selectLabelDisable")}</Form.ControlLabel>
             <Form.Control
                 name="button_type"
                 accepter={SelectPicker}
@@ -60,8 +61,9 @@ export default function ChangeButtonTypeForm ({id, current_type}:Props){
                 placeholder={current_type}
                 block
                 searchable={false}
+                plaintext={!changeable}
             />
         </Form.Group>
-        <Button appearance="primary" type="submit">{t("buttons.saveButton")}</Button>
+        {changeable && <Button appearance="primary" type="submit">{t("buttons.saveButton")}</Button>}
     </Form>
 }

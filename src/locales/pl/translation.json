@@ -165,7 +165,8 @@
     "title": "Aktywne zdarzenia"
   },
   "changeButtonTypeForm": {
-    "selectLabel": "Wybierz typ przycisku"
+    "selectLabel": "Wybierz typ przycisku",
+    "selectLabelDisable": "Wybrany typ przycisku"
   },
   "tempHumPage": {
     "eventsDescription": "Zdarzenia automatyczne wyzwalane przez czujnik"
