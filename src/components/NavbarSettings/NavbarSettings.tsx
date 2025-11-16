@@ -1,6 +1,7 @@
 import { TSettings } from "../../type/TSettings";
 import { Nav } from "rsuite";
 import styles from "./NavbarSettings.module.css";
+import {useTranslation} from "react-i18next";
 
 interface INavbarSettingsProps {
     onChange: (value: TSettings) => void;
@@ -8,6 +9,7 @@ interface INavbarSettingsProps {
 }
 
 export default function NavbarSettings({ onChange, value }: INavbarSettingsProps) {
+    const { t } = useTranslation();
     return (
         <div className={styles.container}>
             <Nav
@@ -16,10 +18,10 @@ export default function NavbarSettings({ onChange, value }: INavbarSettingsProps
                 onSelect={(val) => onChange(val as TSettings)}
                 vertical
             >
-                <Nav.Item eventKey="passwordChange">Zmiana hasła</Nav.Item>
-                <Nav.Item eventKey="homeChange">Zmiana domu</Nav.Item>
-                <Nav.Item eventKey="homeCode">Kod domu</Nav.Item>
-                <Nav.Item eventKey="homeLeave">Wyjdź z domu</Nav.Item>
+                <Nav.Item eventKey="passwordChange">{t("settingsNavbar.passwordChange")}</Nav.Item>
+                <Nav.Item eventKey="homeChange">{t("settingsNavbar.homeChange")}</Nav.Item>
+                <Nav.Item eventKey="homeCode">{t("settingsNavbar.homeCode")}</Nav.Item>
+                <Nav.Item eventKey="homeLeave">{t("settingsNavbar.homeLeave")}</Nav.Item>
             </Nav>
         </div>
     );

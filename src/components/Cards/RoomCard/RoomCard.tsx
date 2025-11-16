@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { IRoom } from "../../../interfaces/IRoom";
 import CardIconContainer from "../../ui/containers/CardIconContainer/CardIconContainer.tsx";
 import InfoCard from "../../ui/InfoCard/InfoCard.tsx";
+import {useTranslation} from "react-i18next";
 interface RoomCardProps {
   room: IRoom;
 }
@@ -20,7 +21,7 @@ export default function RoomCard({ room }: RoomCardProps) {
   const handleSelect = () => {
     navigate(`/room/${room.id}/`);
   };
-
+  const {t} = useTranslation();
   const handleFavouriteClick = () => setIsFavourite(!isFavourite);
   return (
     <div className={styles.card}>
@@ -35,13 +36,13 @@ export default function RoomCard({ room }: RoomCardProps) {
       <Header>{room.name}</Header>
       <CardIconContainer>
           <InfoCard className={styles.devicesInfo}>
-              <p>Aktywne : {room.active_device_count}</p>
+              <p>{t("selectRoom.active")} : {room.active_device_count}</p>
           </InfoCard>
           <InfoCard className={styles.devicesInfo}>
-              <p>Wszystkie : {room.device_count}</p>
+              <p>{t("selectRoom.all")} : {room.device_count}</p>
           </InfoCard>
       </CardIconContainer>
-      <Button type="fancy" onClick={handleSelect}>Wybierz</Button>
+      <Button type="fancy" onClick={handleSelect}>{t("buttons.select")}</Button>
     </div>
   );
 }

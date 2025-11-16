@@ -3,8 +3,10 @@ import { Form, Button, ButtonToolbar, Panel, Message, useToaster } from "rsuite"
 import useHomeMutation from "../../hooks/queries/useHomeMutation";
 import { ICustomError } from "../../interfaces/ICustomError";
 import styles from "./ChangeHomeForm.module.css";
+import {useTranslation} from "react-i18next";
 
 export default function ChangeHomeForm() {
+    const { t } = useTranslation();
     const [formValue, setFormValue] = useState({ homeCode: "" });
     const [error, setError] = useState("");
     const { updateHome } = useHomeMutation();
@@ -23,7 +25,7 @@ export default function ChangeHomeForm() {
         if (mutation.isSuccess) {
             toaster.push(
                 <Message type="success" showIcon closable>
-                    Dom został zmieniony pomyślnie 🎉
+                    {t("changeHome.successMessage")}
                 </Message>,
                 { placement: "topCenter", duration: 3000 }
             );
@@ -34,7 +36,7 @@ export default function ChangeHomeForm() {
     const handleSubmit = () => {
         setError("");
         if (!formValue.homeCode) {
-            setError("Podaj kod domu");
+            setError(t("changeHome.emptyError"));
             return;
         }
         mutation.mutate(formValue.homeCode);
@@ -43,18 +45,16 @@ export default function ChangeHomeForm() {
     return (
         <div className={styles.pageWrapper}>
             <Panel bordered shaded className={styles.panel}>
-                <h3 className={styles.title}>Zmiana domu</h3>
-                <p className={styles.subtitle}>
-                    Po zmianie domu wszystkie urządzenia przypisane do obecnego zostaną usunięte.
-                </p>
+                <h3 className={styles.title}>{t("changeHome.title")}</h3>
+                <p className={styles.subtitle}>{t("changeHome.subtitle")}</p>
 
                 <Form fluid formValue={formValue} onChange={setFormValue} onSubmit={handleSubmit}>
                     <Form.Group controlId="homeCode">
-                        <Form.ControlLabel>Kod domu</Form.ControlLabel>
+                        <Form.ControlLabel>{t("changeHome.homeCodeLabel")}</Form.ControlLabel>
                         <Form.Control
                             name="homeCode"
                             type="text"
-                            placeholder="Wpisz nowy kod domu"
+                            placeholder={t("changeHome.homeCodePlaceholder")}
                             errorMessage={error || undefined}
                         />
                     </Form.Group>
@@ -67,7 +67,7 @@ export default function ChangeHomeForm() {
                             loading={mutation.isPending}
                             block
                         >
-                            Zmień dom
+                            {t("changeHome.submitButton")}
                         </Button>
                     </ButtonToolbar>
                 </Form>

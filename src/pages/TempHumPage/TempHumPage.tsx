@@ -16,8 +16,10 @@ import TemperatureChart from "../../components/Temperature/TemperatureChart/Temp
 import SettingsPanel from "../../components/Temperature/SettingsPanel/SettingsPanel.tsx";
 import useDeviceQuery from "../../hooks/queries/device/useDeviceQuery.tsx";
 import ITemperatureHumidity from "../../interfaces/ITemperatureHumidity.tsx";
+import {useTranslation} from "react-i18next";
 
 export default function TempHumPage() {
+    const {t} = useTranslation();
     const sensor_id: number = parseInt(useParams().id as string);
     const { device } = useDeviceQuery(sensor_id);
     const [startDate, setStartDate] = useState<string | null>(null);
@@ -36,8 +38,8 @@ export default function TempHumPage() {
             <PageHeader title={tempHum.name}>
                 <DeviceActionPanel
                     buttons={[
-                        { label: "Ustawienia urządzenia", to: `/temperature/${tempHum.id}/settings/`, type: "default", tooltip: "Zmień ustawienia przycisku" },
-                        { label: "Ustawienia zdarzeń", to: `/${tempHum.fun}/${tempHum.id}/event/wizard/`, type: "primary", tooltip: "Skonfiguruj zdarzenia dla tego urządzenia" },
+                        { label: t("buttons.deviceSettings"), to: `/temperature/${tempHum.id}/settings/`, type: "default", tooltip: t("buttons.deviceSettingsTooltip") },
+                        { label: t("buttons.deviceEvent"), to: `/${tempHum.fun}/${tempHum.id}/event/wizard/`, type: "primary", tooltip: t("buttons.deviceEventTooltip") },
                     ]}
                     wifiStrength={tempHum.is_online ? tempHum.wifi_strength : -100}
                     showWifi={true}
@@ -45,7 +47,7 @@ export default function TempHumPage() {
             </PageHeader>
             <TemperatureChart onDataChange={handleDateChange} temperatureData={tempHumHistoryData?.temperature.chart_data} humidityData={tempHumHistoryData?.humidity.chart_data}/>
             <AggregationData temperature={tempHumHistoryData?.temperature.aggregation_data} humidity={tempHumHistoryData?.humidity.aggregation_data}/>
-            <DeviceEventSection events={tempHum.events} description="Zdarzenia automatyczne wyzwalane przez czujnik"/>
+            <DeviceEventSection events={tempHum.events} description={t("tempHumPage.eventsDescription")}/>
             <SettingsPanel
                 id={tempHum.id}
                 humidityHysteresis={tempHum?.humidity_hysteresis}

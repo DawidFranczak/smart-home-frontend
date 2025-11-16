@@ -3,7 +3,10 @@ import StyledLink from "../../ui/StyledLink/StyledLink";
 import DeviceCardContainer from "../../ui/containers/DeviceCardContainer/DeviceCardContainer";
 import CardIconContainer from "../../ui/containers/CardIconContainer/CardIconContainer.tsx";
 import EventButton from "../../ui/Buttons/EventButton/EventButton.tsx";
+import {useTranslation} from "react-i18next";
+
 export default function RfidCard(rfid: IRfid) {
+    const {t} = useTranslation();
     function handleHold() {
         console.log("hold");
     }
@@ -19,11 +22,11 @@ export default function RfidCard(rfid: IRfid) {
       id={rfid.id}
     >
       <CardIconContainer>
-        <EventButton onClick={handleHold} type="hold">HOLD</EventButton>
-        <EventButton onClick={handleClick} type="click">CLICK</EventButton>
+        <EventButton onClick={handleHold} type="hold">{t("events.button.hold")}</EventButton>
+        <EventButton onClick={handleClick} type="click">{t("events.button.click")}</EventButton>
       </CardIconContainer>
       <StyledLink type="fancy" to={`/rfid/${rfid.id}`}>
-        Wybierz
+          {t("buttons.select")}
       </StyledLink>
     </DeviceCardContainer>
   );

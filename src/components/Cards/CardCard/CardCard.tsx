@@ -6,11 +6,14 @@ import {Loader, Panel} from "rsuite";
 import DeleteIcon from "/static/svg/delete.svg";
 import styles from "./CardCard.module.css";
 import formatDate from "../../../utils/formatDate.tsx";
+import {useTranslation} from "react-i18next";
+
 interface CardCardProps {
   card: ICard;
 }
 
 export default function CardCard({ card }: CardCardProps) {
+    const {t} = useTranslation();
     const [confirmDelete, setConfirmDelete] = useState(false);
     const {mutationDelete} = useCardMutation();
     const mutation = mutationDelete(card.id);
@@ -23,20 +26,20 @@ export default function CardCard({ card }: CardCardProps) {
                 </span>
                 <img
                     src={DeleteIcon}
-                    alt="Usuń"
+                    alt={t("cardCard.delete")}
                     className={styles.deleteIcon}
                     onClick={() => setConfirmDelete(true)}
                 />
             </div>
             <div className={styles.lastUsed}>
-                Ostatnie użycie:<p>{formatDate(card.last_used)}</p>
+                {t("cardCard.lastUsed")}:<p>{formatDate(card.last_used)}</p>
             </div>
             {mutation.isPending && (
-                <Loader size="sm" content="Usuwanie..." className={styles.loader}/>
+                <Loader size="sm" content={t("cardCard.deleting")} className={styles.loader}/>
             )}
             <ConfirmDelete
                 show={confirmDelete}
-                name="kartę"
+                name={t("cardCard.confirmDelete")}
                 onCancel={() => setConfirmDelete(false)}
                 onConfirm={() => {
                     mutation.mutate();

@@ -14,13 +14,18 @@ export default function DeviceEventCard({ event }: IDeviceEventProps) {
     const [displayDeleteConfirm, setDisplayDeleteConfirm] = useState(false);
     const { deleteEvent } = useEventMutation();
     const deleteMutation = deleteEvent(1, event.id);
-
     return (
         <Panel shaded bordered className={styles.card}>
             <div className={styles.header}>
-            <span className={styles.title}>
-              {event.event} - {event.action} - {event.device}
-            </span>
+                <span className={styles.title}>
+                  {event.event} - {event.action} - {event.device}
+                </span>
+                {Object.entries(event.extra_settings)
+                    .map(([key, value]:[string,any]) => (
+                        <span className={styles.extraSettings}>
+                            {key}: {value.toString()}
+                        </span>
+                    ))}
                 <img
                     src={DeleteIcon}
                     alt="Usuń"

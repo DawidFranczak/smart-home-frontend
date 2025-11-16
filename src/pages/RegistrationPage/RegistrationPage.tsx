@@ -4,11 +4,13 @@ import { useAuth } from "../../auth/AuthContext.tsx";
 import { api } from "../../constant/api";
 import { Form, Button, Message, Panel, FlexboxGrid, Schema, Loader } from "rsuite";
 import styles from "./RegistrationPage.module.css";
+import { useTranslation } from "react-i18next";
 
 const { StringType } = Schema.Types;
 
 export default function RegistrationPage() {
     const { access } = useAuth();
+    const {t} = useTranslation();
     const navigate = useNavigate();
 
     const [formValue, setFormValue] = useState({
@@ -28,9 +30,9 @@ export default function RegistrationPage() {
     const [success, setSuccess] = useState(false);
 
     const model = Schema.Model({
-        username: StringType().isRequired("Nazwa użytkownika jest wymagana."),
-        password: StringType().isRequired("Hasło jest wymagane."),
-        password2: StringType().isRequired("Powtórz hasło jest wymagane."),
+        username: StringType().isRequired(t("registration.usernameRequired")),
+        password: StringType().isRequired(t("registration.passwordRequired")),
+        password2: StringType().isRequired(t("registration.password2Required")),
     });
 
     useEffect(() => {
@@ -59,7 +61,7 @@ export default function RegistrationPage() {
             return;
         }
         if (formValue.password !== formValue.password2) {
-            setFormError(prev => ({ ...prev, password2: "Hasła nie są takie same" }));
+            setFormError(prev => ({ ...prev, password2: t("registration.passwordsMismatch") }));
             setLoading(false);
             return;
         }
@@ -94,11 +96,10 @@ export default function RegistrationPage() {
                 }));
                 setGlobalError(data.empty || "");
             } else {
-                setGlobalError("Nieoczekiwany błąd serwera.");
+                setGlobalError(t("registration.unexpectedError"));
             }
         } catch (err) {
-            console.error(err);
-            setGlobalError("Błąd sieci. Spróbuj ponownie.");
+            setGlobalError(t("registration.networkError"));
         } finally {
             setLoading(false);
         }
@@ -109,8 +110,8 @@ export default function RegistrationPage() {
             <FlexboxGrid justify="center" align="middle" className={styles.grid}>
                 <FlexboxGrid.Item colspan={24} sm={18} md={10} lg={8}>
                     <Panel shaded bordered bodyFill className={styles.panel}>
-                        <h2 className={styles.title}>Smart Home</h2>
-                        <p className={styles.subtitle}>Utwórz nowe konto</p>
+                        <h2 className={styles.title}>{t("registration.title")}</h2>
+                        <p className={styles.subtitle}>{t("registration.subtitle")}</p>
 
                         <Form
                             fluid
@@ -121,31 +122,30 @@ export default function RegistrationPage() {
                             autoComplete="off"
                         >
                             <Form.Group controlId={"username"}>
-                                <Form.ControlLabel>Nazwa użytkownika</Form.ControlLabel>
-                                <Form.Control name="username" type="text" placeholder="Login" />
+                                <Form.ControlLabel>{t("registration.username")}</Form.ControlLabel>
+                                <Form.Control name="username" type="text" placeholder={t("registration.usernamePlaceholder")} />
                             </Form.Group>
 
                             <Form.Group>
-                                <Form.ControlLabel>Hasło</Form.ControlLabel>
-                                <Form.Control name="password" type="password" placeholder="Hasło" />
+                                <Form.ControlLabel>{t("registration.password")}</Form.ControlLabel>
+                                <Form.Control name="password" type="password" placeholder={t("registration.passwordPlaceholder")} />
                             </Form.Group>
 
                             <Form.Group>
-                                <Form.ControlLabel>Powtórz hasło</Form.ControlLabel>
-                                <Form.Control name="password2" type="password" placeholder="Powtórz hasło" />
+                                <Form.ControlLabel>{t("registration.password2")}</Form.ControlLabel>
+                                <Form.Control name="password2" type="password" placeholder={t("registration.password2Placeholder")} />
                             </Form.Group>
 
-                            {globalError && <Message showIcon={true} type="error" className={styles.message}>{globalError}</Message>}
+                            {globalError && <Message showIcon type="error" className={styles.message}>{globalError}</Message>}
 
                             {success && (
                                 <Message type="success" className={styles.message}>
-                                    Rejestracja przebiegła pomyślnie. Za chwilę zostaniesz przekierowany na stronę logowania.
+                                    {t("registration.registrationSuccess")}
                                 </Message>
                             )}
                             <Button appearance="primary" block disabled={loading} type="submit" onClick={handleSubmit}>
-                                {loading ? <Loader size="sm" /> : "Zarejestruj się"}
+                                {loading ? <Loader size="sm" /> : t("registration.registrationButton")}
                             </Button>
-
                         </Form>
                     </Panel>
                 </FlexboxGrid.Item>

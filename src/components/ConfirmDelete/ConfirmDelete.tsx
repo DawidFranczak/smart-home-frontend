@@ -1,5 +1,6 @@
 import { Modal, Button } from "rsuite";
 import styles from "./ConfirmDelete.module.css";
+import {useTranslation} from "react-i18next";
 
 interface ConfirmDeleteModalProps {
     show: boolean;
@@ -7,8 +8,6 @@ interface ConfirmDeleteModalProps {
     onCancel: () => void;
     name?: string;
     description?: string;
-    confirmText?: string;
-    cancelText?: string;
     danger?: boolean;
 }
 
@@ -18,20 +17,19 @@ export default function ConfirmDeleteModal({
                                                              onCancel,
                                                              name = "element",
                                                              description,
-                                                             confirmText = "Tak, usuń",
-                                                             cancelText = "Anuluj",
                                                              danger = true,
                                                          }:ConfirmDeleteModalProps){
+    const {t}= useTranslation();
     return (
         <Modal open={show} onClose={onCancel} size="xs" className={danger ? styles.modalDanger : styles.modal}>
             <Modal.Header>
                 <Modal.Title className={styles.modalTitle}>
-                    ⚠️ Potwierdź usunięcie
+                    ⚠️ {t("confirmDelete.title")}
                 </Modal.Title>
             </Modal.Header>
 
             <Modal.Body className={styles.modalBody}>
-                <p>Czy na pewno chcesz usunąć <strong>{name}</strong> ?</p>
+                <p>{t("confirmDelete.message")} <strong>{name}</strong> ?</p>
                 {description && <p className={styles.modalNote}>{description}</p>}
             </Modal.Body>
 
@@ -41,10 +39,10 @@ export default function ConfirmDeleteModal({
                     color={danger ? "red" : undefined}
                     onClick={onConfirm}
                 >
-                    {confirmText}
+                    {t("confirmDelete.confirm")}
                 </Button>
                 <Button appearance="subtle" onClick={onCancel}>
-                    {cancelText}
+                    {t("confirmDelete.cancel")}
                 </Button>
             </Modal.Footer>
         </Modal>

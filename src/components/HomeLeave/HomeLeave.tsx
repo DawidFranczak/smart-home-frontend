@@ -2,13 +2,16 @@ import ConfirmDelete from "../ConfirmDelete/ConfirmDelete.tsx";
 import {useNavigate} from "react-router-dom";
 import useHomeMutation from "../../hooks/queries/useHomeMutation.tsx";
 import {useEffect} from "react";
+import { useTranslation } from "react-i18next";
 export default function HomeLeave() {
-    const {deleteHome} = useHomeMutation();
-    const deleteHomeMutation = deleteHome()
+    const { t } = useTranslation();
+    const { deleteHome } = useHomeMutation();
+    const deleteHomeMutation = deleteHome();
     const navigate = useNavigate();
+
     useEffect(() => {
-        if(deleteHomeMutation.isSuccess) {
-            navigate("/")
+        if (deleteHomeMutation.isSuccess) {
+            navigate("/");
         }
     }, [deleteHomeMutation.isSuccess]);
 
@@ -17,7 +20,15 @@ export default function HomeLeave() {
     }
 
     function handleCancel() {
-        navigate("/")
+        navigate("/");
     }
-    return <ConfirmDelete show={true} name={"dom"} onConfirm={handleConfirm} onCancel={handleCancel}/>
+
+    return (
+        <ConfirmDelete
+            show={true}
+            name={t("homeLeave.homeName")}
+            onConfirm={handleConfirm}
+            onCancel={handleCancel}
+        />
+    );
 }

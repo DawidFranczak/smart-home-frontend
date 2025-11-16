@@ -1,0 +1,294 @@
+{
+  "events": {
+    "button": {
+      "toggle": "Przełącz",
+      "hold": "Trzymaj",
+      "click": "Naciśnij"
+    }
+  },
+  "buttons": {
+    "select": "Wybierz",
+    "deviceSettings": "Ustawienia urządzenia",
+    "deviceSettingsTooltip": "Zmień ustawienia urządzenia",
+    "deviceEvent": "Ustawienia zdarzeń",
+    "deviceEventTooltip": "Skonfiguruj zdarzenia dla tego urządzenia",
+    "saveButton": "Zapisz",
+    "addButton": "Dodaj",
+    "cancelButton": "Anuluj"
+  },
+  "selectRoom": {
+    "title": "Pokoje",
+    "active": "Aktywne",
+    "all":"Wszystkie"
+  },
+  "deviceEventWizard": {
+    "title": "Dodaj akcję",
+    "subtitle": "Skonfiguruj zdarzenie dla swojego urządzenia",
+    "eventLabel": "Wybierz event",
+    "eventPlaceholder": "Wybierz event",
+    "deviceFunctionLabel": "Wybierz typ",
+    "deviceFunctionPlaceholder": "Wybierz typ urządzenia",
+    "selectDeviceLabel": "Wybierz urządzenie",
+    "selectDevicePlaceholder": "Wybierz urządzenie",
+    "actionLabel": "Wybierz akcję",
+    "actionPlaceholder": "Wybierz akcję",
+    "extraSettingsLabel": "Opcje dodatkowe",
+    "errorFillAllFields": "Wypełnij wszystkie pola formularza.",
+    "validation": {
+      "eventRequired": "Wybierz event.",
+      "deviceFunctionRequired": "Wybierz typ urządzenia.",
+      "selectDeviceRequired": "Wybierz urządzenie.",
+      "actionRequired": "Wybierz akcję."
+    }
+  },
+  "settingsDevice": {
+    "never": "Nigdy",
+    "setDeviceName": "Wprowadź nazwę urządzenia",
+    "selectRoom": "Wybierz pokój",
+    "yes": "TAK",
+    "no": "NIE",
+    "favouriteDescription": "Oznacz urządzenie jako ulubione, aby łatwiej je znaleźć",
+    "removeFromRoomNote": "Będziesz mógł przypisać je ponownie później.",
+    "confirmRemoveFromRoom": "Tak, usuń z pokoju",
+    "removeDeviceFromRoom": "Usuń urządzenie z przypisanego pokoju",
+    "title": "Ustawienia urządzenia",
+    "basicInfo": "Informacje podstawowe",
+    "type": "Typ",
+    "status": "Status",
+    "wifiStrength": "Siła WiFi",
+    "lastSeen": "Ostatnio widziane",
+    "config": "Konfiguracja",
+    "deviceName": "Nazwa urządzenia",
+    "roomAssignment": "Przypisanie do pokoju",
+    "favourite": "Ulubione",
+    "actions": "Akcje zaawansowane",
+    "removeFromRoom": "Usuń z pokoju",
+    "deleteDevice": "Usuń urządzenie",
+    "removeConfirmTitle": "Potwierdź usunięcie z pokoju",
+    "removeConfirmText": "Czy na pewno chcesz usunąć urządzenie z pokoju?",
+    "deleteConfirmTitle": "Potwierdź usunięcie",
+    "deleteConfirmText": "Czy na pewno chcesz usunąć urządzenie?",
+    "deleteWarning": "Ta operacja jest nieodwracalna. Wszystkie dane urządzenia zostaną trwale usunięte.",
+    "save": "Zapisz",
+    "nameEmpty": "Nazwa nie może być pusta",
+    "nameUpdated": "Nazwa urządzenia została zaktualizowana",
+    "nameUpdateError": "Błąd podczas aktualizacji nazwy",
+    "roomAssigned": "Przypisano do pokoju",
+    "roomRemoved": "Usunięto z pokoju",
+    "roomChangeError": "Błąd podczas zmiany pokoju",
+    "favouriteAdded": "Dodano do ulubionych",
+    "favouriteRemoved": "Usunięto z ulubionych",
+    "favouriteError": "Błąd podczas zmiany ulubionych",
+    "removedFromRoom": "Urządzenie usunięte z pokoju",
+    "deleteSuccess": "Urządzenie zostało usunięte",
+    "deleteError": "Błąd podczas usuwania urządzenia"
+  },
+  "lampPage": {
+    "schedule": "Harmonogram lampy",
+    "lightStart": "Godzina rozpoczęcia",
+    "lightStop": "Godzina zakończenia",
+    "lightingParams": "Parametry oświetlenia",
+    "brightness": "Jasność",
+    "speed": "Szybkość zmian",
+    "lightingTime": "Czas świecenia (s)"
+  },
+  "confirmDelete": {
+    "title": "Potwierdź usunięcie",
+    "message": "Czy na pewno chcesz usunąć",
+    "confirm": "Tak, usuń",
+    "cancel": "Anuluj"
+  },
+  "rfidPage":{
+    "addCard": "Dodaj kartę",
+    "automaticEventsDescription": "Zdarzenia automatyczne wyzwalane przez czytnik RFID",
+    "registeredCards": "Zarejestrowane karty",
+    "allCardsDescription": "Lista wszystkich kart przypisanych do czytnika",
+    "noCardsTitle": "Brak kart",
+    "noCardsDescription": "Nie zarejestrowano jeszcze żadnych kart RFID. Kliknij przycisk \"Dodaj kartę\" aby dodać pierwszą kartę.",
+    "addFirstCard": "Dodaj pierwszą kartę"
+  },
+  "addCardForm": {
+    "addCardTitle": "Dodaj nową kartę",
+    "pendingMessage": "Zbliż kartę do czytnika...",
+    "instruction": "Wprowadź nazwę karty i zbliż ją do czytnika RFID.",
+    "cardNamePlaceholder": "Nazwa karty",
+    "errorNameRequired": "To pole jest wymagane",
+    "error400": "Nie udało się dodać karty, spróbuj ponownie.",
+    "error409": "Ta karta jest już zapisana."
+  },
+  "cardCard": {
+    "lastUsed": "Ostatnie użycie",
+    "delete": "Usuń",
+    "deleting": "Usuwanie...",
+    "confirmDelete": "kartę"
+  },
+  "temperatureChart": {
+    "tooNarrow": "Wyświetlacz jest zbyt wąski aby wyświetlić wykres",
+    "datePickerPlaceholder": "Wybierz zakres dat",
+    "historyTitle": "Historia temperatury i wilgotności",
+    "temperatureLabel": "Temperatura (°C)",
+    "humidityLabel": "Wilgotność (%)",
+    "noData": "Brak danych dla wybranego zakresu"
+  },
+  "settingsPanel": {
+    "temperatureSettings": "Ustawienia temperatury",
+    "temperatureHysteresis": "Histereza czujnika temperatury",
+    "triggerTempDown": "Uruchom akcję, gdy temperatura spadnie poniżej",
+    "triggerTempUp": "Uruchom akcję, gdy temperatura wzrośnie powyżej",
+    "humiditySettings": "Ustawienia wilgotności",
+    "humidityHysteresis": "Histereza czujnika wilgotności",
+    "triggerHumDown": "Uruchom akcję, gdy wilgotność spadnie poniżej",
+    "triggerHumUp": "Uruchom akcję, gdy wilgotność wzrośnie powyżej"
+  },
+  "aggregationData": {
+    "sectionTitle": "Statystyki dla wybranego okresu",
+    "temperature": {
+      "avg": "Średnia temperatura",
+      "max": "Maksymalna temperatura",
+      "min": "Minimalna temperatura"
+    },
+    "humidity": {
+      "avg": "Średnia wilgotność",
+      "max": "Maksymalna wilgotność",
+      "min": "Minimalna wilgotność"
+    }
+  },
+  "buttonTypes": {
+    "MONO": "Monostabilny",
+    "BI": "Bistabilny"
+  },
+  "message": {
+    "success": "Zapisano.",
+    "error": "Nie udało się zapisać."
+  },
+  "deviceEventSection": {
+    "title": "Aktywne zdarzenia"
+  },
+  "changeButtonTypeForm": {
+    "selectLabel": "Wybierz typ przycisku",
+    "selectLabelDisable": "Wybrany typ przycisku"
+  },
+  "tempHumPage": {
+    "eventsDescription": "Zdarzenia automatyczne wyzwalane przez czujnik"
+  },
+  "buttonPage": {
+    "automaticEventsDescription": "Zdarzenia automatyczne wyzwalane przez naciśnięcie przycisku"
+  },
+  "aquariumPage": {
+    "ledColor": "Kolor LED",
+    "lightingSchedule": "Harmonogram oświetlenia",
+    "controls": "Sterowanie",
+    "modeSection": "Tryb pracy",
+    "ledStart": "LED - Start",
+    "ledStop": "LED - Stop",
+    "fluoStart": "Świetlówka - Start",
+    "fluoStop": "Świetlówka - Stop",
+    "currentColor": "Aktualny kolor",
+    "fluorescent": "Świetlówka",
+    "on": "ON",
+    "off": "OFF",
+    "auto": "AUTO",
+    "manual": "MANUAL",
+    "mode": "Tryb pracy",
+    "saveSettings": "Zapisz ustawienia",
+    "communicationError": "Błąd w komunikacji z akwarium.",
+    "savedMessage": "Zapisano dane."
+  },
+  "homeLeave": {
+    "homeName": "dom"
+  },
+  "homeCode": {
+    "title": "Kod domu",
+    "subtitle": "Twój jednorazowy kod dostępu do domu:",
+    "copyTooltip": "Skopiuj kod",
+    "copiedMessage": "Skopiowano do schowka 📋",
+    "copyButton": "Kopiuj kod",
+    "errorMessage": "Wystąpił błąd podczas pobierania kodu."
+  },
+  "changeHome": {
+    "title": "Zmiana domu",
+    "subtitle": "Po zmianie domu wszystkie urządzenia przypisane do obecnego zostaną usunięte.",
+    "homeCodeLabel": "Kod domu",
+    "homeCodePlaceholder": "Wpisz nowy kod domu",
+    "submitButton": "Zmień dom",
+    "successMessage": "Dom został zmieniony pomyślnie",
+    "emptyError": "Podaj kod domu"
+  },
+  "changePassword": {
+    "title": "Zmiana hasła",
+    "subtitle": "Upewnij się, że Twoje nowe hasło jest silne i różni się od poprzednich.",
+    "currentPassword": "Obecne hasło",
+    "currentPasswordPlaceholder": "Wpisz obecne hasło",
+    "newPassword": "Nowe hasło",
+    "newPasswordPlaceholder": "Wpisz nowe hasło",
+    "newPassword2": "Powtórz nowe hasło",
+    "newPassword2Placeholder": "Powtórz nowe hasło",
+    "saveButton": "Zapisz hasło",
+    "successMessage": "Hasło zostało zmienione pomyślnie"
+  },
+  "settings": {
+    "title": "Ustawienia"
+  },
+  "settingsNavbar": {
+    "passwordChange": "Zmiana hasła",
+    "homeChange": "Zmiana domu",
+    "homeCode": "Kod domu",
+    "homeLeave": "Wyjdź z domu"
+  },
+  "camera": {
+    "title": "Kamery",
+    "addButton": "Dodaj kamerę",
+    "addTooltip": "Dodaj nową kamerę rtsp"
+  },
+  "router": {
+    "title": "Router",
+    "ip": "IP",
+    "mac": "MAC",
+    "assignedDevices": "Przypisane urządzenia",
+    "activeDevices": "Aktywne urządzenia"
+  },
+  "device": {
+    "title": "Urządzenia"
+  },
+  "room": {
+    "editButton": "Edytuj",
+    "addDeviceButton": "Dodaj urządzenie",
+    "editTooltip": "Edytuj ustawianie pokoju",
+    "addDeviceTooltip": "Dodaj nowe urządzenie do pokoju",
+    "emptyState": "Nie znaleziono urządzeń"
+  },
+  "home": {
+    "title": "Dashboard",
+    "subtitle": "Witaj z powrotem w Smart Home"
+  },
+  "login": {
+    "title": "Smart Home",
+    "subtitle": "Zaloguj się do swojego konta",
+    "username": "Nazwa użytkownika",
+    "password": "Hasło",
+    "usernamePlaceholder": "Wprowadź nazwę",
+    "passwordPlaceholder": "••••••••",
+    "usernameRequired": "Nazwa użytkownika jest wymagana.",
+    "passwordRequired": "Hasło jest wymagane.",
+    "loginButton": "Zaloguj się",
+    "createAccount": "Utwórz nowe konto"
+  },
+  "registration": {
+    "title": "Smart Home",
+    "subtitle": "Utwórz nowe konto",
+    "username": "Nazwa użytkownika",
+    "password": "Hasło",
+    "password2": "Powtórz hasło",
+    "usernamePlaceholder": "Login",
+    "passwordPlaceholder": "Hasło",
+    "password2Placeholder": "Powtórz hasło",
+    "usernameRequired": "Nazwa użytkownika jest wymagana.",
+    "passwordRequired": "Hasło jest wymagane.",
+    "password2Required": "Powtórz hasło jest wymagane.",
+    "passwordsMismatch": "Hasła nie są takie same",
+    "registrationButton": "Zarejestruj się",
+    "registrationSuccess": "Rejestracja przebiegła pomyślnie. Za chwilę zostaniesz przekierowany na stronę logowania.",
+    "unexpectedError": "Nieoczekiwany błąd serwera.",
+    "networkError": "Błąd sieci. Spróbuj ponownie."
+  }
+}
