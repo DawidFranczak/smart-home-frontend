@@ -1,4 +1,4 @@
-.hold {
+.on_hold {
     grid-column: 1 / 2;
     grid-row: 1 / 3;
     background: linear-gradient(145deg, #00ffff, #0088cc);
@@ -19,7 +19,7 @@
     user-select: none;
 }
 
-.click {
+.on_click {
     grid-column: 2 / 3;
     grid-row: 1 / 3;
     background: linear-gradient(145deg, #00cccc, #0066aa);
@@ -41,7 +41,7 @@
     border-left: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.hold:hover {
+.on_hold:hover {
     background: linear-gradient(145deg, #33ffff, #1199dd);
     transform: translateY(-1px);
     box-shadow:
@@ -49,7 +49,7 @@
             inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-.click:hover {
+.on_click:hover {
     background: linear-gradient(145deg, #33dddd, #1177bb);
     transform: translateY(-1px);
     box-shadow:
@@ -57,7 +57,7 @@
             inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-.hold:active {
+.on_hold:active {
     transform: translateY(2px);
     box-shadow:
             0 2px 4px rgba(0, 255, 255, 0.3),
@@ -65,7 +65,7 @@
     background: linear-gradient(145deg, #0088cc, #004499);
 }
 
-.click:active {
+.on_click:active {
     transform: translateY(2px);
     box-shadow:
             0 2px 4px rgba(0, 204, 204, 0.3),
@@ -73,7 +73,7 @@
     background: linear-gradient(145deg, #0066aa, #003366);
 }
 
-.hold.pressed {
+.on_hold.pressed {
     transform: translateY(2px);
     box-shadow:
             0 2px 4px rgba(0, 255, 255, 0.3),
@@ -81,7 +81,7 @@
     background: linear-gradient(145deg, #0088cc, #004499);
 }
 
-.click.pressed {
+.on_click.pressed {
     transform: translateY(2px);
     box-shadow:
             0 2px 4px rgba(0, 204, 204, 0.3),
@@ -89,7 +89,7 @@
     background: linear-gradient(145deg, #0066aa, #003366);
 }
 
-.hold:active::after {
+.on_hold:active::after {
     content: '';
     position: absolute;
     top: 0;
@@ -101,7 +101,7 @@
     pointer-events: none;
 }
 
-.click:active::after {
+.on_click:active::after {
     content: '';
     position: absolute;
     top: 0;
@@ -113,21 +113,21 @@
     pointer-events: none;
 }
 
-.hold:disabled,
-.click:disabled {
+.on_hold:disabled,
+.on_click:disabled {
     background: linear-gradient(145deg, #cccccc, #999999);
     cursor: not-allowed;
     transform: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.hold:disabled:hover,
-.click:disabled:hover {
+.on_hold:disabled:hover,
+.on_click:disabled:hover {
     transform: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.toggle {
+.on_toggle {
     grid-column: 1 / 3;
     grid-row: 1 / 3;
     background: linear-gradient(145deg, #00cccc, #0066aa);
@@ -148,7 +148,7 @@
     user-select: none;
 }
 
-.toggle:hover {
+.on_toggle:hover {
     background: linear-gradient(145deg, #33dddd, #1177bb);
     transform: translateY(-1px);
     box-shadow:
@@ -156,21 +156,21 @@
             inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-.toggle:active {
+.on_toggle:active {
     transform: translateY(2px);
     box-shadow:
             0 2px 4px rgba(0, 204, 204, 0.3),
             inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.toggle.active {
+.on_toggle.active {
     background: linear-gradient(145deg, #00ffff, #0088cc);
     box-shadow:
             0 4px 8px rgba(0, 255, 255, 0.3),
             inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-.toggle.active:hover {
+.on_toggle.active:hover {
     background: linear-gradient(145deg, #33ffff, #1199dd);
     transform: translateY(-1px);
     box-shadow:
@@ -178,7 +178,7 @@
             inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-.toggle:disabled {
+.on_toggle:disabled {
     background: linear-gradient(145deg, #cccccc, #999999);
     cursor: not-allowed;
     transform: none;

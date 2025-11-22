@@ -7,15 +7,6 @@ import StyledLink from "../../ui/StyledLink/StyledLink.tsx";
 
 export default function LightCard(light: ILight ) {
     const { t } = useTranslation();
-    function handleHold() {
-        console.log("hold");
-    }
-    function handleClick() {
-        console.log("click");
-    }
-    function handleToggle() {
-        console.log("toggle");
-    }
     return (
         <DeviceCardContainer
             isFavourite={light.is_favourite}
@@ -26,15 +17,15 @@ export default function LightCard(light: ILight ) {
         >
             <CardIconContainer>
                 {light.button_type === "BI" ? (
-                    <EventButton onClick={handleToggle} type="toggle">
+                    <EventButton id={light.id} events={light.events} type="on_toggle">
                         {t("events.button.toggle")}
                     </EventButton>
                 ) : (
                     <>
-                        <EventButton onClick={handleHold} type="hold">
+                        <EventButton id={light.id} events={light.events} type="on_hold">
                             {t("events.button.hold")}
                         </EventButton>
-                        <EventButton onClick={handleClick} type="click">
+                        <EventButton id={light.id} events={light.events} type="on_click">
                             {t("events.button.click")}
                         </EventButton>
                     </>

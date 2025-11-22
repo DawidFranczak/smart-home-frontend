@@ -21,6 +21,7 @@ export const api = {
   unassignedDevice: baseURL + "/api/device/?unassigned=true",
   router: baseURL + "/api/device/router/",
   event: baseURL + "/api/event/",
+    triggerEvent: baseURL + "/api/event/trigger/",
   action: baseURL + "/api/event/action/",
   cameras: baseURL + "/api/cameras/",
   getUpdateLamp: baseURL + "/api/lamp/", // +id

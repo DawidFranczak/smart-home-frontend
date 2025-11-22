@@ -1,0 +1,1 @@
+export  type TDeviceEvent = "on_hold" | "on_click" | "on_toggle";

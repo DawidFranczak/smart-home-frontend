@@ -7,12 +7,6 @@ import {useTranslation} from "react-i18next";
 
 export default function RfidCard(rfid: IRfid) {
     const {t} = useTranslation();
-    function handleHold() {
-        console.log("hold");
-    }
-    function handleClick() {
-        console.log("click");
-    }
   return (
     <DeviceCardContainer
       isFavourite={rfid.is_favourite}
@@ -22,8 +16,8 @@ export default function RfidCard(rfid: IRfid) {
       id={rfid.id}
     >
       <CardIconContainer>
-        <EventButton onClick={handleHold} type="hold">{t("events.button.hold")}</EventButton>
-        <EventButton onClick={handleClick} type="click">{t("events.button.click")}</EventButton>
+        <EventButton id={rfid.id} events={rfid.events} type="on_hold">{t("events.button.hold")}</EventButton>
+        <EventButton id={rfid.id} events={rfid.events} type="on_click">{t("events.button.click")}</EventButton>
       </CardIconContainer>
       <StyledLink type="fancy" to={`/rfid/${rfid.id}`}>
           {t("buttons.select")}
