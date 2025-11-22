@@ -1,11 +1,20 @@
 import styles from "./EventButton.module.css"
+import {TDeviceEvent} from "../../../../type/TDeviceEvent.ts";
+import IEvent from "../../../../interfaces/IEvent.tsx";
+import hasEvent from "../../../../utils/hasEvent.ts";
+import useEventTriggerMutation from "../../../../hooks/queries/useEventTriggerMutation.tsx";
+
 interface IEventButtonProps {
-    onClick: () => void;
+    id:number;
+    events:IEvent[]|undefined;
     className?: string;
-    type: "click" | "hold" | "toggle"
+    type: TDeviceEvent
     children: React.ReactNode
 }
-export default function EventButton({ onClick, className, type,children }: IEventButtonProps) {
-
-    return <button className={`${styles[type]} ${className}`} onClick={onClick}>{children}</button>
+export default function EventButton({ id, className, type,children,events}: IEventButtonProps) {
+    const mutation = useEventTriggerMutation()
+    function handleTrigger(){
+        mutation.mutate({id:id,type:type})
+    }
+    return <button className={`${styles[type]} ${className}`} disabled={!hasEvent(events,type)} onClick={handleTrigger}>{children}</button>
 }

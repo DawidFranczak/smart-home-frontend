@@ -7,15 +7,6 @@ import { useTranslation } from "react-i18next";
 
 export default function ButtonCard(button: IButton) {
   const { t } = useTranslation();
-  function handleHold() {
-    console.log("hold");
-  }
-  function handleClick() {
-    console.log("click");
-  }
-  function handleToggle() {
-    console.log("toggle");
- }
   return (
     <DeviceCardContainer
       isFavourite={button.is_favourite}
@@ -26,15 +17,15 @@ export default function ButtonCard(button: IButton) {
     >
         <CardIconContainer>
             {button.button_type === "BI" ? (
-                <EventButton onClick={handleToggle} type="toggle">
+                <EventButton id={button.id} events={button.events} type="on_toggle">
                     {t("events.button.toggle")}
                 </EventButton>
             ) : (
                 <>
-                    <EventButton onClick={handleHold} type="hold">
+                    <EventButton id={button.id} events={button.events} type="on_hold">
                         {t("events.button.hold")}
                     </EventButton>
-                    <EventButton onClick={handleClick} type="click">
+                    <EventButton id={button.id} events={button.events} type="on_click">
                         {t("events.button.click")}
                     </EventButton>
                 </>
