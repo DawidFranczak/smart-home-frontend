@@ -9,6 +9,7 @@ export default function updateUnassignedDevice(
     status: number;
     data: any[];
   };
+  if (!oldData) return;
   const newDataData = Array.isArray(oldData.data)
     ? [...oldData.data, data]
     : [data];
