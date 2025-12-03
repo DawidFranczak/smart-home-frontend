@@ -15,6 +15,7 @@ export interface IDevice {
   room: number;
   wifi_strength: number;
   is_favourite: boolean;
+  firmware_version:number;
   pending: string[];
   events?: IEvent[];
   actions?: string[];

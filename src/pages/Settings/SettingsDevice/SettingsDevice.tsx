@@ -23,6 +23,9 @@ import styles from "./SettingsDevice.module.css";
 import usePrefetchRoomQuery from "../../../hooks/queries/room/usePrefetchRoomQuery.tsx";
 import useFavouriteMutation from "../../../hooks/queries/useFavouriteMutation.tsx";
 import {useTranslation} from "react-i18next";
+import useFirmwareDeviceQuery from "../../../hooks/queries/useFirmwareDeviceQuery.tsx";
+import IFirmwareDevice from "../../../interfaces/IFirmwareDevice.ts";
+import useUpdateFirmwareDeviceMutation from "../../../hooks/queries/useUpdateFirmwareDeviceMutation.tsx";
 
 export default function SettingsDevice() {
     const { t } = useTranslation();
@@ -33,6 +36,7 @@ export default function SettingsDevice() {
     const { device, isLoading } = useDeviceQuery(id);
     const { updateDevice, deleteDevice } = useDeviceMutation();
     const { roomData } = usePrefetchRoomQuery();
+    const { firmwareList } = useFirmwareDeviceQuery();
 
     const updateMutation = updateDevice(id);
     const deleteMutation = deleteDevice(id);
@@ -44,7 +48,7 @@ export default function SettingsDevice() {
     const [showRemoveFromRoomModal, setShowRemoveFromRoomModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [isUpdating, setIsUpdating] = useState(false);
-
+    const updateFirmwareMutation = useUpdateFirmwareDeviceMutation();
     // Update state when device data loads
     useState(() => {
         if (device) {
@@ -53,7 +57,7 @@ export default function SettingsDevice() {
             setIsFavourite(device.is_favourite);
         }
     });
-
+    console.log(device)
     const handleSaveName = async () => {
         if (!deviceName.trim()) {
             toaster.push(
@@ -171,9 +175,15 @@ export default function SettingsDevice() {
         }
     };
 
+    const handleUpdateFirmware = () =>{
+        if (!device?.id) return
+        updateFirmwareMutation.mutate({id:device.id})
+    }
+
     if (isLoading || !device) {
         return <LoadingAnimation size="xlarge" type="spinner" glow={true} />;
     }
+    const updateAvailable = firmwareList.some((e:IFirmwareDevice)=>e.to_device === device.fun && e.version > device.firmware_version)
 
     const roomOptions = roomData?.map((room: any) => ({
         label: room.name,
@@ -225,7 +235,20 @@ export default function SettingsDevice() {
                             <span className={styles.infoLabel}>{t("settingsDevice.lastSeen")}:</span>
                             <span className={styles.infoValue}>{formatLastSeen(device.last_seen)}</span>
                         </List.Item>
+                        <List.Item className={styles.infoItem}>
+                            <span className={styles.infoLabel}>{t("firmware.firmwareVersion")}:</span>
+                            <span className={styles.infoValue}>{device.firmware_version}</span>
+                        </List.Item>
                     </List>
+                    {device.is_online && updateAvailable && <Button
+                        appearance="ghost"
+                        size="lg"
+                        onClick={() => handleUpdateFirmware()}
+                        className={styles.updateFirmwareButton}
+                        loading={device.pending.includes("update_firmware")}
+                    >
+                        {t("firmware.updateFirmware")}
+                    </Button>}
                 </Panel>
 
                 <Panel
