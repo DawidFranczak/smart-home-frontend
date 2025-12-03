@@ -41,6 +41,11 @@
       "actionRequired": "Please select an action."
     }
   },
+  "firmware":{
+    "updateFirmware": "Update firmware",
+    "firmwareVersion": "Firmware version",
+    "firmwareError": "Failed to update the software"
+  },
   "settingsDevice": {
     "never": "Never",
     "setDeviceName": "Enter device name",

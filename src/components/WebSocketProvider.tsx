@@ -1,10 +1,12 @@
 import { useQueryClient } from "@tanstack/react-query";
+import {useTranslation} from "react-i18next";
 import {createContext, useContext, useEffect, useState} from "react";
 import updateDeviceData from "../utils/updateDeviceData.tsx";
 import updateUnassignedDevice from "../utils/updateUnassignedDevice";
 import MessageType from "../constant/message_type";
 import updateRouterData from "../utils/updateRouterData";
 import { websocketUrl } from "../constant/urls";
+import displayToaster from "../utils/displayToaster.tsx";
 
 interface WebSocketType {
   send: (data: object) => void;
@@ -22,6 +24,7 @@ export const useWebSocket = () => {
 export default function WebSocketProvider({children}:{children: React.ReactNode}) {
   const [socket, setSocket] = useState<WebSocket>();
   const [status, setStatus] = useState<WebSocket["readyState"]>(WebSocket.CONNECTING);
+  const {t} = useTranslation();
   const queryClient = useQueryClient()
 
   function connect(){
@@ -45,6 +48,11 @@ export default function WebSocketProvider({children}:{children: React.ReactNode}
           break;
         case MessageType.NEW_DEVICE_CONNECTED:
           updateUnassignedDevice(queryClient, data.data, data.status);
+          break;
+        case MessageType.UPDATE_FIRMWARE_ERROR:
+          updateDeviceData(queryClient, data.data, data.status);
+          displayToaster(t("firmware.firmwareError"),"error")
+          break;
       }
     };
 

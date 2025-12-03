@@ -28,4 +28,7 @@ export const api = {
     tempHum:baseURL + "/api/temperature/",
     tempHumHistory:baseURL + "/api/temperature/history/",
   getAllEvents: baseURL + "/api/device/get/event/",
+    firmwareList: baseURL + "/api/firmware/",
+    firmwareUpdate: baseURL + "/api/firmware/update/",
+
 };

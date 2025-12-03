@@ -6,8 +6,6 @@ import {
     InputGroup,
     Button,
     Modal,
-    toaster,
-    Message,
     Divider,
     List,
     Toggle,
@@ -23,6 +21,10 @@ import styles from "./SettingsDevice.module.css";
 import usePrefetchRoomQuery from "../../../hooks/queries/room/usePrefetchRoomQuery.tsx";
 import useFavouriteMutation from "../../../hooks/queries/useFavouriteMutation.tsx";
 import {useTranslation} from "react-i18next";
+import useFirmwareDeviceQuery from "../../../hooks/queries/useFirmwareDeviceQuery.tsx";
+import IFirmwareDevice from "../../../interfaces/IFirmwareDevice.ts";
+import useUpdateFirmwareDeviceMutation from "../../../hooks/queries/useUpdateFirmwareDeviceMutation.tsx";
+import displayToaster from "../../../utils/displayToaster.tsx";
 
 export default function SettingsDevice() {
     const { t } = useTranslation();
@@ -33,6 +35,7 @@ export default function SettingsDevice() {
     const { device, isLoading } = useDeviceQuery(id);
     const { updateDevice, deleteDevice } = useDeviceMutation();
     const { roomData } = usePrefetchRoomQuery();
+    const { firmwareList } = useFirmwareDeviceQuery();
 
     const updateMutation = updateDevice(id);
     const deleteMutation = deleteDevice(id);
@@ -44,7 +47,7 @@ export default function SettingsDevice() {
     const [showRemoveFromRoomModal, setShowRemoveFromRoomModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [isUpdating, setIsUpdating] = useState(false);
-
+    const updateFirmwareMutation = useUpdateFirmwareDeviceMutation();
     // Update state when device data loads
     useState(() => {
         if (device) {
@@ -53,34 +56,19 @@ export default function SettingsDevice() {
             setIsFavourite(device.is_favourite);
         }
     });
-
+    console.log(device)
     const handleSaveName = async () => {
         if (!deviceName.trim()) {
-            toaster.push(
-                <Message closable type="warning" showIcon >
-                    {t("settingsDevice.nameEmpty")}
-                </Message>,
-                { placement: "topCenter", duration: 3000 }
-            );
+            displayToaster(t("settingsDevice.nameEmpty"),"warning")
             return;
         }
 
         setIsUpdating(true);
         try {
             await updateMutation.mutateAsync({ name: deviceName });
-            toaster.push(
-                <Message closable type="success" showIcon>
-                    {t("settingsDevice.nameUpdated")}
-                </Message>,
-                { placement: "topCenter", duration: 3000 }
-            );
+            displayToaster(t("settingsDevice.nameUpdated"))
         } catch (error) {
-            toaster.push(
-                <Message closable type="error" showIcon>
-                    {t("settingsDevice.nameUpdateError")}
-                </Message>,
-                { placement: "topCenter", duration: 3000 }
-            );
+            displayToaster(t("settingsDevice.nameUpdateError"),"error")
         } finally {
             setIsUpdating(false);
         }
@@ -90,19 +78,9 @@ export default function SettingsDevice() {
         setSelectedRoom(roomId);
         try {
             await updateMutation.mutateAsync({ room: roomId });
-            toaster.push(
-                <Message closable type="success" showIcon>
-                    {roomId ? t("settingsDevice.roomAssigned") : t("settingsDevice.roomRemoved")}
-                </Message>,
-                { placement: "topCenter", duration: 3000 }
-            );
+            displayToaster(roomId ? t("settingsDevice.roomAssigned") : t("settingsDevice.roomRemoved"))
         } catch (error) {
-            toaster.push(
-                <Message closable type="error" showIcon>
-                    {t("settingsDevice.roomChangeError")}
-                </Message>,
-                { placement: "topCenter", duration: 3000 }
-            );
+            displayToaster(t("settingsDevice.roomChangeError"),"error")
             setSelectedRoom(device?.room || null);
         }
     };
@@ -111,19 +89,9 @@ export default function SettingsDevice() {
         setIsFavourite(checked);
         try {
             await favouriteMutation.mutateAsync({id: id, is_favourite: !checked, type:"device"});
-            toaster.push(
-                <Message closable type="success" showIcon>
-                    {checked ? t("settingsDevice.favouriteAdded") : t("settingsDevice.favouriteRemoved")}
-                </Message>,
-                { placement: "topCenter", duration: 3000 }
-            );
+            displayToaster(checked ? t("settingsDevice.favouriteAdded") : t("settingsDevice.favouriteRemoved"))
         } catch (error) {
-            toaster.push(
-                <Message closable type="error" showIcon>
-                    {t("settingsDevice.favouriteError")}
-                </Message>,
-                { placement: "topCenter", duration: 3000 }
-            );
+            displayToaster(t("settingsDevice.favouriteError"),"error")
             setIsFavourite(device?.is_favourite || false);
         }
     };
@@ -133,20 +101,10 @@ export default function SettingsDevice() {
         try {
             await updateMutation.mutateAsync({ room: null });
             setSelectedRoom(null);
-            toaster.push(
-                <Message closable type="success" showIcon>
-                    {t("settingsDevice.removedFromRoom")}
-                </Message>,
-                { placement: "topCenter", duration: 3000 }
-            );
+            displayToaster(t("settingsDevice.removedFromRoom"))
             navigate("/device");
         } catch (error) {
-            toaster.push(
-                <Message closable type="error" showIcon>
-                    {t("settingsDevice.deleteError")}
-                </Message>,
-                { placement: "topCenter", duration: 3000 }
-            );
+            displayToaster(t("settingsDevice.deleteError"),"error")
         }
     };
 
@@ -154,26 +112,22 @@ export default function SettingsDevice() {
         setShowDeleteModal(false);
         try {
             await deleteMutation.mutateAsync();
-            toaster.push(
-                <Message closable type="success" showIcon>
-                    {t("settingsDevice.deleteSuccess")}
-                </Message>,
-                { placement: "topCenter", duration: 3000 }
-            );
+            displayToaster(t("settingsDevice.deleteSuccess"))
             navigate("/device");
         } catch (error) {
-            toaster.push(
-                <Message closable type="error" showIcon>
-                    {t("settingsDevice.deleteError")}
-                </Message>,
-                { placement: "topCenter", duration: 3000 }
-            );
+            displayToaster(t("settingsDevice.deleteError"),"error")
         }
     };
+
+    const handleUpdateFirmware = () =>{
+        if (!device?.id) return
+        updateFirmwareMutation.mutate({id:device.id})
+    }
 
     if (isLoading || !device) {
         return <LoadingAnimation size="xlarge" type="spinner" glow={true} />;
     }
+    const updateAvailable = firmwareList.some((e:IFirmwareDevice)=>e.to_device === device.fun && e.version > device.firmware_version)
 
     const roomOptions = roomData?.map((room: any) => ({
         label: room.name,
@@ -225,7 +179,20 @@ export default function SettingsDevice() {
                             <span className={styles.infoLabel}>{t("settingsDevice.lastSeen")}:</span>
                             <span className={styles.infoValue}>{formatLastSeen(device.last_seen)}</span>
                         </List.Item>
+                        <List.Item className={styles.infoItem}>
+                            <span className={styles.infoLabel}>{t("firmware.firmwareVersion")}:</span>
+                            <span className={styles.infoValue}>{device.firmware_version}</span>
+                        </List.Item>
                     </List>
+                    {device.is_online && updateAvailable && <Button
+                        appearance="ghost"
+                        size="lg"
+                        onClick={() => handleUpdateFirmware()}
+                        className={styles.updateFirmwareButton}
+                        loading={device.pending.includes("update_firmware")}
+                    >
+                        {t("firmware.updateFirmware")}
+                    </Button>}
                 </Panel>
 
                 <Panel

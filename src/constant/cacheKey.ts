@@ -4,4 +4,5 @@ export default {
     FAVOURITES: "favourites",
     UNASSIGNED_DEVICE: "unassignedDevice",
     CAMERAS: "cameras",
+    FIRMWARE_DEVICE:"firmwareDevice"
 }

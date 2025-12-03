@@ -13,7 +13,20 @@
     padding: 16px;
 
 }
+.updateFirmwareButton{
+    border: 2px solid rgba(0, 255, 0, 0.5) !important;
+    color: rgba(0, 255, 0, 0.5) !important;
+    font-weight: 700 !important;
+    border-radius: 10px !important;
+    min-width: 140px;
+    width: 100%;
+    margin-top: 10px;
+}
 
+.updateFirmwareButton:hover {
+    background: rgba(0, 255, 0, 0.1) !important;
+    border-color: rgba(0, 255, 0, 0.7) !important;
+}
 .panel {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%) !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;

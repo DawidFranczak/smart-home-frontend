@@ -41,6 +41,11 @@
       "actionRequired": "Wybierz akcję."
     }
   },
+  "firmware":{
+    "updateFirmware": "Zaktualizuj oprogramowanie",
+    "firmwareVersion": "Wersja oprogramowania",
+    "firmwareError": "Nie udało się zaktualizować oprogramowania"
+  },
   "settingsDevice": {
     "never": "Nigdy",
     "setDeviceName": "Wprowadź nazwę urządzenia",
