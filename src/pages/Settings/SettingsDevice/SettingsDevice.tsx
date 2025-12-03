@@ -6,8 +6,6 @@ import {
     InputGroup,
     Button,
     Modal,
-    toaster,
-    Message,
     Divider,
     List,
     Toggle,
@@ -26,6 +24,7 @@ import {useTranslation} from "react-i18next";
 import useFirmwareDeviceQuery from "../../../hooks/queries/useFirmwareDeviceQuery.tsx";
 import IFirmwareDevice from "../../../interfaces/IFirmwareDevice.ts";
 import useUpdateFirmwareDeviceMutation from "../../../hooks/queries/useUpdateFirmwareDeviceMutation.tsx";
+import displayToaster from "../../../utils/displayToaster.tsx";
 
 export default function SettingsDevice() {
     const { t } = useTranslation();
@@ -60,31 +59,16 @@ export default function SettingsDevice() {
     console.log(device)
     const handleSaveName = async () => {
         if (!deviceName.trim()) {
-            toaster.push(
-                <Message closable type="warning" showIcon >
-                    {t("settingsDevice.nameEmpty")}
-                </Message>,
-                { placement: "topCenter", duration: 3000 }
-            );
+            displayToaster(t("settingsDevice.nameEmpty"),"warning")
             return;
         }
 
         setIsUpdating(true);
         try {
             await updateMutation.mutateAsync({ name: deviceName });
-            toaster.push(
-                <Message closable type="success" showIcon>
-                    {t("settingsDevice.nameUpdated")}
-                </Message>,
-                { placement: "topCenter", duration: 3000 }
-            );
+            displayToaster(t("settingsDevice.nameUpdated"))
         } catch (error) {
-            toaster.push(
-                <Message closable type="error" showIcon>
-                    {t("settingsDevice.nameUpdateError")}
-                </Message>,
-                { placement: "topCenter", duration: 3000 }
-            );
+            displayToaster(t("settingsDevice.nameUpdateError"),"error")
         } finally {
             setIsUpdating(false);
         }
@@ -94,19 +78,9 @@ export default function SettingsDevice() {
         setSelectedRoom(roomId);
         try {
             await updateMutation.mutateAsync({ room: roomId });
-            toaster.push(
-                <Message closable type="success" showIcon>
-                    {roomId ? t("settingsDevice.roomAssigned") : t("settingsDevice.roomRemoved")}
-                </Message>,
-                { placement: "topCenter", duration: 3000 }
-            );
+            displayToaster(roomId ? t("settingsDevice.roomAssigned") : t("settingsDevice.roomRemoved"))
         } catch (error) {
-            toaster.push(
-                <Message closable type="error" showIcon>
-                    {t("settingsDevice.roomChangeError")}
-                </Message>,
-                { placement: "topCenter", duration: 3000 }
-            );
+            displayToaster(t("settingsDevice.roomChangeError"),"error")
             setSelectedRoom(device?.room || null);
         }
     };
@@ -115,19 +89,9 @@ export default function SettingsDevice() {
         setIsFavourite(checked);
         try {
             await favouriteMutation.mutateAsync({id: id, is_favourite: !checked, type:"device"});
-            toaster.push(
-                <Message closable type="success" showIcon>
-                    {checked ? t("settingsDevice.favouriteAdded") : t("settingsDevice.favouriteRemoved")}
-                </Message>,
-                { placement: "topCenter", duration: 3000 }
-            );
+            displayToaster(checked ? t("settingsDevice.favouriteAdded") : t("settingsDevice.favouriteRemoved"))
         } catch (error) {
-            toaster.push(
-                <Message closable type="error" showIcon>
-                    {t("settingsDevice.favouriteError")}
-                </Message>,
-                { placement: "topCenter", duration: 3000 }
-            );
+            displayToaster(t("settingsDevice.favouriteError"),"error")
             setIsFavourite(device?.is_favourite || false);
         }
     };
@@ -137,20 +101,10 @@ export default function SettingsDevice() {
         try {
             await updateMutation.mutateAsync({ room: null });
             setSelectedRoom(null);
-            toaster.push(
-                <Message closable type="success" showIcon>
-                    {t("settingsDevice.removedFromRoom")}
-                </Message>,
-                { placement: "topCenter", duration: 3000 }
-            );
+            displayToaster(t("settingsDevice.removedFromRoom"))
             navigate("/device");
         } catch (error) {
-            toaster.push(
-                <Message closable type="error" showIcon>
-                    {t("settingsDevice.deleteError")}
-                </Message>,
-                { placement: "topCenter", duration: 3000 }
-            );
+            displayToaster(t("settingsDevice.deleteError"),"error")
         }
     };
 
@@ -158,20 +112,10 @@ export default function SettingsDevice() {
         setShowDeleteModal(false);
         try {
             await deleteMutation.mutateAsync();
-            toaster.push(
-                <Message closable type="success" showIcon>
-                    {t("settingsDevice.deleteSuccess")}
-                </Message>,
-                { placement: "topCenter", duration: 3000 }
-            );
+            displayToaster(t("settingsDevice.deleteSuccess"))
             navigate("/device");
         } catch (error) {
-            toaster.push(
-                <Message closable type="error" showIcon>
-                    {t("settingsDevice.deleteError")}
-                </Message>,
-                { placement: "topCenter", duration: 3000 }
-            );
+            displayToaster(t("settingsDevice.deleteError"),"error")
         }
     };
 
