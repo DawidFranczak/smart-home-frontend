@@ -1,4 +1,7 @@
 {
+  "chatbot": {
+    "warning": "Please use simple and clear commands"
+  },
   "events": {
     "button": {
       "toggle": "Toggle",

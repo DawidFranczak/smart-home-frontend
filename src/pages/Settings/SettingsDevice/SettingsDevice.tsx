@@ -56,7 +56,6 @@ export default function SettingsDevice() {
             setIsFavourite(device.is_favourite);
         }
     });
-    console.log(device)
     const handleSaveName = async () => {
         if (!deviceName.trim()) {
             displayToaster(t("settingsDevice.nameEmpty"),"warning")

@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import {useTranslation} from "react-i18next";
-import {createContext, useContext, useEffect, useState} from "react";
+import {createContext, useContext, useEffect, useRef, useState} from "react";
 import updateDeviceData from "../utils/updateDeviceData.tsx";
 import updateUnassignedDevice from "../utils/updateUnassignedDevice";
 import MessageType from "../constant/message_type";
@@ -11,6 +11,7 @@ import displayToaster from "../utils/displayToaster.tsx";
 interface WebSocketType {
   send: (data: object) => void;
   status: WebSocket["readyState"];
+  registerAiCallback:(callback:(message:string)=>void)=>void
 }
 
 export const WebSockerContext = createContext<WebSocketType|undefined>(undefined);
@@ -26,7 +27,7 @@ export default function WebSocketProvider({children}:{children: React.ReactNode}
   const [status, setStatus] = useState<WebSocket["readyState"]>(WebSocket.CONNECTING);
   const {t} = useTranslation();
   const queryClient = useQueryClient()
-
+  const aiCallbackMessage = useRef<((text:string)=>void) | null>(null)
   function connect(){
     const token = queryClient.getQueryData(["token"]) as {
       status: number;
@@ -53,6 +54,9 @@ export default function WebSocketProvider({children}:{children: React.ReactNode}
           updateDeviceData(queryClient, data.data, data.status);
           displayToaster(t("firmware.firmwareError"),"error")
           break;
+        case MessageType.AI_RESPONSE:
+          if (aiCallbackMessage.current) aiCallbackMessage.current(data.data.message);
+          break;
       }
     };
 
@@ -75,6 +79,9 @@ export default function WebSocketProvider({children}:{children: React.ReactNode}
     if (!socket || socket.readyState !== WebSocket.OPEN) return;
     socket.send(JSON.stringify(data));
   }
+  function registerAiCallback(callback:(message:string)=>void){
+    aiCallbackMessage.current = callback;
+  }
 
-  return <WebSockerContext.Provider value={{send, status}}>{children}</WebSockerContext.Provider>;
+  return <WebSockerContext.Provider value={{send, status, registerAiCallback}}>{children}</WebSockerContext.Provider>;
 }

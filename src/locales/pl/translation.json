@@ -1,4 +1,7 @@
 {
+  "chatbot": {
+    "warning": "Proszę używać prostych i klarownych instrukcji"
+  },
   "events": {
     "button": {
       "toggle": "Przełącz",
