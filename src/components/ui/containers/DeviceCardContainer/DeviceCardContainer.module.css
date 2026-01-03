@@ -10,18 +10,17 @@
   background: linear-gradient(135deg, #1a2a44 0%, #2a3a54 100%);
   padding: 20px;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-  cursor: pointer;
   transition: all 0.4s ease-in-out;
   backdrop-filter: blur(5px);
   color: white;
   border: 2px solid rgba(0, 255, 255, 0.3);
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
-  border-color: #00ffff;
-}
+/*.card:hover {*/
+/*  transform: translateY(-5px);*/
+/*  box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);*/
+/*  border-color: #00ffff;*/
+/*}*/
 
 .card.active {
   border-color: #00ffff;

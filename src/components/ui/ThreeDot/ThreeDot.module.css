@@ -1,0 +1,10 @@
+.link{
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: var(--accent-primary);
+    margin: 5px 10px;
+}
+.link:hover{
+    cursor: pointer;
+}

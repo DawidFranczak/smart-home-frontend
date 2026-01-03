@@ -4,9 +4,8 @@ import IEvent from "../../../../interfaces/IEvent.tsx";
 import hasEvent from "../../../../utils/hasEvent.ts";
 import useEventTriggerMutation from "../../../../hooks/queries/useEventTriggerMutation.tsx";
 import {IconButton} from "rsuite";
-import OffIcon from "@rsuite/icons/esm/react/Off";
 import {TButton} from "../../../../type/TButton.ts";
-
+import OffRoundIcon from '@rsuite/icons/OffRound';
 interface IEventButtonProps {
     id:number;
     events:IEvent[]|undefined;
@@ -43,9 +42,9 @@ export default function EventButton({ id, buttonType, events}: IEventButtonProps
 
     }
     return <IconButton
-                icon={<OffIcon className={styles.size}/>}
+                icon={<OffRoundIcon className={styles.size}/>}
                 appearance="link"
-                className={styles.size}
+                className={styles.button}
                 onPointerDown={triggerEvent}
                 onPointerUp={cleanupEvent}
                 onContextMenu={(e) => e.preventDefault()}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Panel, Input, InputGroup, Button, Modal, toaster, Message, Divider, Toggle } from "rsuite";
 import PageContainer from "../../../components/ui/containers/PageContainer/PageContainer";
@@ -7,7 +7,11 @@ import useRoomQuery from "../../../hooks/queries/room/useRoomQuery.tsx";
 import useRoomMutation from "../../../hooks/queries/room/useRoomMutation.tsx";
 import styles from "./SettingsRoom.module.css";
 import LoadingAnimation from "../../../components/ui/LoadingAnimation/LoadingAnimation.tsx";
-
+import displayToaster from "../../../utils/displayToaster.tsx";
+import useFavouriteMutation from "../../../hooks/queries/useFavouriteMutation.tsx";
+import {useTranslation} from "react-i18next";
+import {useQueryClient} from "@tanstack/react-query";
+import isFavourite from "../../../utils/isFavourite.ts";
 export default function SettingsRoom() {
     const params = useParams();
     const navigate = useNavigate();
@@ -16,17 +20,32 @@ export default function SettingsRoom() {
     const { updateRoom, deleteRoom } = useRoomMutation();
     const updateMutation = updateRoom(id);
     const deleteMutation = deleteRoom(id);
-
+    const favouriteMutation = useFavouriteMutation();
     const [roomName, setRoomName] = useState(room?.name || "");
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [isUpdating, setIsUpdating] = useState(false);
-
-    // Update state when room data loads
+    const queryClient = useQueryClient();
+    const [isSetFavourite, setIsSetFavourite] = useState(false);
+    const { t } = useTranslation();
+    useEffect(() => {
+        setIsSetFavourite(isFavourite(id,queryClient,"room"))
+    }, [isFavourite(id,queryClient,"room")]);
     useState(() => {
         if (room) {
             setRoomName(room.name);
         }
     });
+
+    const handleFavouriteToggle = async (checked: boolean) => {
+        setIsSetFavourite(checked);
+        try {
+            await favouriteMutation.mutateAsync({id: id, is_favourite: !checked, type:"room"});
+            displayToaster(checked ? t("settingsDevice.favouriteAdded") : t("settingsDevice.favouriteRemoved"))
+        } catch (error) {
+            displayToaster(t("settingsDevice.favouriteError"),"error")
+            setIsSetFavourite(room?.is_favourite || false);
+        }
+    };
 
     const handleSaveName = async () => {
         if (!roomName.trim()) {
@@ -158,6 +177,21 @@ export default function SettingsRoom() {
                                 unCheckedChildren="Prywatny"
                             />
                         </div>
+                    </div>
+                    <div className={styles.toggleSection}>
+                        <div className={styles.toggleInfo}>
+                            <label className={styles.configLabel}>⭐{t("settingsDevice.favourite")}</label>
+                            <p className={styles.configDesc}>
+                                {t("settingsDevice.favouriteDescription")}
+                            </p>
+                        </div>
+                        <Toggle
+                            checked={isSetFavourite}
+                            onChange={handleFavouriteToggle}
+                            size="lg"
+                            checkedChildren={t("settingsDevice.yes")}
+                            unCheckedChildren={t("settingsDevice.no")}
+                        />
                     </div>
                 </Panel>
                 <Panel

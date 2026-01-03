@@ -115,6 +115,9 @@
     "noCardsDescription": "No RFID cards registered yet. Click the \"Add card\" button to add the first card.",
     "addFirstCard": "Add the first card"
   },
+  "rfidCard": {
+    "cardAmount": "Number of active cards"
+  },
   "addCardForm": {
     "addCardTitle": " Add new card",
     "pendingMessage": "Hold the card near the reader...",

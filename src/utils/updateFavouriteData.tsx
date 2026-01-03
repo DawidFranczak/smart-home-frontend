@@ -9,6 +9,7 @@ export default function updateFavouriteData(
   data: IFavouriteData,
   status: number
 ) {
+  console.log(data);
   const oldFavouriteData = queryClient.getQueryData([CacheKey.FAVOURITES]) as {
     status: number;
     data: { rooms: number[]; devices: number[] };
