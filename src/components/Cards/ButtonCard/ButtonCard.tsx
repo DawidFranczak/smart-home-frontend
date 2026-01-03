@@ -15,22 +15,7 @@ export default function ButtonCard(button: IButton) {
       isOnline={button.is_online}
       id={button.id}
     >
-        <CardIconContainer>
-            {button.button_type === "BI" ? (
-                <EventButton id={button.id} events={button.events} type="on_toggle">
-                    {t("events.button.toggle")}
-                </EventButton>
-            ) : (
-                <>
-                    <EventButton id={button.id} events={button.events} type="on_hold">
-                        {t("events.button.hold")}
-                    </EventButton>
-                    <EventButton id={button.id} events={button.events} type="on_click">
-                        {t("events.button.click")}
-                    </EventButton>
-                </>
-            )}
-        </CardIconContainer>
+        <EventButton id={button.id} buttonType={button.button_type} events={button.events}/>
         <StyledLink type="fancy" to={`/button/${button.id}/`}>
             {t("buttons.select")}
         </StyledLink>
