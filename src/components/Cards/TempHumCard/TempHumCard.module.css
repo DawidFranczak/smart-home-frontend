@@ -7,18 +7,17 @@
 }
 .header{
     margin-bottom: 10px;
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-xs);
 }
 .threeDots{
     position: absolute;
     right: 0;
-    top: -20px;
+    top: -15px;
 }
 .measurement{
     width: 100%;
     display: flex;
     justify-content: space-around;
-    gap:20px;
 }
 .temperature,.humidity{
     width: 50%;
@@ -29,7 +28,7 @@
 }
 .temperatureValue, .humidityValue{
     margin:0;
-    font-size: var(--font-size-2xl);
+    font-size: var(--font-size-lg);
 }
 
 .temperatureBar, .humidityBar{
@@ -41,4 +40,16 @@
 }
 .humidityBar{
     background-color: var(--info-color);
+}
+
+@media screen and (max-width: 1200px) {
+    .temperatureValue, .humidityValue{
+        font-size: var(--font-size-sm);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .temperatureValue, .humidityValue{
+        font-size: var(--font-size-xs);
+    }
 }

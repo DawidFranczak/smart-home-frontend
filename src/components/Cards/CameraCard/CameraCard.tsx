@@ -10,9 +10,10 @@ import ThreeDot from "../../ui/ThreeDot/ThreeDot.tsx";
 interface CameraCardProps {
     id: number;
     name: string;
+    className?: string;
 }
 
-export default function CameraCard({ id, name }: CameraCardProps) {
+export default function CameraCard({ id, name, className }: CameraCardProps) {
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const queryClient = useQueryClient();
     const toaster = useToaster();
@@ -113,9 +114,8 @@ export default function CameraCard({ id, name }: CameraCardProps) {
             pc.close();
         };
     }, [id, queryClient, toaster]);
-
     return (
-        <div className={styles.panel}>
+        <div className={`${styles.panel} ${className}`} >
             <div className={styles.header}>
                 <Header disable={true}>{name}</Header>
                 <ThreeDot className={styles.threeDots} to={`/camera/settings/${id}`}/>
@@ -123,15 +123,16 @@ export default function CameraCard({ id, name }: CameraCardProps) {
             {loading && !error && <LoadingAnimation size="large" type="spinner" glow />}
             {error ? <Message className={styles.errorMessage} type="error" showIcon>
                 {error}
-            </Message> : <video
-                ref={videoRef}
-                playsInline
-                autoPlay
-                controls
-                muted
-                className={styles.video}
-                hidden={loading}
-            />
+            </Message> :
+                    <video
+                    ref={videoRef}
+                    playsInline
+                    autoPlay
+                    controls
+                    muted
+                    className={styles.video}
+                    hidden={loading}
+                    />
             }
         </div>
     );

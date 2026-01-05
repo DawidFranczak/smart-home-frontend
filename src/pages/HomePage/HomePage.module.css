@@ -7,8 +7,9 @@
 .header{
   grid-column: 1 / -1;
 }
-.test{
-  margin:20px;
+
+.background{
+  margin:10px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 16px !important;
@@ -21,7 +22,17 @@
   font-size: var(--font-size-2xl);
   padding-top: 5px;
   justify-self: center;
+  text-align: center;
 }
+
+.cameraContainer{
+  grid-column: 1 / span 3;
+  grid-row: 2 / span 3;
+  display:grid;
+  grid-template: repeat(2, 1fr)/repeat(2, 1fr);
+  padding:20px;
+}
+
 .measurementContainer{
   grid-column: 4 / span 1;
   grid-row: 2 / -2;
@@ -30,6 +41,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .deviceContainer{
   grid-column: 5 / -1;
   grid-row: 2 / -1;
@@ -45,23 +57,25 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
+  align-content: flex-start;
   gap: 20px;
-  padding:20px;
+  padding:5px;
   overflow-x: hidden;
   overflow-y: auto;
   -webkit-mask-image: linear-gradient(
           to bottom,
           transparent 0px,
-          black 24px,
-          black calc(100% - 24px),
+          black 12px,
+          black calc(100% - 12px),
           transparent 100%
   );
 
   mask-image: linear-gradient(
           to bottom,
           transparent 0px,
-          black 24px,
-          black calc(100% - 24px),
+          black 12px,
+          black calc(100% - 12px),
           transparent 100%
   );
 }
@@ -119,4 +133,82 @@
 }
 .rooms > * {
   flex-shrink: 0;
+}
+
+@media screen and (max-width: 1200px) {
+  .deviceTitle, .humidityValue{
+    font-size: var(--font-size-base);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cameraContainer{
+    display: none;
+  }
+  .roomContainer{
+    grid-column: 1 / 3;
+    grid-row: 2 / -1;
+    font-size: var(--font-size-base);
+  }
+  .rooms{
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .roomTitle{
+    grid-column: 1 / -1;
+    justify-self: center;
+    align-self: center;
+    padding:0;
+  }
+  .measurementContainer{
+    grid-column: 3 / span 2;
+    grid-row: 2 / -1;
+    scrollbar-width: none;
+  }
+  .devices{
+    scrollbar-width: none;
+  }
+  .deviceTitle, .humidityValue{
+    font-size: var(--font-size-base);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .grid{
+    display:flex;
+    flex-direction: column;
+    overflow: scroll;
+    scrollbar-width: none;
+
+  }
+  .cameraContainer{
+    display: none;
+  }
+  .roomContainer{
+    font-size: var(--font-size-base);
+  }
+  .rooms{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .roomTitle{
+    justify-self: center;
+    align-self: center;
+    padding:0;
+  }
+  .measurementContainer{
+    scrollbar-width: none;
+  }
+  .devices{
+    scrollbar-width: none;
+  }
+  .deviceTitle, .humidityValue{
+    font-size: var(--font-size-base);
+  }
 }

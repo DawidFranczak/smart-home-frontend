@@ -9,11 +9,15 @@ import useDevicesQuery from "../../hooks/queries/device/useDevicesQuery.tsx";
 import useRoomsQuery from "../../hooks/queries/room/useRoomsQuery.tsx";
 import { useTranslation } from "react-i18next";
 import styles from "./HomePage.module.css";
+import useCameraQuery from "../../hooks/queries/useCameraQuery.tsx";
+import CameraCard from "../../components/Cards/CameraCard/CameraCard.tsx";
+import {ICamera} from "../../interfaces/ICamera.tsx";
 
 const MEASUREMENT_DEVICE_FUN = ["temp_hum"];
 export default function HomePage() {
     const { t } = useTranslation();
     const { favouriteData } = useFavouriteQuery();
+    const {cameraData} = useCameraQuery();
     const { devices } = useDevicesQuery(favouriteData?.devices || []);
     const { rooms } = useRoomsQuery(favouriteData?.rooms || []);
 
@@ -26,7 +30,20 @@ export default function HomePage() {
         <div className={styles.grid}>
             <PageHeader className={styles.header} title={t("home.title")} subtitle={t("home.subtitle")}>
             </PageHeader>
-            <div className={styles.roomContainer}>
+
+            <div className={`${styles.deviceContainer} ${styles.background}`}>
+                <p className={styles.deviceTitle}>Urządzenia</p>
+                <div className={styles.devices}>
+                    {normalDevice.map((device: IDevice) => getDeviceComponent(device))}
+                </div>
+            </div>
+            <div className={`${styles.measurementContainer} ${styles.background}`}>
+                <p className={styles.deviceTitle}>Urządzenia pomiarowe</p>
+                <div className={styles.measurement}>
+                    {measuredDevice.map((device: IDevice) => getDeviceComponent(device))}
+                </div>
+            </div>
+            <div className={`${styles.roomContainer} ${styles.background}`}>
                 <p className={styles.roomTitle}>Pokoje</p>
                 <div className={styles.rooms}>
                     {rooms.map((room: IRoom) => (
@@ -34,17 +51,10 @@ export default function HomePage() {
                     ))}
                 </div>
             </div>
-            <div className={styles.deviceContainer}>
-                <p className={styles.deviceTitle}>Urządzenia</p>
-                <div className={styles.devices}>
-                    {normalDevice.map((device: IDevice) => getDeviceComponent(device))}
-                </div>
-            </div>
-            <div className={styles.measurementContainer}>
-                <p className={styles.deviceTitle}>Urządzenia pomiarowe</p>
-                <div className={styles.measurement}>
-                    {measuredDevice.map((device: IDevice) => getDeviceComponent(device))}
-                </div>
+            <div className={styles.cameraContainer}>
+                    {cameraData?.map((camera:ICamera) => (
+                        <CameraCard className={styles.cameraCard} key={camera.id} id={camera.id} name={camera.name} />
+                    ))}
             </div>
         </div>
       </PageContainer>
