@@ -12,8 +12,7 @@ import styles from "./HomePage.module.css";
 import useCameraQuery from "../../hooks/queries/useCameraQuery.tsx";
 import CameraCard from "../../components/Cards/CameraCard/CameraCard.tsx";
 import {ICamera} from "../../interfaces/ICamera.tsx";
-
-const MEASUREMENT_DEVICE_FUN = ["temp_hum"];
+import MEASUREMENT_DEVICE_FUN from "../../constant/MEASUREMENT_DEVICE_FUN.ts"
 export default function HomePage() {
     const { t } = useTranslation();
     const { favouriteData } = useFavouriteQuery();
