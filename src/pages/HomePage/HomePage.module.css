@@ -1,61 +1,122 @@
-.cardContainer {
-  scroll-behavior: smooth;
-  overflow: scroll;
-  flex: 1;
+.grid{
+  width: 100%;
+  height: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template: 80px repeat(4, 1fr)/repeat(5, 1fr);
+}
+.header{
+  grid-column: 1 / -1;
+}
+.test{
+  margin:20px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 16px !important;
+  backdrop-filter: blur(10px);
+}
+
+.deviceTitle{
+  grid-column: 1 / -1;
+  margin:0;
+  font-size: var(--font-size-2xl);
+  padding-top: 5px;
+  justify-self: center;
+}
+.measurementContainer{
+  grid-column: 4 / span 1;
+  grid-row: 2 / -2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.deviceContainer{
+  grid-column: 5 / -1;
+  grid-row: 2 / -1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.devices, .measurement{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
-  padding: 20px;
+  padding:20px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-mask-image: linear-gradient(
+          to bottom,
+          transparent 0px,
+          black 24px,
+          black calc(100% - 24px),
+          transparent 100%
+  );
+
+  mask-image: linear-gradient(
+          to bottom,
+          transparent 0px,
+          black 24px,
+          black calc(100% - 24px),
+          transparent 100%
+  );
 }
 
-.cardContainer > * {
-  max-width: 100%;
-  overflow: hidden;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+
+.devices::-webkit-scrollbar {
+  margin-top:20px;
+  height: 6px;
 }
-
-.cardContainer:hover {
-  border-color: rgba(0, 255, 255, 0.15);
+.devices > * {
+  flex-shrink: 0;
 }
-
-.cardContainer > * {
-  transition: transform 0.2s ease;
+.roomTitle{
+  grid-column: 1 / -1;
+  justify-self: start;
+  padding-left: 20px;
+  margin:0;
+  font-size: var(--font-size-2xl);
 }
-
-.cardContainer > *:hover {
-  transform: translateY(-2px);
+.roomContainer{
+  grid-column: 1 / -2;
+  grid-row: 5 / -1;
+  display: flex;
+  flex-direction: column;
+  padding:10px;
 }
+.rooms{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding:20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-mask-image: linear-gradient(
+          to right,
+          transparent 0px,
+          black 24px,
+          black calc(100% - 24px),
+          transparent 100%
+  );
 
-@media (max-width: 1200px) {
-  .cardContainer {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 18px;
-  }
-
+  mask-image: linear-gradient(
+          to right,
+          transparent 0px,
+          black 24px,
+          black calc(100% - 24px),
+          transparent 100%
+  );
 }
-
-@media (max-width: 768px) {
-  .container {
-    padding: 15px;
-  }
-
-  .cardContainer {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 15px;
-    padding: 15px;
-    height: calc(100% - 120px);
-  }
+.rooms::-webkit-scrollbar {
+  margin-top:20px;
+  height: 6px;
 }
-
-@media (max-width: 480px) {
-  .container {
-    padding: 10px;
-  }
-
-  .cardContainer {
-    grid-template-columns: 1fr;
-    gap: 10px;
-    padding: 10px;
-  }
+.rooms > * {
+  flex-shrink: 0;
 }
