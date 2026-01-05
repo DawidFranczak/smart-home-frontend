@@ -1,19 +1,13 @@
-import DeviceCardContainer from "../../ui/containers/DeviceCardContainer/DeviceCardContainer.tsx";
-import CardIconContainer from "../../ui/containers/CardIconContainer/CardIconContainer.tsx";
-import StyledLink from "../../ui/StyledLink/StyledLink.tsx";
-import InfoCard from "../../ui/InfoCard/InfoCard";
 import styles from "./TempHumCard.module.css";
 import { IDevice } from "../../../interfaces/IDevice";
-import {useTranslation} from "react-i18next";
+import ThreeDot from "../../ui/ThreeDot/ThreeDot.tsx";
+import Header from "../../ui/Headers/Header/Header.tsx";
+
 type TempHumDevice = IDevice & {
     temperature?: number;
     humidity?: number;
     timestamp?: string;
 };
-function formatIsoSeconds(value?: string) {
-    if (!value) return "N/A";
-    return value.length >= 19 ? value.slice(11, 19) : value;
-}
 
 function formatNumber(value?: number) {
     if (value === undefined || value === null || Number.isNaN(value)) return "N/A";
@@ -21,26 +15,20 @@ function formatNumber(value?: number) {
 }
 
 export default function TempHumCard(tempHum: TempHumDevice) {
-    const lastDate = formatIsoSeconds(tempHum.timestamp);
     const temperature = formatNumber((tempHum as any).temperature);
     const humidity = formatNumber((tempHum as any).humidity);
-    const {t} = useTranslation();
     return (
-        <DeviceCardContainer
-            name={tempHum.name}
-            isFavourite={tempHum.is_favourite}
-            isOnline={tempHum.is_online}
-            id={tempHum.id}
-            wifiStrength={tempHum.wifi_strength}
-        >
-            <CardIconContainer>
-                <InfoCard  className={styles.infoCardTimestamp}>{lastDate}</InfoCard>
-                <InfoCard  className={styles.infoCardValue}>{temperature} °C</InfoCard>
-                <InfoCard  className={styles.infoCardValue}>{humidity} %</InfoCard>
-            </CardIconContainer>
-            <StyledLink type="fancy" to={`/temperature/${tempHum.id}/`}>
-                {t("buttons.select")}
-            </StyledLink>
-        </DeviceCardContainer>
+        <div className={styles.container}>
+            <ThreeDot className={styles.threeDots} to={`/temperature/${tempHum.id}/`}/>
+            <Header className={styles.header} disable={!tempHum.is_online}>{tempHum.name}</Header>
+            <div className={styles.measurement}>
+                <div className={styles.temperature}>
+                    <div className={styles.temperatureBar}></div> <p className={styles.temperatureValue}>{temperature} °C</p>
+                </div>
+                <div className={styles.humidity}>
+                    <div className={styles.humidityBar}></div> <p className={styles.humidityValue}>{humidity} %</p>
+                </div>
+            </div>
+        </div>
     );
 }
