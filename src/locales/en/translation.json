@@ -21,8 +21,7 @@
   },
   "selectRoom": {
     "title": "Rooms",
-    "active": "Active",
-    "all":"All"
+    "device": "device"
   },
   "deviceEventWizard": {
     "title": "Add Action",
@@ -116,7 +115,7 @@
     "addFirstCard": "Add the first card"
   },
   "rfidCard": {
-    "cardAmount": "Number of active cards"
+    "cardAmount": "Number of cards"
   },
   "addCardForm": {
     "addCardTitle": " Add new card",

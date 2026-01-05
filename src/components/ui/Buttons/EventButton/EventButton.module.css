@@ -1,15 +1,17 @@
 .button{
-    width: 100px !important;
-    height: 100px !important;
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 45px !important;
+    height: 45px !important;
 
 }
 .size{
-    width: 100% !important;
-    height: 100% !important;
+    width: 45px !important;
+    height: 45px !important;
     touch-action: none;
     user-select: none;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-
 }
 
 .size:active{

@@ -21,8 +21,7 @@
   },
   "selectRoom": {
     "title": "Pokoje",
-    "active": "Aktywne",
-    "all":"Wszystkie"
+    "device": "urządzeń"
   },
   "deviceEventWizard": {
     "title": "Dodaj akcję",
@@ -116,7 +115,7 @@
     "addFirstCard": "Dodaj pierwszą kartę"
   },
   "rfidCard": {
-    "cardAmount": "Liczba aktywnych kart"
+    "cardAmount": "Liczba kart"
   },
   "addCardForm": {
     "addCardTitle": "Dodaj nową kartę",
