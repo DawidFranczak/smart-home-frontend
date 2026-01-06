@@ -1,4 +1,4 @@
-import {Button, Form, Message, SelectPicker, toaster, useToaster} from "rsuite";
+import {Button, Form, Message, SelectPicker, useToaster} from "rsuite";
 import {TButton} from "../../type/TButton.ts";
 import {useEffect, useState} from "react";
 import styles from "./ChangeButtonTypeForm.module.css"
