@@ -5,6 +5,7 @@ import {Outlet} from "react-router-dom";
 import styles from "./Layouts.module.css";
 import DataPrefetcher from "../DataPrefetcher.tsx";
 import {useEffect} from "react";
+import Chatbot from "../Chatbot/Chatbot.tsx";
 
 export default function Layouts() {
     useEffect(() => {
@@ -30,6 +31,7 @@ export default function Layouts() {
             <main className={styles.content}>
                 <WebSocketProvider>
                     <Outlet />
+                    <Chatbot/>
                 </WebSocketProvider>
             </main>
         </div>

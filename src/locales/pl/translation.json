@@ -1,4 +1,7 @@
 {
+  "chatbot": {
+    "warning": "Proszę używać prostych i klarownych instrukcji"
+  },
   "events": {
     "button": {
       "toggle": "Przełącz",
@@ -18,8 +21,7 @@
   },
   "selectRoom": {
     "title": "Pokoje",
-    "active": "Aktywne",
-    "all":"Wszystkie"
+    "device": "urządzeń"
   },
   "deviceEventWizard": {
     "title": "Dodaj akcję",
@@ -111,6 +113,9 @@
     "noCardsTitle": "Brak kart",
     "noCardsDescription": "Nie zarejestrowano jeszcze żadnych kart RFID. Kliknij przycisk \"Dodaj kartę\" aby dodać pierwszą kartę.",
     "addFirstCard": "Dodaj pierwszą kartę"
+  },
+  "rfidCard": {
+    "cardAmount": "Liczba kart"
   },
   "addCardForm": {
     "addCardTitle": "Dodaj nową kartę",

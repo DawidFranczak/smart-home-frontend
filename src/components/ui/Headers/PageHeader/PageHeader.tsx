@@ -5,7 +5,7 @@ interface IPageHeaderProps {
     title?: string
     subtitle?: string
 }
-export default function PageHeader({children, className,title, subtitle}:IPageHeaderProps) {
+export default function PageHeader({children, className, title, subtitle}:IPageHeaderProps) {
     return (
         <div className={`${styles.pageHeader} ${className}`}>
             <div>

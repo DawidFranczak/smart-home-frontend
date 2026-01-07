@@ -1,4 +1,4 @@
-.eventsContainer {
-  overflow: scroll;
-  scrollbar-width: none;
+.cardAmount{
+  margin:0;
+  align-self: center;
 }

@@ -1,45 +1,33 @@
-import { useState } from "react";
 import styles from "./DeviceCardContainer.module.css";
-import FavouriteStar from "../../../FavouriteStar/FavouriteStar.tsx";
 import Header from "../../Headers/Header/Header.tsx";
-import WifiStrength from "../../WiFiStrength/WiFiStrength.tsx";
-
+import ThreeDot from "../../ThreeDot/ThreeDot.tsx";
+import SvgIcon from "../../SvgIcon/SvgIcon.tsx";
 interface IDeviceCardContainerProps {
-  isFavourite: boolean;
   name: string;
-  wifiStrength: number;
   isOnline: boolean;
-  id: number;
+  to:string;
+  alt: string;
+  svg: string;
   children?: React.ReactNode;
 }
 
 export default function DeviceCardContainer({
-  isFavourite,
   name,
-  wifiStrength,
   isOnline,
-  id,
   children,
+  to,
+    alt,
+    svg
 }: IDeviceCardContainerProps) {
-  const [isFavouriteState, setIsFavouriteState] = useState(isFavourite);
 
   return (
     <div className={styles.card}>
-      <Header>{name}</Header>
-      <FavouriteStar
-        isFavourite={isFavouriteState}
-        onClick={() =>
-          setIsFavouriteState((isFavouriteState) => !isFavouriteState)
-        }
-        className={styles.star}
-        id={id}
-        type="device"
-      />
-      <WifiStrength
-        strength={isOnline ? wifiStrength : -100}
-        className={styles.wifi}
-      />
-      {children}
+     <div className={styles.content}>
+       <ThreeDot to={to}/>
+       <SvgIcon svg={svg} alt={alt} />
+       <Header disable={!isOnline}>{name}</Header>
+     </div>
+       {children}
     </div>
   );
 }

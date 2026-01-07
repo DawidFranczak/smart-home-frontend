@@ -1,4 +1,8 @@
 import styles from "./CardContainer.module.css"
-export default function CardContainer({children}: {children: React.ReactNode}) {
-    return <div className={styles.cardContainer}>{children}</div>
+interface CardContainerProps {
+    children: React.ReactNode;
+    className?: string,
+}
+export default function CardContainer({children,className}: CardContainerProps) {
+    return <div className={`${styles.cardContainer} ${className}`}>{children}</div>
 }

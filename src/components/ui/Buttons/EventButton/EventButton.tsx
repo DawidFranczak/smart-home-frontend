@@ -1,20 +1,52 @@
+import {PointerEvent, useRef} from "react";
 import styles from "./EventButton.module.css"
-import {TDeviceEvent} from "../../../../type/TDeviceEvent.ts";
 import IEvent from "../../../../interfaces/IEvent.tsx";
 import hasEvent from "../../../../utils/hasEvent.ts";
 import useEventTriggerMutation from "../../../../hooks/queries/useEventTriggerMutation.tsx";
-
+import {IconButton} from "rsuite";
+import {TButton} from "../../../../type/TButton.ts";
+import OffRoundIcon from '@rsuite/icons/OffRound';
 interface IEventButtonProps {
     id:number;
     events:IEvent[]|undefined;
+    buttonType:TButton;
     className?: string;
-    type: TDeviceEvent
-    children: React.ReactNode
 }
-export default function EventButton({ id, className, type,children,events}: IEventButtonProps) {
+const PRESS_TIME = 1000
+export default function EventButton({ id, buttonType, events}: IEventButtonProps) {
+    const pressStartTime = useRef<number|null>(null);
+    const longPressTimeout = useRef<number|null>(null);
     const mutation = useEventTriggerMutation()
-    function handleTrigger(){
-        mutation.mutate({id:id,type:type})
+
+    function triggerEvent(_: PointerEvent<HTMLElement>){
+
+        if (buttonType === "BI"){
+            if (hasEvent(events,"on_toggle")) mutation.mutate({id:id,type:"on_toggle"})
+            return
+        }
+        pressStartTime.current = Date.now();
+        longPressTimeout.current = window.setTimeout(() => {
+            if (hasEvent(events,"on_hold")) mutation.mutate({id:id,type:"on_hold"})
+        }, PRESS_TIME)
     }
-    return <button className={`${styles[type]} ${className}`} disabled={!hasEvent(events,type)} onClick={handleTrigger}>{children}</button>
+    function cleanupEvent(_: PointerEvent<HTMLElement>){
+        if (buttonType === "BI") return
+
+        if (longPressTimeout.current !== null) {
+            window.clearTimeout(longPressTimeout.current)
+            longPressTimeout.current = null
+        }
+        if (pressStartTime.current !== null && Date.now() - pressStartTime.current < PRESS_TIME) {
+            if (hasEvent(events,"on_click")) mutation.mutate({id:id,type:"on_click"})
+        }
+
+    }
+    return <IconButton
+                icon={<OffRoundIcon className={styles.size}/>}
+                appearance="link"
+                className={styles.button}
+                onPointerDown={triggerEvent}
+                onPointerUp={cleanupEvent}
+                onContextMenu={(e) => e.preventDefault()}
+            />
 }

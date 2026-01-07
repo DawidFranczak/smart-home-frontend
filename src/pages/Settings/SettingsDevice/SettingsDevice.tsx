@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
     Panel,
@@ -25,6 +25,8 @@ import useFirmwareDeviceQuery from "../../../hooks/queries/useFirmwareDeviceQuer
 import IFirmwareDevice from "../../../interfaces/IFirmwareDevice.ts";
 import useUpdateFirmwareDeviceMutation from "../../../hooks/queries/useUpdateFirmwareDeviceMutation.tsx";
 import displayToaster from "../../../utils/displayToaster.tsx";
+import isFavourite from "../../../utils/isFavourite.ts";
+import {useQueryClient} from "@tanstack/react-query";
 
 export default function SettingsDevice() {
     const { t } = useTranslation();
@@ -42,21 +44,23 @@ export default function SettingsDevice() {
     const favouriteMutation = useFavouriteMutation(()=>{console.log("favourite")});
     const [deviceName, setDeviceName] = useState(device?.name || "");
     const [selectedRoom, setSelectedRoom] = useState<number | null>(device?.room || null);
-    const [isFavourite, setIsFavourite] = useState(device?.is_favourite || false);
-
+    const [isSetFavourite, setIsSetFavourite] = useState(false);
+    const queryClient = useQueryClient();
     const [showRemoveFromRoomModal, setShowRemoveFromRoomModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [isUpdating, setIsUpdating] = useState(false);
     const updateFirmwareMutation = useUpdateFirmwareDeviceMutation();
     // Update state when device data loads
+    useEffect(() => {
+        setIsSetFavourite(isFavourite(id,queryClient,"device"))
+    }, [isFavourite(id,queryClient,"device")]);
     useState(() => {
         if (device) {
             setDeviceName(device.name);
             setSelectedRoom(device.room);
-            setIsFavourite(device.is_favourite);
+            setIsSetFavourite(device.is_favourite);
         }
     });
-    console.log(device)
     const handleSaveName = async () => {
         if (!deviceName.trim()) {
             displayToaster(t("settingsDevice.nameEmpty"),"warning")
@@ -86,13 +90,13 @@ export default function SettingsDevice() {
     };
 
     const handleFavouriteToggle = async (checked: boolean) => {
-        setIsFavourite(checked);
+        setIsSetFavourite(checked);
         try {
             await favouriteMutation.mutateAsync({id: id, is_favourite: !checked, type:"device"});
             displayToaster(checked ? t("settingsDevice.favouriteAdded") : t("settingsDevice.favouriteRemoved"))
         } catch (error) {
             displayToaster(t("settingsDevice.favouriteError"),"error")
-            setIsFavourite(device?.is_favourite || false);
+            setIsSetFavourite(device?.is_favourite || false);
         }
     };
 
@@ -256,7 +260,7 @@ export default function SettingsDevice() {
                                 </p>
                             </div>
                             <Toggle
-                                checked={isFavourite}
+                                checked={isSetFavourite}
                                 onChange={handleFavouriteToggle}
                                 size="lg"
                                 checkedChildren={t("settingsDevice.yes")}

@@ -1,4 +1,7 @@
 {
+  "chatbot": {
+    "warning": "Please use simple and clear commands"
+  },
   "events": {
     "button": {
       "toggle": "Toggle",
@@ -18,8 +21,7 @@
   },
   "selectRoom": {
     "title": "Rooms",
-    "active": "Active",
-    "all":"All"
+    "device": "device"
   },
   "deviceEventWizard": {
     "title": "Add Action",
@@ -111,6 +113,9 @@
     "noCardsTitle": "No cards",
     "noCardsDescription": "No RFID cards registered yet. Click the \"Add card\" button to add the first card.",
     "addFirstCard": "Add the first card"
+  },
+  "rfidCard": {
+    "cardAmount": "Number of cards"
   },
   "addCardForm": {
     "addCardTitle": " Add new card",

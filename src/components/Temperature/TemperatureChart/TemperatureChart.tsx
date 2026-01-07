@@ -62,7 +62,6 @@ export default function TemperatureChart({onDataChange, temperatureData, humidit
             📱 {t("temperatureChart.tooNarrow")}
         </div>
     }
-
     return <>
         <div className={styles.datePickerContainer}>
             <DateRangePicker

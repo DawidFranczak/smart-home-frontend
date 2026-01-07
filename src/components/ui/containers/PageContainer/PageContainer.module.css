@@ -3,6 +3,7 @@
     flex-direction: column;
     overflow-y: scroll;
     scrollbar-width: none;
+    height: 100%;
 }
 
 @media (max-width: 768px) {
