@@ -99,7 +99,7 @@ export default function RfidPage() {
                 <Divider className={styles.divider} />
 
                 {cards.length > 0 ? (
-                    <div className={styles.cardsGrid}>
+                    <div className={styles.cardsContainer}>
                         {cards.map((card) => (
                             <CardCard key={card.id} card={card} />
                         ))}

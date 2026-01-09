@@ -11,7 +11,6 @@ import PageHeader from "../../components/ui/Headers/PageHeader/PageHeader.tsx";
 import PageContainer from "../../components/ui/containers/PageContainer/PageContainer.tsx";
 import LoadingAnimation from "../../components/ui/LoadingAnimation/LoadingAnimation.tsx";
 import renderInputFieldByType from "../../utils/getInputFieldByType.tsx";
-import useDeviceQuery from "../../hooks/queries/device/useDeviceQuery.tsx";
 import { useTranslation } from "react-i18next";
 
 const { StringType, NumberType } = Schema.Types;

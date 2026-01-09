@@ -15,7 +15,7 @@ export default function DeviceEventCard({ event }: IDeviceEventProps) {
     const { deleteEvent } = useEventMutation();
     const deleteMutation = deleteEvent(1, event.id);
     return (
-        <Panel shaded bordered className={styles.card}>
+        <Panel className={styles.card}>
             <div className={styles.header}>
                 <span className={styles.title}>
                   {event.event} - {event.action} - {event.device}

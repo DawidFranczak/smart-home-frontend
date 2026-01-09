@@ -12,7 +12,7 @@ export default function DeviceEventSection({events, description}: IDeviceEventSe
     const {t} = useTranslation();
     return(
         <Panel className={styles.section} bordered>
-            <div className={styles.sectionHeader}>
+            <div>
                 <div className={styles.sectionTitle}>
                     <h3>⚡ {t("deviceEventSection.title")}</h3>
                     <Badge content={events?.length} color="blue" />
@@ -23,7 +23,7 @@ export default function DeviceEventSection({events, description}: IDeviceEventSe
             </div>
             <Divider className={styles.divider} />
             {events && events.length > 0 && (
-                <div className={styles.eventsGrid}>
+                <div>
                     {events.map((event) => (
                         <DeviceEventDisplay
                             key={event.id}
