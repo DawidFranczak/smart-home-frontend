@@ -281,7 +281,9 @@
     "usernameRequired": "Nazwa użytkownika jest wymagana.",
     "passwordRequired": "Hasło jest wymagane.",
     "loginButton": "Zaloguj się",
-    "createAccount": "Utwórz nowe konto"
+    "createAccount": "Utwórz nowe konto",
+    "loginError": "Nieprawidłowy login lub hasło."
+
   },
   "registration": {
     "title": "Smart Home",

@@ -281,7 +281,8 @@
     "usernameRequired": "Username is required.",
     "passwordRequired": "Password is required.",
     "loginButton": "Sign in",
-    "createAccount": "Create a new account"
+    "createAccount": "Create a new account",
+    "loginError": "No active account found with the given credentials"
   },
   "registration": {
     "title": "Smart Home",

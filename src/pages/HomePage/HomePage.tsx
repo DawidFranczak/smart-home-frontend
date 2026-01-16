@@ -20,7 +20,7 @@ export default function HomePage() {
     const { devices } = useDevicesQuery(favouriteData?.devices || []);
     const { rooms } = useRoomsQuery(favouriteData?.rooms || []);
 
-    if (!devices || !rooms) return null;
+    if (!devices || !rooms || !cameraData) return null;
 
     const measuredDevice:IDevice[] = devices.filter(device => MEASUREMENT_DEVICE_FUN.includes(device.fun));
     const normalDevice:IDevice[] = devices.filter(device => !MEASUREMENT_DEVICE_FUN.includes(device.fun));

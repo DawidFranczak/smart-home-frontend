@@ -1,10 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
 import { Tooltip, Whisper } from "rsuite";
-import useFetch from "../../../hooks/useFetch";
-import { api } from "../../../constant/api";
-import { useAuth } from "../../../auth/AuthContext";
 import styles from "./Sidebar.module.css";
 
 import dashboard from "/static/svg/dashboard.svg";
@@ -14,6 +10,7 @@ import router from "/static/svg/router.svg";
 import settings from "/static/svg/settings.svg";
 import camera from "/static/svg/camera.svg";
 import logoutIcon from "/static/svg/logout.svg";
+import useLogoutMutation from "../../../hooks/queries/useLogoutMutation.ts";
 
 const menuItems = [
     { icon: dashboard, label: "Dashboard", path: "/" },
@@ -27,13 +24,8 @@ const menuItems = [
 export default function Sidebar() {
     const [collapsed, setCollapsed] = useState(true);
     const location = useLocation();
-    const { deleteData } = useFetch();
-    const { logout } = useAuth();
 
-    const mutation = useMutation({
-        mutationFn: () => deleteData(api.logout),
-        onSuccess: () => logout(),
-    });
+    const mutation = useLogoutMutation()
 
     const handleLogout = () => {
         mutation.mutate();

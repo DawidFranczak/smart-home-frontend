@@ -21,14 +21,14 @@ export const api = {
   unassignedDevice: baseURL + "/api/device/?unassigned=true",
   router: baseURL + "/api/device/router/",
   event: baseURL + "/api/event/",
-    triggerEvent: baseURL + "/api/event/trigger/",
+  triggerEvent: baseURL + "/api/event/trigger/",
   action: baseURL + "/api/event/action/",
   cameras: baseURL + "/api/cameras/",
   getUpdateLamp: baseURL + "/api/lamp/", // +id
-    tempHum:baseURL + "/api/temperature/",
-    tempHumHistory:baseURL + "/api/temperature/history/",
+  tempHum:baseURL + "/api/temperature/",
   getAllEvents: baseURL + "/api/device/get/event/",
-    firmwareList: baseURL + "/api/firmware/",
-    firmwareUpdate: baseURL + "/api/firmware/update/",
-
+  firmwareList: baseURL + "/api/firmware/",
+  firmwareUpdate: baseURL + "/api/firmware/update/",
+  temperatureHistory:baseURL + "/sensor/api/v1/temperature",
+  humidityHistory:baseURL + "/sensor/api/v1/humidity",
 };

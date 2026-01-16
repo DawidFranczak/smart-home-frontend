@@ -43,8 +43,9 @@ export default function LoginPage() {
 
             if (response.ok && data.access) {
                 login(data.access);
-            } else if (response.status === 400) {
-                setLoginError(data.message);
+            } else {
+                // setLoginError(data.detail);
+                setLoginError(t("login.loginError"));
             }
         } catch (err) {
             console.error(err);
