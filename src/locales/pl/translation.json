@@ -90,6 +90,10 @@
     "deleteSuccess": "Urządzenie zostało usunięte",
     "deleteError": "Błąd podczas usuwania urządzenia"
   },
+  "stairsPage": {
+    "lightCount": "Ilość stopni",
+    "settings": "Ustwienia schodów"
+  },
   "lampPage": {
     "schedule": "Harmonogram lampy",
     "lightStart": "Godzina rozpoczęcia",

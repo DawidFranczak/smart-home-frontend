@@ -184,6 +184,10 @@
   "buttonPage": {
     "automaticEventsDescription": "Automatic events triggered by pressing the button"
   },
+  "stairsPage": {
+    "lightCount": "Steps count",
+    "settings": "Stairs settings"
+  },
   "aquariumPage": {
     "ledColor": "LED Color",
     "lightingSchedule": "Lighting Schedule",

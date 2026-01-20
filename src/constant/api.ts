@@ -15,6 +15,7 @@ export const api = {
   rfid: baseURL + "/api/rfid/",
   card: baseURL + "/api/rfid/card/",
   lamp: baseURL + "/api/lamp/",
+  stairs: baseURL + "/api/stairs/",
   button: baseURL + "/api/button/",
   device: baseURL + "/api/device/",
   buttonType: baseURL + "/api/device/button-type/",
