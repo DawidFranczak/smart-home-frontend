@@ -54,6 +54,7 @@ export default function SettingsDevice() {
     useEffect(() => {
         setIsSetFavourite(isFavourite(id,queryClient,"device"))
     }, [isFavourite(id,queryClient,"device")]);
+
     useState(() => {
         if (device) {
             setDeviceName(device.name);
@@ -61,6 +62,7 @@ export default function SettingsDevice() {
             setIsSetFavourite(device.is_favourite);
         }
     });
+    let updateAvailable = false;
     const handleSaveName = async () => {
         if (!deviceName.trim()) {
             displayToaster(t("settingsDevice.nameEmpty"),"warning")
@@ -131,7 +133,7 @@ export default function SettingsDevice() {
     if (isLoading || !device) {
         return <LoadingAnimation size="xlarge" type="spinner" glow={true} />;
     }
-    const updateAvailable = firmwareList.some((e:IFirmwareDevice)=>e.to_device === device.fun && e.version > device.firmware_version)
+    if(firmwareList) updateAvailable = firmwareList.some((e:IFirmwareDevice)=>e.to_device === `${device.fun}_${device.chip_type}` && e.version > device.firmware_version)
 
     const roomOptions = roomData?.map((room: any) => ({
         label: room.name,

@@ -4,6 +4,7 @@ import LampCard from "../components/Cards/LampCard/LampCard";
 import RfidCard from "../components/Cards/RfidCard/RfidCard";
 import TempHumCard from "../components/Cards/TempHumCard/TempHumCard.tsx";
 import LightCard from "../components/Cards/LightCard/LightCard.tsx";
+import StairsCard from "../components/Cards/StairsCard/StairsCard.tsx";
 
 export default function getDeviceComponent(device: any) {
   switch (device.fun) {
@@ -19,5 +20,7 @@ export default function getDeviceComponent(device: any) {
       return <TempHumCard {...device} key={device.id} />;
     case "light":
       return <LightCard {...device} key={device.id} />;
+    case "stairs":
+      return <StairsCard {...device} key={device.id} />;
     }
 }

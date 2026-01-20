@@ -19,4 +19,5 @@ export interface IDevice {
   pending: string[];
   events?: IEvent[];
   actions?: string[];
+  chip_type:string;
 }

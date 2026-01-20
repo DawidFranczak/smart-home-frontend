@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import {SyntheticEvent, useState} from "react";
 
-import useTempHumHistoryQuery from "../../hooks/queries/useTempHumHistoryQuery.tsx";
+import useTemperatureHistoryQuery from "../../hooks/queries/useTemperatureHistoryQuery.tsx";
 
 import LoadingAnimation from "../../components/ui/LoadingAnimation/LoadingAnimation.tsx";
 import PageContainer from "../../components/ui/containers/PageContainer/PageContainer.tsx";
@@ -17,6 +17,7 @@ import SettingsPanel from "../../components/Temperature/SettingsPanel/SettingsPa
 import useDeviceQuery from "../../hooks/queries/device/useDeviceQuery.tsx";
 import ITemperatureHumidity from "../../interfaces/ITemperatureHumidity.tsx";
 import {useTranslation} from "react-i18next";
+import useHumidityHistoryQuery from "../../hooks/queries/useHumidityHistoryQuery.tsx";
 
 export default function TempHumPage() {
     const {t} = useTranslation();
@@ -24,7 +25,8 @@ export default function TempHumPage() {
     const { device } = useDeviceQuery(sensor_id);
     const [startDate, setStartDate] = useState<string | null>(null);
     const [endDate, setEndDate] = useState<string | null>(null);
-    const { tempHumHistoryData } = useTempHumHistoryQuery(sensor_id, startDate, endDate);
+    const { tempHistoryData } = useTemperatureHistoryQuery(sensor_id, startDate, endDate);
+    const { humHistoryData } = useHumidityHistoryQuery(sensor_id, startDate, endDate);
     const tempHum = device as ITemperatureHumidity;
 
     function handleDateChange(value: DateRange | null, _: SyntheticEvent) {
@@ -45,8 +47,8 @@ export default function TempHumPage() {
                     showWifi={true}
                 />
             </PageHeader>
-            <TemperatureChart onDataChange={handleDateChange} temperatureData={tempHumHistoryData?.temperature.chart_data} humidityData={tempHumHistoryData?.humidity.chart_data}/>
-            <AggregationData temperature={tempHumHistoryData?.temperature.aggregation_data} humidity={tempHumHistoryData?.humidity.aggregation_data}/>
+            <TemperatureChart onDataChange={handleDateChange} temperatureData={tempHistoryData?.chart_data} humidityData={humHistoryData?.chart_data}/>
+            <AggregationData temperature={tempHistoryData?.aggregation_data} humidity={humHistoryData?.aggregation_data}/>
             <DeviceEventSection events={tempHum.events} description={t("tempHumPage.eventsDescription")}/>
             <SettingsPanel
                 id={tempHum.id}

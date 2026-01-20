@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { Form, Button, ButtonToolbar, Panel, Message, useToaster } from "rsuite";
+import { Form, Button, ButtonToolbar, Panel } from "rsuite";
 import useHomeMutation from "../../hooks/queries/useHomeMutation";
 import { ICustomError } from "../../interfaces/ICustomError";
 import styles from "./ChangeHomeForm.module.css";
 import {useTranslation} from "react-i18next";
+import displayToaster from "../../utils/displayToaster.tsx";
+import useLogoutMutation from "../../hooks/queries/useLogoutMutation.ts";
 
 export default function ChangeHomeForm() {
     const { t } = useTranslation();
@@ -11,8 +13,7 @@ export default function ChangeHomeForm() {
     const [error, setError] = useState("");
     const { updateHome } = useHomeMutation();
     const mutation = updateHome();
-    const toaster = useToaster();
-
+    const logoutMutation = useLogoutMutation();
     useEffect(() => {
         const err = mutation.error as ICustomError;
         if (err?.details) {
@@ -23,13 +24,9 @@ export default function ChangeHomeForm() {
 
     useEffect(() => {
         if (mutation.isSuccess) {
-            toaster.push(
-                <Message type="success" showIcon closable>
-                    {t("changeHome.successMessage")}
-                </Message>,
-                { placement: "topCenter", duration: 3000 }
-            );
-            setTimeout(() => window.location.reload(), 1500);
+            displayToaster(t("changeHome.successMessage"))
+            logoutMutation.mutate();
+            // setTimeout(() => window.location.reload(), 1500);
         }
     }, [mutation.isSuccess]);
 
