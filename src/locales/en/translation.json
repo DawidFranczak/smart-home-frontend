@@ -113,7 +113,9 @@
     "sectionTitle": "Statistics for the selected period",
     "avr": "Average",
     "max": "Maximum",
-    "min": "Minimum"
+    "min": "Minimum",
+    "smallScreen": "Screen too small",
+    "smallScreenDes": "Rotate your phone or use a wider screen to view the measurement chart."
   },
   "tempHumWidget": {
     "temperature": "Temperature",

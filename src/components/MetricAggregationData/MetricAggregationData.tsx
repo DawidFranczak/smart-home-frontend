@@ -28,11 +28,16 @@ export default function MetricAggregationData({ groups }: AggregationDataProps) 
 
     return (
         <div className={styles.aggregationSection}>
-            <h3 className={styles.title}>{t("measurementHistoryManager.sectionTitle")}</h3>
-            <div>
+            <div className={styles.sectionHeader}>
+                <span className={styles.eyebrow}>Summary</span>
+                <h3 className={styles.title}>{t("measurementHistoryManager.sectionTitle")}</h3>
+            </div>
+            <div className={styles.groupsGrid}>
                 {activeGroups.map((group) => (
                     <div key={group.key} className={styles.groupWrapper}>
-                        <h4 className={styles.groupLabel}>{group.label}</h4>
+                        <h4 className={styles.groupLabel} style={{ "--group-color": group.color } as React.CSSProperties}>
+                            {group.label}
+                        </h4>
                         <div className={styles.statsContainer}>
                             <StatCard
                                 title={t("measurementHistoryManager.avr")}

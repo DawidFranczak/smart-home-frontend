@@ -2,7 +2,6 @@ import {useMemo} from "react";
 import {CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 import IMetricSeries from "../../interfaces/IMetricSeries.ts";
 import styles from "./MetricChart.module.css"
-import {Stack, Text} from "rsuite";
 import {useTranslation} from "react-i18next";
 import convertUtcToTimezone from "../../utils/convertUtcToTimezone.ts";
 
@@ -29,48 +28,71 @@ export default function MetricChart({ series }: IProps) {
     const hasLeftAxis = series.some(s => s.yAxisSide === 'left' && s.data?.length > 1);
     const hasRightAxis = series.some(s => s.yAxisSide === 'right' && s.data?.length > 1);
     const {t} = useTranslation();
-    if (! hasLeftAxis && ! hasRightAxis) return (
-        <Stack
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-        className={styles.emptyContainer}
-        spacing={10}
-    >
-        <Text >
-            {t("measurementHistoryManager.noDataTitle")}
-        </Text>
-        <Text >
-            {t("measurementHistoryManager.noData")}
-        </Text>
-    </Stack>
+    if (!hasLeftAxis && !hasRightAxis) return (
+        <div className={styles.emptyContainer}>
+            <span className={styles.emptyIcon} />
+            <p className={styles.emptyTitle}>{t("measurementHistoryManager.noDataTitle")}</p>
+            <p className={styles.emptyText}>{t("measurementHistoryManager.noData")}</p>
+        </div>
     )
 
     return (
-        <div >
-            <ResponsiveContainer width="100%" height={300} className={styles.chart}>
-                <LineChart data={chartData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+        <div className={styles.chartShell}>
+            <ResponsiveContainer width="100%" height="100%" className={styles.chart}>
+                <LineChart data={chartData} margin={{ top: 16, right: 16, left: 0, bottom: 8 }}>
+                    <defs>
+                        {series.map(s => (
+                            <linearGradient key={s.key} id={`metric-${s.key}`} x1="0" y1="0" x2="1" y2="0">
+                                <stop offset="0%" stopColor={s.color} stopOpacity={0.55} />
+                                <stop offset="100%" stopColor={s.color} stopOpacity={1} />
+                            </linearGradient>
+                        ))}
+                    </defs>
+                    <CartesianGrid strokeDasharray="4 8" stroke="rgba(148, 163, 184, 0.12)" vertical={false} />
                     <XAxis
                         dataKey="timestamp"
                         interval="preserveStartEnd"
                         minTickGap={30}
-                        stroke="#aaa"
+                        tick={{ fill: '#94a3b8', fontSize: 12 }}
+                        tickLine={false}
+                        axisLine={{ stroke: 'rgba(148, 163, 184, 0.18)' }}
                     />
 
                     {hasLeftAxis && (
-                        <YAxis yAxisId="left" orientation="left" stroke="#aaa" />
+                        <YAxis
+                            yAxisId="left"
+                            orientation="left"
+                            tick={{ fill: '#94a3b8', fontSize: 12 }}
+                            tickLine={false}
+                            axisLine={{ stroke: 'rgba(148, 163, 184, 0.18)' }}
+                        />
                     )}
 
                     {hasRightAxis && (
-                        <YAxis yAxisId="right" orientation="right" stroke="#aaa" />
+                        <YAxis
+                            yAxisId="right"
+                            orientation="right"
+                            tick={{ fill: '#94a3b8', fontSize: 12 }}
+                            tickLine={false}
+                            axisLine={{ stroke: 'rgba(148, 163, 184, 0.18)' }}
+                        />
                     )}
 
                     <Tooltip
-                        contentStyle={{ backgroundColor: '#222', border: 'none' }}
-                        itemStyle={{ fontSize: '12px' }}
+                        contentStyle={{
+                            backgroundColor: 'rgba(5, 7, 11, 0.94)',
+                            border: '1px solid rgba(148, 163, 184, 0.2)',
+                            borderRadius: '12px',
+                            boxShadow: '0 18px 42px rgba(0, 0, 0, 0.32)',
+                            color: '#f8fafc'
+                        }}
+                        labelStyle={{ color: '#cbd5e1', fontSize: '12px', fontWeight: 700 }}
+                        itemStyle={{ fontSize: '12px', fontWeight: 700 }}
                     />
-                    <Legend />
+                    <Legend
+                        iconType="circle"
+                        wrapperStyle={{ color: '#cbd5e1', fontSize: '12px', paddingTop: '10px' }}
+                    />
 
                     {series.map(s => (
                         s.data?.length > 1 && (
@@ -80,9 +102,10 @@ export default function MetricChart({ series }: IProps) {
                                 type="monotone"
                                 dataKey={s.key}
                                 name={s.label}
-                                stroke={s.color}
-                                strokeWidth={2}
+                                stroke={`url(#metric-${s.key})`}
+                                strokeWidth={3}
                                 dot={false}
+                                activeDot={{ r: 5, strokeWidth: 0, fill: s.color }}
                                 connectNulls
                             />
                         )

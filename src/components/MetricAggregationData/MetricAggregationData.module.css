@@ -1,29 +1,96 @@
 .aggregationSection {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
     width: 100%;
+    gap: 16px;
+    text-align: left;
+}
+
+.sectionHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.eyebrow {
+    color: var(--accent-tertiary);
+    font-size: var(--font-size-xs);
+    font-weight: 800;
+    line-height: 1;
+    text-transform: uppercase;
 }
 
 .title {
-    margin-bottom: 1.5rem;
-    font-size: 1.2rem;
-    color: var(--rs-text-secondary);
+    color: var(--text-primary);
+    font-size: var(--font-size-lg);
+    font-weight: 800;
+    margin: 0;
+}
+
+.groupsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
 }
 
 .groupWrapper {
-    flex: 1 1 500px;
-    margin-bottom: 0.5rem;
+    min-width: 0;
+    padding: 14px;
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    border-radius: var(--radius-xl);
+    background: rgba(15, 23, 34, 0.48);
 }
 
 .groupLabel {
-    margin-bottom: 1rem;
-    padding-left: 8px;
-    border-left: 4px solid var(--rs-primary-500);
-    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    font-weight: 800;
+    margin: 0 0 12px;
 }
 
-.statsContainer{
-    display: flex;
-    gap: 1rem;
+.groupLabel::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--group-color, var(--accent-primary));
+    box-shadow: 0 0 0 5px color-mix(in srgb, var(--group-color, var(--accent-primary)) 18%, transparent);
+}
+
+.statsContainer {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+@media (max-width: 620px) {
+    .aggregationSection {
+        gap: 12px;
+    }
+
+    .groupsGrid,
+    .statsContainer {
+        grid-template-columns: 1fr;
+    }
+
+    .groupWrapper {
+        padding: 12px;
+    }
+}
+
+@media (max-width: 420px) {
+    .title {
+        font-size: var(--font-size-base);
+    }
+
+    .groupsGrid {
+        gap: 12px;
+    }
+
+    .groupLabel {
+        margin-bottom: 10px;
+    }
 }
