@@ -7,6 +7,10 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    background:
+        linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, transparent 34%),
+        linear-gradient(315deg, rgba(34, 197, 94, 0.05) 0%, transparent 30%),
+        var(--primary-bg);
 }
 /* Main application wrapper */
 .app {
@@ -17,8 +21,8 @@
 
 /* Header component styles */
 .header {
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
+    background: var(--panel-bg);
+    backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border-primary);
     padding: var(--spacing-md) var(--spacing-lg);
     position: sticky;
@@ -38,7 +42,6 @@
     font-size: var(--font-size-xl);
     font-weight: 700;
     color: var(--accent-primary);
-    text-shadow: 0 0 10px var(--accent-primary);
 }
 
 /* Navigation component styles */
@@ -58,7 +61,7 @@
 .nav-link:hover,
 .nav-link.active {
     color: var(--accent-primary);
-    background: var(--glass-bg);
+    background: var(--panel-highlight);
     text-decoration: none;
 }
 
@@ -81,8 +84,8 @@
 
 /* Device card component */
 .device-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
+    background: var(--panel-bg);
+    backdrop-filter: blur(16px);
     border: 1px solid var(--border-primary);
     border-radius: var(--radius-xl);
     padding: var(--spacing-lg);
@@ -93,8 +96,8 @@
 }
 
 .device-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--accent-primary);
+    transform: translateY(-3px);
+    border-color: var(--border-accent);
     box-shadow: var(--shadow-neon);
 }
 

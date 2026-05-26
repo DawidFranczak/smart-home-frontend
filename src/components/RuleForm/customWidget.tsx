@@ -58,6 +58,8 @@ const IntegerWidget = (props: WidgetProps) => {
                     const result = val === "" ? undefined : Number(val);
                     props.onChange(result);
                 }}
+                step={0.5}
+
             />
         </div>
     );
