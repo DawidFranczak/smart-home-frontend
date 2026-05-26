@@ -11,6 +11,10 @@ import useTriggerActionEventMutation from "../../../hooks/useTriggerActionEventM
 import SyncType from "../../../constant/syncType.ts";
 import UpdatePeripheralRequired from "./UpdatePeripheralRequired.tsx";
 import DevicePeripheralWrapper from "./DevicePeripheralWrapper.tsx";
+import PeopleRuleIcon from "@rsuite/icons/PeopleRule";
+import EditIcon from "@rsuite/icons/Edit";
+import PlusRoundIcon from "@rsuite/icons/PlusRound";
+import GearIcon from "@rsuite/icons/Gear";
 
 
 export default function Device() {
@@ -32,10 +36,10 @@ export default function Device() {
 
               <DeviceActionPanel
                   buttons={[
-                      { label: t("button.rules"), to: `/devices/${device.id}/rule/`, type: "default"},
-                      { label: t("button.editPeripheral"), to: `/devices/${device.id}/peripheral/edit/`, type: "default"},
-                      { label: t("button.addPeripheral"), to: `/devices/${device.id}/peripheral/add/`, type: "default"},
-                      { label: t("button.deviceSettings"), to: `/devices/${device.id}/settings/`, type: "default"},
+                      { label: t("button.rules"), to: `/devices/${device.id}/rule/`, type: "subtle", icon: <PeopleRuleIcon />},
+                      { label: t("button.editPeripheral"), to: `/devices/${device.id}/peripheral/edit/`, type: "subtle", icon: <EditIcon />},
+                      { label: t("button.addPeripheral"), to: `/devices/${device.id}/peripheral/add/`, type: "subtle", icon: <PlusRoundIcon />},
+                      { label: t("button.deviceSettings"), to: `/devices/${device.id}/settings/`, type: "subtle", icon: <GearIcon />},
 
                   ]}
                   wifiStrength={device.is_online ? device.wifi_strength : -100}

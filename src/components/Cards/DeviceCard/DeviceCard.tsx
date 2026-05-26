@@ -14,11 +14,9 @@ export default function DeviceCard({id,isOnline,name,svgId,}:IProps){
     return<>
         <div className={`${styles.card} ${isOnline ? styles.online : styles.offline}`}>
             <span className={styles.status} aria-hidden="true" />
+            <ThreeDot to={`/devices/${id}`} />
             <div className={styles.content}>
-                <ThreeDot to={`/devices/${id}`} />
-                <div className={styles.iconShell}>
-                    <SvgIcon svgId={svgId} />
-                </div>
+                <SvgIcon svgId={svgId} />
                 <Header disable={!isOnline}>{name}</Header>
                 <span className={styles.meta}>{isOnline ? "Online" : "Offline"}</span>
             </div>

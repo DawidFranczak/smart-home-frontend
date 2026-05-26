@@ -20,6 +20,13 @@ interface DeviceActionPanelProps {
 }
 
 export default function DeviceActionPanel({ buttons, wifiStrength, children, showWifi = true }: DeviceActionPanelProps) {
+    const isOffline = wifiStrength !== undefined && wifiStrength <= -100;
+    const signalState = isOffline
+        ? styles.offline
+        : wifiStrength !== undefined && wifiStrength <= -60
+            ? styles.weak
+            : styles.online;
+
     return (
         <div className={styles.wrapper}>
             <Stack
@@ -28,7 +35,7 @@ export default function DeviceActionPanel({ buttons, wifiStrength, children, sho
                 wrap
                 spacing={20}
             >
-                <Stack spacing={10} wrap>
+                <Stack spacing={10} wrap className={styles.actionGroup}>
                     {buttons?.map((btn, idx) => {
                         const buttonElement = (
                             <Button
@@ -62,11 +69,18 @@ export default function DeviceActionPanel({ buttons, wifiStrength, children, sho
 
                 {showWifi && wifiStrength !== undefined && (
                     <Stack spacing={10} className={styles.statusSection}>
-                        <div className={styles.wifiWrapper}>
-                            <WifiStrength strength={wifiStrength} size="medium" />
-                            <span className={styles.wifiLabel}>
-                                {wifiStrength > -100 ? `${wifiStrength} dBm` : 'Offline'}
-                            </span>
+                        <div className={`${styles.wifiWrapper} ${signalState}`}>
+                            <div className={styles.wifiIconBox}>
+                                <WifiStrength strength={wifiStrength} size="medium" />
+                            </div>
+                            <div className={styles.wifiText}>
+                                <span className={styles.wifiTitle}>
+                                    {isOffline ? "Offline" : "WiFi signal"}
+                                </span>
+                                <span className={styles.wifiLabel}>
+                                    {wifiStrength > -100 ? `${wifiStrength} dBm` : "No connection"}
+                                </span>
+                            </div>
                         </div>
                     </Stack>
                 )}

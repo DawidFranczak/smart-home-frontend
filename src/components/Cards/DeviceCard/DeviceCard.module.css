@@ -49,17 +49,6 @@
     min-width: 0;
 }
 
-.iconShell {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 54px;
-    height: 54px;
-    border-radius: var(--radius-lg);
-    background: rgba(59, 130, 246, 0.12);
-    border: 1px solid rgba(59, 130, 246, 0.22);
-}
-
 .status {
     position: absolute;
     top: 12px;
