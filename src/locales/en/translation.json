@@ -1,4 +1,9 @@
 {
+  "widgetState": {
+    "on": "On",
+    "off": "Off",
+    "sync": "Sync"
+  },
   "peripheralAddForm": {
     "addSuccess": "Peripheral added successfully"
   },

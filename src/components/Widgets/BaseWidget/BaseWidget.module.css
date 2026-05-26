@@ -1,31 +1,55 @@
 .widget {
     position: relative;
-    background: var(--rs-bg-card);
-    border-radius: 12px;
+    background: var(--panel-bg);
+    border-radius: var(--radius-xl);
     padding: 10px;
-    transition: transform 0.2s;
+    transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
     width: 100%;
     height: 100%;
-    border: 1px solid gray;
+    border: 1px solid var(--border-secondary);
     margin: 0;
     gap: 10px;
-    display: grid;
-    grid-column: span min(var(--col-span), 3);
+    display: block;
+    grid-column: span min(var(--col-span), 2);
     grid-row: span var(--row-span);
-    background: var(--rs-bg-card);
-}
-.name{
-    position: absolute;
-    top:-18px;
-    left:50%;
-    transform: translate(-50%,0);
-    padding:0 20px;
 }
 
-.threeDot{
+.name {
     position: absolute;
-    top:-15px;
-    left:-5px;
+    top: 0;
+    left: 50%;
+    max-width: calc(100% - 16px);
+    transform: translate(-50%, 5px);
+    margin: 0;
+    padding: 1px 8px 2px;
+    overflow: hidden;
+    font-size: 0.64rem;
+    font-weight: 800;
+    line-height: 1.15;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+}
+
+.hasName .content {
+    padding-top: 8px;
+}
+
+.threeDot {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    z-index: 5;
 }
 
 @media (min-width: 768px) {
