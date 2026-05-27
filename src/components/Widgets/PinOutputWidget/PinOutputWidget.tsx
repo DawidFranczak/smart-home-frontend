@@ -5,47 +5,53 @@ import BaseWidget from "../BaseWidget/BaseWidget.tsx";
 import {MessageAction} from "../../../enums/message_command.ts";
 import {IPinOutputWidget} from "../../../interfaces/Widgets/IPinOutput.ts";
 import styles from "./PinOutputWidget.module.css";
-import OffIcon from "@rsuite/icons/Off";
 import {useTranslation} from "react-i18next";
+import PowerButtonControl from "../shared/PowerButtonControl/PowerButtonControl.tsx";
 
 
-export default function PinOutputWidget({id, state, config, pending}:IPinOutputWidget){
+export default function PinOutputWidget({id, state, config, pending, isOnline = true}:IPinOutputWidget){
     const [value, setValue] = useState(state.is_on);
     const mutation = useTriggerActionEventMutation()
     const isLoading = mutation.isPending || pending.includes(MessageAction.TOGGLE)
     const {t} = useTranslation();
+    const isDisabled = !isOnline || isLoading;
+    const stateText = !isOnline
+        ? t("widgetState.offline")
+        : isLoading
+            ? t("widgetState.sync")
+            : value
+                ? t("widgetState.on")
+                : t("widgetState.off");
+
     useEffect(() => {
         setValue(state.is_on);
     }, [state.is_on]);
 
     async function handleToggle() {
-        if (isLoading) return;
+        if (isDisabled) return;
+
+        const previousValue = value;
         setValue(!value);
         const data = peripheralAction(id,MessageAction.TOGGLE, {});
         try {
             await mutation.mutateAsync(data)
         } catch {
-            setValue(value);
+            setValue(previousValue);
         }
     }
     return (
-        <BaseWidget name={config?.name} className={styles.widget}>
-            <button
-                type="button"
-                className={`${styles.switchButton} ${value ? styles.active : styles.inactive}`}
+        <BaseWidget
+            name={config?.name}
+            className={`${styles.widget} ${!isOnline ? styles.offlineWidget : ""}`}
+        >
+            <PowerButtonControl
+                checked={value}
+                label={stateText}
                 onClick={handleToggle}
-                disabled={isLoading}
-                role="switch"
-                aria-checked={value}
-            >
-                <span className={styles.glow} />
-                <span className={styles.iconRing}>
-                    <OffIcon className={styles.icon} />
-                </span>
-                <span className={styles.stateText}>
-                    {isLoading ? t("widgetState.sync") : value ? t("widgetState.on") : t("widgetState.off")}
-                </span>
-            </button>
+                disabled={isDisabled}
+                offline={!isOnline}
+                syncing={isLoading}
+            />
         </BaseWidget>
     );
 }

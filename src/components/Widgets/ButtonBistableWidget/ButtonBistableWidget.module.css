@@ -1,16 +1,12 @@
-.icon{
-    font-size: 3rem;
-}
-.pending {
-    cursor: wait;
-    opacity: 0.6;
-}
-.icon.active {
-    color: #fff;
-    filter: drop-shadow(0 0 0.75rem var(--rs-primary-500));
+.widget {
+    overflow: hidden;
+    background:
+        linear-gradient(145deg, rgba(15, 23, 34, 0.96), rgba(5, 7, 11, 0.96)) !important;
+    border: 1px solid rgba(148, 163, 184, 0.16) !important;
 }
 
-.icon:active:not(.pending) {
-    transform: scale(0.9);
-    transition-duration: 0.05s;
+.offlineWidget {
+    background:
+        linear-gradient(145deg, rgba(15, 23, 34, 0.72), rgba(5, 7, 11, 0.84)) !important;
+    border-color: rgba(100, 116, 139, 0.18) !important;
 }
