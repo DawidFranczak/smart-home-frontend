@@ -110,7 +110,6 @@
 @media (min-width: 768px) {
     .widget {
         grid-column: span var(--col-span);
-        margin: 20px;
     }
 
 }

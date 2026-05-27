@@ -254,6 +254,10 @@
       "click": "Click"
     }
   },
+  "pirSensor": {
+    "motion": "Motion",
+    "clear": "Clear"
+  },
   "deviceEventWizard": {
     "title": "Add Action",
     "subtitle": "Configure an event for your device",
