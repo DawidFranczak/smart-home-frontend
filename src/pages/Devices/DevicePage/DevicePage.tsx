@@ -49,7 +49,7 @@ export default function Device() {
 
             {device.required_action.includes(MessageAction.UPDATE_PERIPHERAL) ?
                 <UpdatePeripheralRequired onClick={startSync} pending={device.pending.includes(MessageAction.SYNC_START)}/>:
-                <DevicePeripheralWrapper peripherals={device.peripherals}/>
+                <DevicePeripheralWrapper peripherals={device.peripherals} isOnline={device.is_online}/>
             }
         </PageContainer>
     );

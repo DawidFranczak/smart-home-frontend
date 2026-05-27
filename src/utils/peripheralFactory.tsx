@@ -11,34 +11,36 @@ import PinPwmWidget from "../components/Widgets/PinPwmWidget/PinPwmWidget.tsx";
 import PirSensorWidget from "../components/Widgets/PirSensorWidget/PirSensorWidget.tsx";
 import RelayWidget from "../components/Widgets/RelayWidget/RelayWidget.tsx";
 
-export default function peripheralFactory(peripheral:IPeripheral){
+export default function peripheralFactory(peripheral:IPeripheral, isOnline:boolean){
+    const widgetProps = {...peripheral, isOnline};
+
     switch(peripheral.name){
         case "pin_output":
-            return <PinOutputWidget key={peripheral.id} {...peripheral}/>;
+            return <PinOutputWidget key={peripheral.id} {...widgetProps}/>;
         case "pin_input":
-            return <PinInputWidget key={peripheral.id} {...peripheral}/>;
+            return <PinInputWidget key={peripheral.id} {...widgetProps}/>;
         case "button_bistable":
-            return <BistableButtonWidget key={peripheral.id} {...peripheral}/>;
+            return <BistableButtonWidget key={peripheral.id} {...widgetProps}/>;
         case "button_monostable":
-            return <ButtonMonostableWidget key={peripheral.id} {...peripheral}/>;
+            return <ButtonMonostableWidget key={peripheral.id} {...widgetProps}/>;
         case "pin_pwm":
-            return <PinPwmWidget key={peripheral.id} {...peripheral}/>;
+            return <PinPwmWidget key={peripheral.id} {...widgetProps}/>;
         case "active_buzzer":
             return null;
         case "pca9685":
             return null;
         case "pir_sensor":
-            return <PirSensorWidget key={peripheral.id} {...peripheral}/>;
+            return <PirSensorWidget key={peripheral.id} {...widgetProps}/>;
         case "relay":
-            return <RelayWidget key={peripheral.id} {...peripheral}/>;
+            return <RelayWidget key={peripheral.id} {...widgetProps}/>;
         case "rgb_strip":
-            return <RGBStripWidget key={peripheral.id} {...peripheral}/>;
+            return <RGBStripWidget key={peripheral.id} {...widgetProps}/>;
         case "sequential_light":
-            return <SequentialLightWidget key={peripheral.id} {...peripheral}/>;
+            return <SequentialLightWidget key={peripheral.id} {...widgetProps}/>;
         case "rc522":
-            return <Rc522Widget key={peripheral.id} {...peripheral}/>;
+            return <Rc522Widget key={peripheral.id} {...widgetProps}/>;
         case "aht10":
-            return <Aht10Widget key={peripheral.id} {...peripheral}/>;
+            return <Aht10Widget key={peripheral.id} {...widgetProps}/>;
         default: return null;
     }
 }

@@ -1,4 +1,10 @@
 {
+  "widgetState": {
+    "on": "Wł.",
+    "off": "Wył.",
+    "offline": "Offline",
+    "sync": "Sync"
+  },
   "changeNameSettings": {
     "nameEmpty": "Nazwa nie może być pusta",
     "nameUpdated": "Nazwa została zaktualizowana",

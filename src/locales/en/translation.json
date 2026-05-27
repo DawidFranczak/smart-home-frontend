@@ -2,6 +2,7 @@
   "widgetState": {
     "on": "On",
     "off": "Off",
+    "offline": "Offline",
     "sync": "Sync"
   },
   "peripheralAddForm": {
