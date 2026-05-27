@@ -258,6 +258,12 @@
     "motion": "Motion",
     "clear": "Clear"
   },
+  "relayWidget": {
+    "energized": "Energized",
+    "released": "Released",
+    "closed": "Contact closed",
+    "open": "Contact open"
+  },
   "deviceEventWizard": {
     "title": "Add Action",
     "subtitle": "Configure an event for your device",
