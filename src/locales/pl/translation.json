@@ -115,6 +115,10 @@
     "speed": "Szybkość zmian",
     "lightingTime": "Czas świecenia (s)"
   },
+  "rgbStrip": {
+    "brightness": "Jasność",
+    "apply": "Zastosuj"
+  },
   "confirmDelete": {
     "title": "Potwierdź usunięcie",
     "message": "Czy na pewno chcesz usunąć",

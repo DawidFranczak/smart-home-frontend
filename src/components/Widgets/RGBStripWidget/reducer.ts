@@ -4,7 +4,8 @@ import {IRGBStripState} from "../../../interfaces/Widgets/IRGBStrip.ts";
 type TAction =
     { type: "set/color", payload:{rgb: { r: number; g: number; b: number }}} |
     { type: "set/brightness", payload:{brightness: number}}|
-    { type: "set/isOn", payload:{isOn: boolean}}
+    { type: "set/isOn", payload:{isOn: boolean}} |
+    { type: "set/state", payload:{state: IRGBStripState}}
 
 
 export default function reducer(state:IRGBStripState, action:TAction){
@@ -26,5 +27,7 @@ export default function reducer(state:IRGBStripState, action:TAction){
                 ...state,
                 is_on:action.payload.isOn,
             }
+        case "set/state":
+            return action.payload.state;
     }
 }

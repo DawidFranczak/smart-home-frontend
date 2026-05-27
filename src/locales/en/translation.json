@@ -104,6 +104,10 @@
     "speed": "Speed",
     "lightningTime": "Lighting Time (s)"
   },
+  "rgbStrip": {
+    "brightness": "Brightness",
+    "apply": "Apply"
+  },
   "assignedDevice": {
     "assignedSuccess": "Device has been assigned to the room",
     "assignedError": "Failed to assign device to the room",

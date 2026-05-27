@@ -12,8 +12,11 @@ interface RangeControlProps {
     max?: number;
     disabled?: boolean;
     offline?: boolean;
+    className?: string;
     ariaLabel: string;
     marks?: RangeMark[];
+    toneStart?: string;
+    toneEnd?: string;
     onChange: (value: number) => void;
     onCommit?: (value: number) => void;
 }
@@ -32,8 +35,11 @@ export default function RangeControl({
     max = 100,
     disabled = false,
     offline = false,
+    className = "",
     ariaLabel,
     marks = defaultMarks,
+    toneStart,
+    toneEnd,
     onChange,
     onCommit,
 }: RangeControlProps) {
@@ -59,8 +65,12 @@ export default function RangeControl({
 
     return (
         <div
-            className={`${styles.fader} ${offline ? styles.offline : ""}`}
-            style={{"--range-value": value} as CSSProperties}
+            className={`${styles.fader} ${offline ? styles.offline : ""} ${className}`}
+            style={{
+                "--range-value": value,
+                "--range-start": toneStart,
+                "--range-end": toneEnd,
+            } as CSSProperties}
         >
             <input
                 className={styles.range}
