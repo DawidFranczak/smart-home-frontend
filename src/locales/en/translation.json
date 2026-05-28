@@ -102,11 +102,10 @@
     "blinkButton": "Blink",
     "brightness": "Brightness",
     "speed": "Speed",
-    "lightningTime": "Lighting Time (s)"
+    "lightningTime": "Lighting Time"
   },
   "rgbStrip": {
-    "brightness": "Brightness",
-    "apply": "Apply"
+    "brightness": "Brightness"
   },
   "assignedDevice": {
     "assignedSuccess": "Device has been assigned to the room",
@@ -219,7 +218,8 @@
     "back": "Back",
     "addPeripheral": "Add new peripherals",
     "editPeripheral": "Edit peripheral",
-    "rules": "Rules"
+    "rules": "Rules",
+    "apply": "Apply"
   },
   "selectRoom": {
     "title": "Rooms",

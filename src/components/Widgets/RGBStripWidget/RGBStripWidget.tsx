@@ -134,7 +134,7 @@ export default function RGBStripWidget({id, state, config, pending, isOnline = t
                         onClick={() => void handleSave()}
                         disabled={isDisabled}
                     >
-                        {isUpdateLoading ? t("widgetState.sync") : t("rgbStrip.apply")}
+                        {isUpdateLoading ? t("widgetState.sync") : t("button.apply")}
                     </button>
                 </div>
             </div>

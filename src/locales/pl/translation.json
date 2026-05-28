@@ -115,6 +115,12 @@
     "speed": "Szybkość zmian",
     "lightingTime": "Czas świecenia (s)"
   },
+  "sequentialLight": {
+    "blinkButton": "Mignij",
+    "brightness": "Jasność",
+    "speed": "Prędkość",
+    "lightningTime": "Czas świecenia"
+  },
   "rgbStrip": {
     "brightness": "Jasność",
     "apply": "Zastosuj"
