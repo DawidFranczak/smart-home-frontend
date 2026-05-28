@@ -8,6 +8,9 @@ import AddCardForm from "../AddCardForm/AddCardForm.tsx";
 import {ICard} from "../../../../interfaces/IRfidCard.tsx";
 import LoadingAnimation from "../../../ui/LoadingAnimation/LoadingAnimation.tsx";
 import SearchIcon from '@rsuite/icons/Search';
+import PlusRoundIcon from '@rsuite/icons/PlusRound';
+import IdMappingIcon from '@rsuite/icons/IdMapping';
+
 interface IProps {
     id:number,
     pending:boolean,
@@ -15,34 +18,40 @@ interface IProps {
     onClose:()=>void,
 }
 
-export default function CardManager({id,pending,onClose,open}: IProps) {
+export default function CardManager({id, pending, onClose,open}: IProps) {
     const { t } = useTranslation();
     const [filter, setFilter] = useState("");
     const [showAddCardForm, setShowAddCardForm] = useState(false);
     const {cards} = useRfidCardQuery(id)
+    const normalizedFilter = filter.trim().toLowerCase();
 
     const filteredCards = useMemo(() => {
         if (!cards) return [];
-        return cards.filter((card: ICard) =>
-            card.name.toLowerCase().includes(filter.toLowerCase())
-        );
-    }, [cards, filter]);
+        if (!normalizedFilter) return cards;
 
-    if (!cards) return <LoadingAnimation size={"small"}/>;
+        return cards.filter((card: ICard) =>
+            card.name.toLowerCase().includes(normalizedFilter)
+        );
+    }, [cards, normalizedFilter]);
+
     return (
         <Modal
             open={open}
             className={styles.section}
             onClose={onClose}
+            size="lg"
         >
             <Modal.Header>
-                <Modal.Title >
+                <Modal.Title>
                     <div className={styles.sectionHeader}>
-                        <div>
-                            <div className={styles.sectionTitle}>
-                                <h3>{t("cardManager.registeredCards")}</h3>
-                                <Badge content={cards.length} color="cyan" />
-                            </div>
+                        <div className={styles.titleIcon} aria-hidden="true">
+                            <IdMappingIcon />
+                        </div>
+                        <div className={styles.titleContent}>
+                           <div className={styles.titleContentHeader}>
+                               <h3>{t("cardManager.registeredCards")}</h3>
+                               <Badge content={cards?.length ?? 0} color="cyan" className={styles.countBadge} />
+                           </div>
                             <p className={styles.sectionDesc}>
                                 {t("cardManager.allCardsDescription")}
                             </p>
@@ -62,6 +71,7 @@ export default function CardManager({id,pending,onClose,open}: IProps) {
 
                         <Button
                             appearance="primary"
+                            startIcon={<PlusRoundIcon />}
                             onClick={() => setShowAddCardForm(true)}
                         >
                             {t("cardManager.addCardButton")}
@@ -70,19 +80,38 @@ export default function CardManager({id,pending,onClose,open}: IProps) {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body >
-                {cards.length > 0 ? (
+                {!cards ? (
+                    <div className={styles.loadingState}>
+                        <LoadingAnimation size={"small"}/>
+                    </div>
+                ) : cards.length > 0 ? (
                     <div className={styles.cardsContainer}>
-                        {filteredCards.map((card:ICard) => (
-                            <CardCard key={card.id} card={card} peripheralId={id} />
-                        ))}
+                        {filteredCards.length > 0 ? (
+                            filteredCards.map((card:ICard) => (
+                                <CardCard key={card.id} card={card} peripheralId={id} />
+                            ))
+                        ) : (
+                            <div className={styles.emptyState}>
+                                <SearchIcon className={styles.emptyIcon} />
+                                <h4 className={styles.emptyTitle}>{t("cardManager.noCardsTitle")}</h4>
+                                <p className={styles.emptyDesc}>{t("cardManager.searchPlaceholder")}: {filter}</p>
+                            </div>
+                        )}
                     </div>
                 ) : (
                     <div className={styles.emptyState}>
-                        <span className={styles.emptyIcon}></span>
-                        <h4 className={styles.emptyTitle}> {t("cardManager.noCardsTitle")}</h4>
+                        <IdMappingIcon className={styles.emptyIcon} />
+                        <h4 className={styles.emptyTitle}>{t("cardManager.noCardsTitle")}</h4>
                         <p className={styles.emptyDesc}>
                             {t("cardManager.noCardsDescription")}
                         </p>
+                        <Button
+                            appearance="primary"
+                            startIcon={<PlusRoundIcon />}
+                            onClick={() => setShowAddCardForm(true)}
+                        >
+                            {t("cardManager.addCardButton")}
+                        </Button>
                     </div>
                 )}
                 <AddCardForm
@@ -95,6 +124,5 @@ export default function CardManager({id,pending,onClose,open}: IProps) {
         </Modal>
     )
 }
-
 
 
