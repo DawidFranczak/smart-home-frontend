@@ -47,8 +47,7 @@ export default function PeripheralCard({id, name, config}: IPeripheral){
     const {deletePeripheralMutation} = usePeripheralMutation();
     const mutation = deletePeripheralMutation(id);
     const {t} = useTranslation();
-    const translatedName = t(`peripheralName.${name}`)
-    const displayName = config?.name ?? translatedName;
+    const displayName =  t(`peripheralName.${name}`);
     const [shouldRollName, setShouldRollName] = useState(false);
     const nameRef = useRef<HTMLSpanElement>(null);
     const nameTextRef = useRef<HTMLSpanElement>(null);
@@ -122,7 +121,7 @@ export default function PeripheralCard({id, name, config}: IPeripheral){
             <Card.Footer className={styles.footer}>
                 <ConfirmDelete
                     show={confirmDelete}
-                    name={`${name} ${config?.name}`}
+                    name={`${displayName} ${config?.name}`}
                     onCancel={() => setConfirmDelete(false)}
                     onConfirm={handleDelete}
                 />

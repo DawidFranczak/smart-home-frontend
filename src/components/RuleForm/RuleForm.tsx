@@ -1,4 +1,4 @@
-import {Button, Modal,SelectPicker} from "rsuite";
+import {Button, Loader, Modal, SelectPicker} from "rsuite";
 import {useTranslation} from "react-i18next";
 import usePrefetchDeviceQuery from "../../hooks/queries/device/usePrefetchDeviceQuery.tsx";
 import {useEffect, useReducer, useRef, useState} from "react";
@@ -15,6 +15,10 @@ import useEventConditionQuery from "../../hooks/queries/useEventConditionQuery.t
 import {customWidget} from "./customWidget.tsx"
 import {customTemplates} from "./customTemplate.tsx"
 import {initialErrorState} from "./initialErrorState.ts"
+import PeopleRuleIcon from "@rsuite/icons/PeopleRule";
+import DeviceIcon from "@rsuite/icons/Device";
+import WavePointIcon from "@rsuite/icons/WavePoint";
+import SettingIcon from "@rsuite/icons/Setting";
 
 const uiSchema = {
     "type": {
@@ -35,9 +39,10 @@ export default function RuleForm({open, onClose}: RuleFormProps) {
     const {createRule} = useRuleMutation()
     const mutation = createRule()
 
-    const {extraSettingSchema} =  useActionExtraSettings(state.targetPeripheral?.name, state.targetAction)
-    const {conditionSchema} =  useEventConditionQuery(state.triggerPeripheral?.name, state.triggerEvent)
-
+    const {extraSettingSchema, isLoading: isExtraSettingSchemaLoading} =  useActionExtraSettings(state.targetPeripheral?.name, state.targetAction)
+    const {conditionSchema, isLoading: isConditionSchemaLoading} =  useEventConditionQuery(state.triggerPeripheral?.name, state.triggerEvent)
+    const hasExtraSettingSchema = extraSettingSchema && Object.keys(extraSettingSchema).length > 0;
+    const hasConditionSchema = conditionSchema && Object.keys(conditionSchema).length > 0;
     const formRefCondition = useRef<Form>(null);
     const formRefExtraSettings = useRef<Form>(null);
 
@@ -101,46 +106,71 @@ export default function RuleForm({open, onClose}: RuleFormProps) {
         )
         mutation.mutate(data)
     }
-    return <Modal open={open} onClose={onClose}>
+    return <Modal open={open} onClose={onClose} className={styles.modal}>
         <Modal.Header>
-            <Modal.Title>{t("ruleForm.title")}</Modal.Title>
+            <Modal.Title>
+                <div className={styles.header}>
+                    <span className={styles.titleIcon}>
+                        <PeopleRuleIcon />
+                    </span>
+                    <span className={styles.titleText}>{t("ruleForm.title")}</span>
+                </div>
+            </Modal.Title>
         </Modal.Header>
         <Modal.Body className={styles.body}>
-           <div className={styles.wrapper}>
-               <p>{t("ruleForm.triggerSection")}</p>
+           <div className={styles.layout}>
+           <section className={styles.wrapper}>
+               <div className={styles.sectionHeader}>
+                   <span className={styles.sectionIcon}>
+                       <WavePointIcon />
+                   </span>
+                   <p>{t("ruleForm.triggerSection")}</p>
+               </div>
                <SelectPicker
                    block
-                   className={errorsForm.triggerDevice ? styles.error : ""}
+                   className={`${styles.select} ${errorsForm.triggerDevice ? styles.error : ""}`}
                    data={deviceData.map( device=> ({label:device.name, value:device}))}
                    label={t("ruleForm.selectTriggerDevice")}
+                   value={state.triggerDevice}
                    onChange={(value) => {
                        dispatch({ type: "setTrigger/device", payload: value })
+                       setErrorsForm((prev) => ({...prev, triggerDevice: !value, triggerPeripheral: false, triggerEvent: false, condition: false}))
                    }}
                />
                <SelectPicker
                    block
-                   className={errorsForm.triggerPeripheral ? styles.error : ""}
+                   className={`${styles.select} ${errorsForm.triggerPeripheral ? styles.error : ""}`}
                    disabled={!state.triggerDevice}
                    data={triggerDevicePeripheral}
                    label={t("ruleForm.selectTriggerPeripheral")}
+                   value={state.triggerPeripheral}
                    onChange={(value) => {
                        dispatch({ type: "setTrigger/peripheral", payload: value })
+                       setErrorsForm((prev) => ({...prev, triggerPeripheral: !value, triggerEvent: false, condition: false}))
                    }}
                />
                <SelectPicker
                    block
-                   className={errorsForm.triggerEvent ? styles.error : ""}
+                   className={`${styles.select} ${errorsForm.triggerEvent ? styles.error : ""}`}
                    label={t("ruleForm.selectTrigger")}
                    disabled={!state.triggerPeripheral}
                    data={triggerPeripheralEvents}
+                   value={state.triggerEvent}
                    onChange={(value) => {
                        dispatch({ type: "setTrigger/event", payload: value })
+                       setErrorsForm((prev) => ({...prev, triggerEvent: !value, condition: false}))
                    }}
                />
-               { conditionSchema &&
+               {isConditionSchemaLoading && (
+                   <div className={styles.schemaLoading}>
+                       <Loader size="sm" />
+                   </div>
+               )}
+               { hasConditionSchema &&
                    <Form
+                       key={`${state.triggerPeripheral?.id ?? "none"}-${state.triggerEvent ?? "none"}`}
                        ref={formRefCondition}
-                       className={`${styles.rjsfForm} ${errorsForm.extraSettings ? styles.rjsfFormError : ''}`}
+                       className={`${styles.rjsfForm} ${errorsForm.condition ? styles.rjsfFormError : ''}`}
                        showErrorList={false}
                        schema={conditionSchema}
                        widgets={customWidget}
@@ -153,41 +183,57 @@ export default function RuleForm({open, onClose}: RuleFormProps) {
                        uiSchema={uiSchema}
                    ><></></Form>
                }
-           </div>
-            <div className={styles.wrapper}>
-                <p>{t("ruleForm.actionSection")}</p>
+           </section>
+            <section className={styles.wrapper}>
+                <div className={styles.sectionHeader}>
+                    <span className={styles.sectionIcon}>
+                        <DeviceIcon />
+                    </span>
+                    <p>{t("ruleForm.actionSection")}</p>
+                </div>
                 <SelectPicker
                    block
-                   className={errorsForm.targetDevice ? styles.error : ""}
+                   className={`${styles.select} ${errorsForm.targetDevice ? styles.error : ""}`}
                    label={t("ruleForm.selectTargetDevice")}
                    data={targetDevices}
+                   value={state.targetDevice}
                    onChange={(value) => {
                        dispatch({ type: "setTarget/device", payload: value })
+                       setErrorsForm((prev) => ({...prev, targetDevice: !value, targetPeripheral: false, targetAction: false, extraSettings: false}))
                    }}
                 />
                 <SelectPicker
                    block
-                   className={errorsForm.targetPeripheral ? styles.error : ""}
+                   className={`${styles.select} ${errorsForm.targetPeripheral ? styles.error : ""}`}
                    label={t("ruleForm.selectTargetPeripheral")}
                    disabled={!state.targetDevice}
                    data={targetDevicePeripherals}
-                   onChange={(value) =>
+                   value={state.targetPeripheral}
+                   onChange={(value) => {
                        dispatch({ type: "setTarget/peripheral", payload: value })
-                   }
+                       setErrorsForm((prev) => ({...prev, targetPeripheral: !value, targetAction: false, extraSettings: false}))
+                   }}
                 />
                 <SelectPicker
                    block
-                   className={errorsForm.targetAction ? styles.error : ""}
+                   className={`${styles.select} ${errorsForm.targetAction ? styles.error : ""}`}
                    label={t("ruleForm.selectTargetAction")}
                    disabled={!state.targetPeripheral}
                    data={targetPeripheralAction}
+                   value={state.targetAction}
                    onChange={(value) => {
                        dispatch({ type: "setTarget/action", payload: value })
+                       setErrorsForm((prev) => ({...prev, targetAction: !value, extraSettings: false}))
                    }}
                 />
-                { extraSettingSchema &&
+                {isExtraSettingSchemaLoading && (
+                    <div className={styles.schemaLoading}>
+                        <Loader size="sm" />
+                    </div>
+                )}
+                { hasExtraSettingSchema &&
                     <Form
-                        key={state.targetAction}
+                        key={`${state.targetPeripheral?.id ?? "none"}-${state.targetAction ?? "none"}`}
                         ref={formRefExtraSettings}
                         className={`${styles.rjsfForm} ${errorsForm.extraSettings ? styles.rjsfFormError : ''}`}
                         showErrorList={false}
@@ -203,13 +249,14 @@ export default function RuleForm({open, onClose}: RuleFormProps) {
                         }}
                     ><></></Form>
                 }
+           </section>
            </div>
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer className={styles.footer}>
             <Button appearance="subtle" onClick={onClose}>
                 {t("button.cancel")}
             </Button>
-            <Button appearance="primary" onClick={handleSave}>
+            <Button appearance="primary" startIcon={<SettingIcon />} loading={mutation.isPending} onClick={handleSave}>
                 {t("button.save")}
             </Button>
         </Modal.Footer>

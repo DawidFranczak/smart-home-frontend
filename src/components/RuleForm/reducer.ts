@@ -35,20 +35,23 @@ export default function reducer(state: RuleFormState, action: RuleFormAction): R
                 ...state,
                 triggerDevice: action.payload,
                 triggerPeripheral: null,
-                triggerEvent: null
+                triggerEvent: null,
+                condition: {}
             }
 
         case "setTrigger/peripheral":
             return {
                 ...state,
                 triggerPeripheral: action.payload,
-                triggerEvent: null
+                triggerEvent: null,
+                condition: {}
             }
 
         case "setTrigger/event":
             return {
                 ...state,
-                triggerEvent: action.payload
+                triggerEvent: action.payload,
+                condition: {}
             }
 
         case "setTarget/device":
@@ -56,20 +59,23 @@ export default function reducer(state: RuleFormState, action: RuleFormAction): R
                 ...state,
                 targetDevice: action.payload,
                 targetPeripheral: null,
-                targetAction: null
+                targetAction: null,
+                extraSettings: {}
             }
 
         case "setTarget/peripheral":
             return {
                 ...state,
                 targetPeripheral: action.payload,
-                targetAction: null
+                targetAction: null,
+                extraSettings: {}
             }
 
         case "setTarget/action":
             return {
                 ...state,
-                targetAction: action.payload
+                targetAction: action.payload,
+                extraSettings: {}
             }
         case "set/extraSettings":
             return {
