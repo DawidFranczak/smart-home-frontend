@@ -1,25 +1,35 @@
 import { useState } from "react";
-import { Card, Divider, Text, Toggle, Stack, Tag, TagGroup } from "rsuite";
+import { IconButton, Tag, TagGroup, Toggle } from "rsuite";
 import { useTranslation } from "react-i18next";
 import ConfirmDelete from "../../ConfirmDelete/ConfirmDelete";
 import { IRule } from "../../../interfaces/IRule.ts";
-import DeleteIcon from "/static/svg/delete.svg";
 import styles from "./RuleCard.module.css";
 import useRuleMutation from "../../../hooks/queries/useRuleMutation.tsx";
+import TrashIcon from "@rsuite/icons/Trash";
+import PeopleRuleIcon from "@rsuite/icons/PeopleRule";
+import WavePointIcon from "@rsuite/icons/WavePoint";
+import TaskIcon from "@rsuite/icons/Task";
+import SettingIcon from "@rsuite/icons/Setting";
 
-const renderExtraSettings = (settings: object, excludeKey:string[]=[]) => {
-    const entries = Object.entries(settings);
+const formatValue = (value: unknown) => {
+    if (value === null || value === undefined) return "";
+    if (typeof value === "object") return JSON.stringify(value);
+    return String(value);
+};
+
+const renderExtraSettings = (settings?: object | null, excludeKey:string[]=[]) => {
+    if (!settings) return null;
+
+    const entries = Object.entries(settings).filter(([key]) => !excludeKey.includes(key));
     if (entries.length === 0) return null;
 
     return (
         <TagGroup className={styles.tagGroup}>
-            {entries.map(([key, value]) => {
-                if(excludeKey.includes(key)) return null
-                return <Tag key={key} size="sm" color="blue">
-                        {key}: <b>{String(value)}</b>
-                    </Tag>
-                }
-            )}
+            {entries.map(([key, value]) => (
+                <Tag key={key} size="sm" className={styles.valueTag}>
+                    <span>{key}</span>: <b>{formatValue(value)}</b>
+                </Tag>
+            ))}
         </TagGroup>
     );
 };
@@ -42,56 +52,85 @@ export default function RuleCard({id, name, enabled, triggers, actions, is_local
         setConfirmDelete(false);
         deleteMutation.mutate();
     }
+
+    const hasConditions = Array.isArray(conditions) && conditions.length > 0;
+    const displayName = name || t("ruleCard.unnamedRule");
+
     return (
-        <Card className={`${styles.container} ${!isEnabled ? styles.disabled : ''}`} shaded>
-            <Card.Header className={styles.header}>
-                <Stack justifyContent="space-between" alignItems="center">
-                    <Stack spacing={10}>
-                        {is_local ? <Tag color="cyan" size="sm">{t("ruleCard.local")}</Tag>:
+        <article className={`${styles.container} ${!isEnabled ? styles.disabled : ''}`}>
+            <header className={styles.header}>
+                <div className={styles.titleWrap}>
+                    <span className={styles.titleIcon}>
+                        <PeopleRuleIcon />
+                    </span>
+                    <div className={styles.titleContent}>
+                        <h3 title={displayName}>{displayName}</h3>
+                        <div className={styles.meta}>
+                            {is_local ? (
+                                <Tag className={styles.localTag} size="sm">{t("ruleCard.local")}</Tag>
+                            ) : (
+                                <span className={styles.remoteTag}>Remote</span>
+                            )}
+                            {hasConditions && <span className={styles.conditionPill}>{t("ruleCard.condition")}</span>}
+                        </div>
+                    </div>
+                </div>
+
+                <div className={styles.actions}>
+                    {!is_local && (
+                        <div className={styles.toggleWrap}>
                             <Toggle
                                 checked={isEnabled}
                                 onChange={handleToggle}
-                                size="md"
-                            />}
-                    </Stack>
-                    <Stack spacing={15}>
-                        <img
-                            src={DeleteIcon}
-                            alt="Delete"
-                            className={styles.deleteIcon}
-                            onClick={() => setConfirmDelete(true)}
-                        />
-                    </Stack>
-                </Stack>
-            </Card.Header>
+                                size="sm"
+                                loading={updateMutation.isPending}
+                            />
+                        </div>
+                    )}
+                    <IconButton
+                        className={styles.deleteButton}
+                        icon={<TrashIcon />}
+                        appearance="subtle"
+                        size="sm"
+                        loading={deleteMutation.isPending}
+                        onClick={() => setConfirmDelete(true)}
+                    />
+                </div>
+            </header>
 
-            <Card.Body className={styles.body}>
-                <Divider className={styles.divider}>
-                    <Text muted size="xs">{t("ruleCard.when").toUpperCase()}</Text>
-                </Divider>
+            <div className={styles.body}>
+                <div className={styles.divider}>
+                    <span>{t("ruleCard.when").toUpperCase()}</span>
+                </div>
                 <div className={styles.section}>
                     {triggers.map(tg => (
                         <div key={tg.id} className={styles.logicRow}>
+                            <span className={styles.rowIcon}>
+                                <WavePointIcon />
+                            </span>
                             <div className={styles.logicContent}>
-                                <Text>
-                                    <span className={styles.highlight}>{tg.peripheral_name}</span>
+                                <p className={styles.logicText}>
+                                    <span className={styles.highlight}>{t(`peripheralName.${tg.peripheral_name}`)}</span>
                                     <small> ({tg.device_name})</small>
                                     {" "}{t("ruleCard.trigger")}{" "}
-                                    <span className={styles.eventLabel}>{tg.event}</span>
-                                </Text>
+                                    <span className={styles.eventLabel}>{t(`messageCommand.${tg.event}`)}</span>
+                                </p>
                                 {renderExtraSettings(tg.extra_settings)}
                             </div>
                         </div>
                     ))}
                 </div>
-                { conditions && (
+                {hasConditions && (
                   <>
-                      <Divider className={styles.divider}>
-                          <Text muted size="xs">{t("ruleCard.condition").toUpperCase()}</Text>
-                      </Divider>
+                      <div className={styles.divider}>
+                          <span>{t("ruleCard.condition").toUpperCase()}</span>
+                      </div>
                       <div className={styles.section}>
                           {conditions.map(condition => (
                               <div key={condition.id} className={styles.logicRow}>
+                                  <span className={styles.rowIcon}>
+                                      <SettingIcon />
+                                  </span>
                                   <div className={styles.logicContent}>
                                       {renderExtraSettings(condition.condition,["type"])}
                                   </div>
@@ -101,25 +140,28 @@ export default function RuleCard({id, name, enabled, triggers, actions, is_local
                   </>
                 )}
 
-                <Divider className={styles.divider}>
-                    <Text muted size="xs">{t("ruleCard.then").toUpperCase()}</Text>
-                </Divider>
+                <div className={styles.divider}>
+                    <span>{t("ruleCard.then").toUpperCase()}</span>
+                </div>
 
                 <div className={styles.section}>
                     {actions.map(action => (
                         <div key={action.id} className={styles.logicRow}>
+                            <span className={styles.rowIcon}>
+                                <TaskIcon />
+                            </span>
                             <div className={styles.logicContent}>
-                                <Text>
-                                    <span className={styles.highlight}>{action.peripheral_name}</span>
+                                <p className={styles.logicText}>
+                                    <span className={styles.highlight}>{t(`peripheralName.${action.peripheral_name}`)}</span>
                                     <small> ({action.device_name})</small>
-                                    : <b>{action.action}</b>
-                                </Text>
+                                    : <b>{t(`messageCommand.${action.action}`)}</b>
+                                </p>
                                 {renderExtraSettings(action.extra_settings)}
                             </div>
                         </div>
                     ))}
                 </div>
-            </Card.Body>
+            </div>
 
             <ConfirmDelete
                 show={confirmDelete}
@@ -127,6 +169,6 @@ export default function RuleCard({id, name, enabled, triggers, actions, is_local
                 onCancel={() => setConfirmDelete(false)}
                 onConfirm={handleDelete}
             />
-        </Card>
+        </article>
     );
 }

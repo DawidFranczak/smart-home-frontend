@@ -5,7 +5,7 @@ export interface IRule {
     enabled:boolean,
     is_local:boolean,
     name:string|null,
-    conditions:IRuleCondition[],
+    conditions?:IRuleCondition[] | null,
     actions:IRuleAction[],
     triggers:IRuleTrigger[],
 }
