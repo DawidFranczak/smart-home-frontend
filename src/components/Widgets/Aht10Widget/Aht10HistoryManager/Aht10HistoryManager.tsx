@@ -31,52 +31,67 @@ export default function Aht10HistoryManager({id, open, onClose}:IProps) {
             open={open}
             onClose={onClose}
             size="lg"
+            className={styles.historyModal}
         >
-            <Modal.Header >
-                <DateRangePicker
-                    format="dd.MM.yyyy"
-                    character=" – "
-                    onChange={handleDateChange}
-                    cleanable
-                    value={[startDate, endDate]}
-                />
+            <Modal.Header>
+                <div className={styles.modalHeader}>
+                    <div>
+                        <span className={styles.eyebrow}>AHT10 telemetry</span>
+                        <h3 className={styles.title}>{t("tempHumWidget.historicalData")}</h3>
+                    </div>
+                    <DateRangePicker
+                        className={styles.datePicker}
+                        format="dd.MM.yyyy"
+                        character=" – "
+                        onChange={handleDateChange}
+                        cleanable
+                        value={[startDate, endDate]}
+                    />
+                </div>
             </Modal.Header>
             <Modal.Body className={styles.modalBody}>
-                <MetricChart series={[
-                {
-                    key: 'temperature',
-                    label: t("measurementHistoryManager.temperatureLabel"),
-                    color: '#4dabf7',
-                    yAxisSide: 'left',
-                    data: temperatureData.chart_data
-                },
-                {
-                    key: 'humidity',
-                    label: t("measurementHistoryManager.humidityLabel"),
-                    color: '#82ca9d',
-                    yAxisSide: 'right',
-                    data: humidityData.chart_data
-                }
-                ]}/>
-            </Modal.Body>
-            <Modal.Footer>
-                <MetricAggregationData groups={[
+                <div className={styles.smallScreenNotice}>
+                    <span className={styles.rotateIcon}>↻</span>
+                    <h4>{t("measurementHistoryManager.smallScreen")}</h4>
+                    <p>{t("measurementHistoryManager.smallScreenDes")}</p>
+                </div>
+                <div className={styles.chartPanel}>
+                    <MetricChart series={[
                     {
-                        key: 'temp',
-                        label: t('temperature'),
-                        unit: '°C',
-                        color: '#ff922b',
-                        data: temperatureData?.aggregation_data
+                        key: 'temperature',
+                        label: t("measurementHistoryManager.temperatureLabel"),
+                        color: '#f97316',
+                        yAxisSide: 'left',
+                        data: temperatureData.chart_data
                     },
                     {
-                        key: 'humi',
-                        label: t('humidity'),
-                        unit: '%',
-                        color: '#22b8cf',
-                        data: humidityData?.aggregation_data
+                        key: 'humidity',
+                        label: t("measurementHistoryManager.humidityLabel"),
+                        color: '#22c55e',
+                        yAxisSide: 'right',
+                        data: humidityData.chart_data
                     }
-                ]}/>
-            </Modal.Footer>
+                    ]}/>
+                </div>
+                <div className={styles.aggregationPanel}>
+                    <MetricAggregationData groups={[
+                        {
+                            key: 'temp',
+                            label: t('temperature'),
+                            unit: '°C',
+                            color: '#f97316',
+                            data: temperatureData?.aggregation_data
+                        },
+                        {
+                            key: 'humi',
+                            label: t('humidity'),
+                            unit: '%',
+                            color: '#22c55e',
+                            data: humidityData?.aggregation_data
+                        }
+                    ]}/>
+                </div>
+            </Modal.Body>
         </Modal>
     )
 }

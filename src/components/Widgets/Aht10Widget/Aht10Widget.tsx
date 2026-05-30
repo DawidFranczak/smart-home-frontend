@@ -7,16 +7,23 @@ import {useState} from "react";
 import {useTranslation} from "react-i18next";
 import Aht10HistoryManager from "./Aht10HistoryManager/Aht10HistoryManager.tsx";
 import formatDate from "../../../utils/formatDate.tsx";
+
 export default function Aht10Widget({id, state, config}:IAht10Widget) {
     const [showHistory, setShowHistory] = useState(false);
     const {t} = useTranslation();
 
-    console.log(state);
     return (
-        <BaseWidget name={config?.name} w={3} h={2}>
+        <BaseWidget name={config?.name} w={3} h={2} className={styles.widget}>
             <div className={styles.container}>
+                <div className={styles.header}>
+                    <div>
+                        <span className={styles.eyebrow}>AHT10</span>
+                        <p className={styles.heading}>{t("tempHumWidget.temperature")} / {t("tempHumWidget.humidity")}</p>
+                    </div>
+                    <span className={styles.liveBadge}>Live</span>
+                </div>
                 <div className={styles.dataGrid}>
-                    <div className={styles.dataItem}>
+                    <div className={`${styles.dataItem} ${styles.temperature}`}>
                         <span className={styles.label}>{t("tempHumWidget.temperature")}</span>
                         <span className={styles.value}>
                             {state?.temperature?.toFixed(1) ?? "--"}
@@ -24,7 +31,7 @@ export default function Aht10Widget({id, state, config}:IAht10Widget) {
                         </span>
                     </div>
 
-                    <div className={styles.dataItem}>
+                    <div className={`${styles.dataItem} ${styles.humidity}`}>
                         <span className={styles.label}>{t("tempHumWidget.humidity")}</span>
                         <span className={styles.value}>
                             {state?.humidity?.toFixed(1) ?? "--"}
@@ -32,16 +39,12 @@ export default function Aht10Widget({id, state, config}:IAht10Widget) {
                         </span>
                     </div>
                 </div>
-                <div className={styles.dataItem}>
+                <div className={styles.lastRead}>
                     <span className={styles.label}>{t("tempHumWidget.lastRead")}</span>
-                    <span>{formatDate(state.last_read)}</span>
+                    <span className={styles.lastReadValue}>{formatDate(state.last_read)}</span>
                 </div>
 
                 <div className={styles.footer}>
-                    {/*<span className={styles.lastUpdate}>*/}
-                    {/*    {t("tempHumWidget.lastUpdate")} 12.01 12:00:00*/}
-                    {/*</span>*/}
-
                     <Button
                         className={styles.managerButton}
                         appearance="subtle"

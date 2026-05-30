@@ -1,0 +1,275 @@
+.card {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    height: 100%;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, 0.14) !important;
+    border-radius: var(--radius-xl) !important;
+    background:
+        linear-gradient(135deg, rgba(56, 189, 248, 0.12), transparent 34%),
+        radial-gradient(circle at 90% 10%, rgba(34, 197, 94, 0.11), transparent 30%),
+        linear-gradient(145deg, rgba(21, 31, 46, 0.96), rgba(8, 13, 20, 0.98)) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.07),
+        0 16px 34px rgba(0, 0, 0, 0.24) !important;
+    transition:
+        transform var(--transition-fast),
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(56, 189, 248, 0.28) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 20px 40px rgba(56, 189, 248, 0.12) !important;
+}
+
+.header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    min-width: 0;
+    padding: 14px 14px 10px !important;
+}
+
+.titleBlock {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.iconWrap {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(56, 189, 248, 0.24);
+    border-radius: 50%;
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--info-color);
+}
+
+.iconWrap svg {
+    font-size: 1.08rem;
+}
+
+.titleText {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.name,
+.type {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.name {
+    color: var(--text-primary);
+    font-size: 0.98rem;
+    font-weight: 850;
+    line-height: 1.15;
+}
+
+.nameTrack {
+    display: inline-flex;
+    min-width: 0;
+    max-width: 100%;
+    gap: 28px;
+    vertical-align: top;
+}
+
+.nameTrack span {
+    flex: 0 0 auto;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nameTrack span[aria-hidden="true"] {
+    display: none;
+}
+
+.nameRolling .nameTrack {
+    max-width: none;
+    animation: peripheralNameRoll 5s linear infinite;
+}
+
+.nameRolling .nameTrack span {
+    display: inline;
+    max-width: none;
+    overflow: visible;
+    text-overflow: clip;
+}
+
+.nameRolling:hover .nameTrack {
+    animation-play-state: paused;
+}
+
+.type {
+    color: var(--text-muted);
+    font-size: 0.68rem;
+    font-weight: 800;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+@keyframes peripheralNameRoll {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(calc(-50% - 14px));
+    }
+}
+
+.deleteIcon {
+    flex: 0 0 auto;
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 50% !important;
+    color: var(--text-muted) !important;
+    transition:
+        transform var(--transition-fast),
+        color var(--transition-fast),
+        background var(--transition-fast);
+}
+
+.deleteIcon svg {
+    font-size: 1.08rem;
+}
+
+.deleteIcon:hover,
+.deleteIcon:focus-visible {
+    transform: scale(1.04);
+    background: rgba(239, 68, 68, 0.12) !important;
+    color: var(--error-color) !important;
+}
+
+.body {
+    display: flex;
+    min-height: 0;
+    flex: 1;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 14px 14px !important;
+}
+
+.sectionTitle {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 9px;
+    border: 1px solid rgba(148, 163, 184, 0.12);
+    border-radius: var(--radius-md);
+    background: rgba(5, 7, 11, 0.3);
+    color: var(--text-secondary);
+    font-size: 0.68rem;
+    font-weight: 850;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.sectionTitle svg {
+    color: var(--info-color);
+    font-size: 0.78rem;
+}
+
+.configGroup {
+    display: flex;
+    min-height: 0;
+    flex-direction: column;
+    gap: 7px;
+    overflow: auto;
+    padding-right: 2px;
+}
+
+.configRow {
+    display: grid;
+    grid-template-columns: minmax(70px, 0.8fr) minmax(0, 1.2fr);
+    align-items: start;
+    gap: 8px;
+    min-width: 0;
+    padding: 7px 8px;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.configKey {
+    min-width: 0;
+    overflow: hidden;
+    color: var(--text-muted);
+    font-size: 0.68rem;
+    font-weight: 850;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.value,
+.emptyValue {
+    min-width: 0;
+    overflow: hidden;
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+    text-overflow: ellipsis;
+}
+
+.emptyValue {
+    color: var(--text-disabled);
+    font-style: italic;
+}
+
+.configList {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 5px;
+    margin: 0;
+    padding: 0 0 0 14px;
+    color: var(--text-secondary);
+}
+
+.footer {
+    display: none;
+}
+
+@media (max-width: 640px) {
+    .header {
+        padding: 12px 12px 8px !important;
+    }
+
+    .body {
+        padding: 0 12px 12px !important;
+    }
+
+    .iconWrap,
+    .deleteIcon {
+        width: 32px !important;
+        height: 32px !important;
+    }
+
+    .configRow {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+}

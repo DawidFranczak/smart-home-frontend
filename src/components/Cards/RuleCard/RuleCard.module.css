@@ -1,74 +1,276 @@
 .container {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid var(--rs-border-secondary);
-    border-radius: 12px;
-    margin-bottom: 16px;
-    background: var(--rs-bg-card);
+    position: relative;
+    display: flex;
+    min-width: 0;
+    height: 100%;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    border-radius: var(--radius-md);
+    background:
+        linear-gradient(135deg, rgba(56, 189, 248, 0.1), transparent 32%),
+        radial-gradient(circle at 92% 12%, rgba(34, 197, 94, 0.1), transparent 34%),
+        rgba(15, 23, 34, 0.84);
+    box-shadow: var(--shadow-md);
+    transition: border-color var(--transition-normal), box-shadow var(--transition-normal), transform var(--transition-normal);
+}
+
+.container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(rgba(148, 163, 184, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.03) 1px, transparent 1px);
+    background-size: 24px 24px;
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.68), transparent 84%);
+}
+
+.container:hover {
+    transform: translateY(-2px);
+    border-color: rgba(56, 189, 248, 0.34);
+    box-shadow: var(--shadow-neon);
 }
 
 .disabled {
-    opacity: 0.5;
-    filter: grayscale(0.5);
+    opacity: 0.58;
+    filter: grayscale(0.45);
+}
+
+.header,
+.body {
+    position: relative;
+    z-index: 1;
 }
 
 .header {
-    padding: 16px 20px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 12px;
+    padding: 16px 16px 12px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
 }
 
-.title {
-    color: var(--rs-text-primary);
+.titleWrap {
+    display: flex;
+    min-width: 0;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.titleIcon,
+.rowIcon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--info-color);
+}
+
+.titleIcon {
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-sm);
+}
+
+.titleContent {
+    min-width: 0;
+}
+
+.titleContent h3 {
+    margin: 0;
+    overflow: hidden;
+    color: var(--text-primary);
+    font-size: 0.98rem;
+    font-weight: 800;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 7px;
+}
+
+.localTag,
+.remoteTag,
+.conditionPill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 20px;
+    padding: 2px 7px;
+    border-radius: var(--radius-sm);
+    font-size: 0.72rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.localTag {
+    border: 1px solid rgba(56, 189, 248, 0.24);
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--info-color);
+}
+
+.remoteTag {
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--accent-tertiary);
+}
+
+.conditionPill {
+    border: 1px solid rgba(34, 197, 94, 0.22);
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--success-color);
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.toggleWrap {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+}
+
+.deleteButton {
+    color: var(--text-muted);
+}
+
+.deleteButton:hover {
+    color: var(--error-color);
+    background: rgba(239, 68, 68, 0.1);
 }
 
 .body {
-    padding: 16px 20px;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px 16px 16px;
 }
 
 .section {
-    margin-bottom: 12px;
-}
-
-.sectionLabel {
-    display: block;
-    margin-bottom: 8px;
-    letter-spacing: 0.05em;
-    font-weight: 700;
-}
-
-.logicRow {
-    padding: 8px 12px;
-    background: var(--rs-bg-well);
-    border-radius: 8px;
-    margin-bottom: 8px;
-}
-
-.highlight {
-    font-weight: 600;
-    color: var(--rs-primary-500);
-}
-
-.eventLabel {
-    color: var(--rs-state-info);
-    font-weight: bold;
-}
-
-.tagGroup {
-    margin-top: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
 }
 
 .divider {
-    margin: 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-muted);
+    font-size: 0.68rem;
+    font-weight: 900;
 }
 
-.deleteIcon {
-    width: 22px;
-    height: 22px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    opacity: 0.7;
+.divider::after {
+    content: "";
+    height: 1px;
+    flex: 1;
+    background: linear-gradient(90deg, rgba(148, 163, 184, 0.2), transparent);
 }
 
-.deleteIcon:hover {
-    transform: scale(1.1);
-    opacity: 1;
-    filter: invert(30%) sepia(100%) saturate(500%) hue-rotate(0deg);
+.logicRow {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 9px;
+    min-width: 0;
+    padding: 10px;
+    border: 1px solid rgba(148, 163, 184, 0.11);
+    border-radius: var(--radius-sm);
+    background: rgba(5, 7, 11, 0.28);
+}
+
+.rowIcon {
+    width: 26px;
+    height: 26px;
+    border-radius: var(--radius-sm);
+}
+
+.logicContent {
+    min-width: 0;
+}
+
+.logicText {
+    margin: 0;
+    overflow: hidden;
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    line-height: 1.35;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.logicText small {
+    color: var(--text-muted);
+}
+
+.highlight {
+    color: var(--text-primary);
+    font-weight: 800;
+}
+
+.eventLabel {
+    color: var(--info-color);
+    font-weight: 800;
+}
+
+.tagGroup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 7px;
+}
+
+.valueTag {
+    display: inline-flex;
+    max-width: 100%;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid rgba(59, 130, 246, 0.18);
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--text-secondary);
+}
+
+.valueTag span,
+.valueTag b {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.valueTag span {
+    color: var(--text-muted);
+}
+
+.valueTag b {
+    color: var(--text-primary);
+    font-weight: 800;
+}
+
+@media (max-width: 480px) {
+    .header {
+        grid-template-columns: 1fr;
+    }
+
+    .actions {
+        justify-content: space-between;
+    }
+
+    .logicText {
+        white-space: normal;
+    }
 }

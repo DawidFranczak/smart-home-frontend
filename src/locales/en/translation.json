@@ -1,4 +1,10 @@
 {
+  "widgetState": {
+    "on": "On",
+    "off": "Off",
+    "offline": "Offline",
+    "sync": "Sync"
+  },
   "peripheralAddForm": {
     "addSuccess": "Peripheral added successfully"
   },
@@ -96,7 +102,10 @@
     "blinkButton": "Blink",
     "brightness": "Brightness",
     "speed": "Speed",
-    "lightningTime": "Lighting Time (s)"
+    "lightningTime": "Lighting Time"
+  },
+  "rgbStrip": {
+    "brightness": "Brightness"
   },
   "assignedDevice": {
     "assignedSuccess": "Device has been assigned to the room",
@@ -113,7 +122,9 @@
     "sectionTitle": "Statistics for the selected period",
     "avr": "Average",
     "max": "Maximum",
-    "min": "Minimum"
+    "min": "Minimum",
+    "smallScreen": "Screen too small",
+    "smallScreenDes": "Rotate your phone or use a wider screen to view the measurement chart."
   },
   "tempHumWidget": {
     "temperature": "Temperature",
@@ -207,7 +218,8 @@
     "back": "Back",
     "addPeripheral": "Add new peripherals",
     "editPeripheral": "Edit peripheral",
-    "rules": "Rules"
+    "rules": "Rules",
+    "apply": "Apply"
   },
   "selectRoom": {
     "title": "Rooms",
@@ -245,6 +257,16 @@
       "hold": "Hold",
       "click": "Click"
     }
+  },
+  "pirSensor": {
+    "motion": "Motion",
+    "clear": "Clear"
+  },
+  "relayWidget": {
+    "energized": "Energized",
+    "released": "Released",
+    "closed": "Contact closed",
+    "open": "Contact open"
   },
   "deviceEventWizard": {
     "title": "Add Action",

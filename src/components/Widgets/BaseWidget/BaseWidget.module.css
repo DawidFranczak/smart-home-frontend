@@ -1,37 +1,115 @@
 .widget {
     position: relative;
-    background: var(--rs-bg-card);
-    border-radius: 12px;
+    background: var(--panel-bg);
+    border-radius: var(--radius-xl);
     padding: 10px;
-    transition: transform 0.2s;
+    transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
     width: 100%;
     height: 100%;
-    border: 1px solid gray;
+    border: 1px solid var(--border-secondary);
     margin: 0;
-    gap: 10px;
-    display: grid;
-    grid-column: span min(var(--col-span), 3);
+    display: block;
+    grid-column: span min(var(--col-span), 2);
     grid-row: span var(--row-span);
-    background: var(--rs-bg-card);
-}
-.name{
-    position: absolute;
-    top:-18px;
-    left:50%;
-    transform: translate(-50%,0);
-    padding:0 20px;
 }
 
-.threeDot{
+.header {
     position: absolute;
-    top:-15px;
-    left:-5px;
+    top: 5px;
+    left: 8px;
+    right: 8px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.name {
+    display: flex;
+    justify-content: center;
+    max-width: 100%;
+    margin: 0;
+    padding: 0 6px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(5, 7, 11, 0.42);
+    color: var(--text-secondary);
+    font-size: 0.58rem;
+    font-weight: 800;
+    line-height: 1.4;
+    text-align: center;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    white-space: nowrap;
+    pointer-events: auto;
+}
+
+.nameTrack {
+    display: inline-flex;
+    min-width: 0;
+    max-width: 100%;
+    gap: 18px;
+    vertical-align: top;
+}
+
+.nameTrack span {
+    flex: 0 0 auto;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nameTrack span[aria-hidden="true"] {
+    display: none;
+}
+
+.nameRolling .nameTrack {
+    max-width: none;
+    animation: widgetNameRoll 4s linear infinite;
+}
+
+.nameRolling .nameTrack span {
+    display: inline;
+    max-width: none;
+    overflow: visible;
+    text-overflow: clip;
+}
+
+.nameRolling:hover .nameTrack {
+    animation-play-state: paused;
+}
+
+@keyframes widgetNameRoll {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(calc(-50% - 9px));
+    }
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+}
+
+.threeDot {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    z-index: 5;
 }
 
 @media (min-width: 768px) {
     .widget {
         grid-column: span var(--col-span);
-        gap: 20px;
-        margin: 20px;
     }
+
 }

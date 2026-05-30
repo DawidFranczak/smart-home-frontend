@@ -1,15 +1,12 @@
 import { FieldTemplateProps, ObjectFieldTemplateProps } from '@rjsf/utils';
 import { Form  } from 'rsuite';
+import styles from "./RuleForm.module.css";
+
 export const CustomObjectFieldTemplate = ({ properties }: ObjectFieldTemplateProps) => {
     return (
-        <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            gap: '4px'
-        }}>
+        <div className={styles.schemaObject}>
             {properties.map((element) => (
-                <div key={element.content.key} style={{ width: '100%' }}>
+                <div key={element.content.key} className={styles.schemaObjectItem}>
                     {element.content}
                 </div>
             ))}
@@ -23,39 +20,22 @@ export const CustomFieldTemplate = ({id,label,children,required,displayLabel,raw
     return (
         <Form.Group
             controlId={id}
-            style={{
-                width: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-start',
-            }}
+            className={styles.schemaGroup}
         >
             <Form.ControlLabel
-                style={{
-                    fontSize: '14px',
-                    color: hasError ? '#f44336' : '#8e8e93',
-                    marginBottom: '4px',
-                    display: 'block',
-                    width: '100%',
-                    textAlign: 'left',
-                    padding: 0
-                }}
+                className={hasError ? styles.schemaLabelError : styles.schemaLabel}
             >
                 {label}
-                {required && <span style={{ color: '#f44336', marginLeft: '4px' }}>*</span>}
+                {required && <span className={styles.requiredMark}>*</span>}
             </Form.ControlLabel>
 
-            <div style={{ width: '100%' }}>
+            <div className={styles.schemaField}>
                 {children}
             </div>
             {hasError && (
                 <Form.ErrorMessage
                     show={true}
-                    style={{
-                        position: 'static',
-                        display: 'block',
-                        marginTop: '4px'
-                    }}
+                    className={styles.schemaErrorMessage}
                 >
                     {rawErrors[0]}
                 </Form.ErrorMessage>

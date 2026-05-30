@@ -1,32 +1,334 @@
+.widget {
+    overflow: hidden;
+    padding: 8px !important;
+    border: 1px solid rgba(148, 163, 184, 0.16) !important;
+    background:
+        linear-gradient(145deg, rgba(15, 23, 34, 0.96), rgba(5, 7, 11, 0.96)) !important;
+    box-shadow: var(--shadow-md);
+}
+
+.widget::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(135deg, rgba(56, 189, 248, 0.16), transparent 34%),
+        radial-gradient(circle at 86% 18%, rgba(34, 197, 94, 0.13), transparent 12rem),
+        radial-gradient(circle at 20% 92%, rgba(59, 130, 246, 0.14), transparent 12rem);
+    pointer-events: none;
+}
+
+.offlineWidget {
+    background:
+        linear-gradient(145deg, rgba(15, 23, 34, 0.72), rgba(5, 7, 11, 0.84)) !important;
+    border-color: rgba(100, 116, 139, 0.18) !important;
+}
+
 .container {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    gap: 8px;
+    padding: 4px;
+}
+
+.header {
     display: flex;
-    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    min-width: 0;
+}
+
+.eyebrow {
+    color: var(--accent-tertiary);
+    font-size: 0.68rem;
+    font-weight: 850;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.heading {
+    margin: 2px 0 0;
+    color: var(--text-secondary);
+    font-size: 0.74rem;
+    font-weight: 650;
+}
+
+.statusBadge {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 5px;
+    max-width: 86px;
+    overflow: hidden;
+    padding: 4px 8px;
+    border: 1px solid rgba(34, 197, 94, 0.22);
+    border-radius: 999px;
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--success-color);
+    font-size: 0.66rem;
+    font-weight: 850;
+    line-height: 1;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.statusBadge::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 0 5px color-mix(in srgb, currentColor, transparent 86%);
+}
+
+.statusPairing {
+    border-color: rgba(245, 158, 11, 0.3);
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning-color);
+}
+
+.readerPanel {
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr);
+    align-items: center;
+    gap: 10px;
+    min-height: 0;
+    padding: 10px;
+    border: 1px solid rgba(148, 163, 184, 0.13);
+    border-radius: var(--radius-lg);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(15, 23, 34, 0.38)),
+        rgba(5, 7, 11, 0.28);
+    overflow: hidden;
+}
+
+.readerIcon {
+    position: relative;
+    display: grid;
+    width: 70px;
+    height: 70px;
+    place-items: center;
+}
+
+.readerCore {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
-    width: 100%;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(56, 189, 248, 0.32);
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.16), transparent 28%),
+        rgba(56, 189, 248, 0.12);
+    color: var(--info-color);
+    box-shadow:
+        0 0 0 7px rgba(56, 189, 248, 0.06),
+        0 12px 24px rgba(56, 189, 248, 0.1);
+}
+
+.readerCore svg {
+    font-size: 1.25rem;
+}
+
+.signalRing {
+    position: absolute;
+    inset: 12px;
+    border: 1px solid rgba(56, 189, 248, 0.26);
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0.72);
+}
+
+.signalRing:nth-child(3) {
+    animation-delay: 0.55s;
+}
+
+.pairing .signalRing {
+    animation: signalPulse 1.35s ease-out infinite;
 }
 
 .infoSection {
-    text-align: center;
     display: flex;
+    min-width: 0;
     flex-direction: column;
+    gap: 7px;
 }
 
 .lastCardName {
-    display: block;
-    font-weight: bold;
-    font-size: 0.8rem;
+    display: flex;
+    max-width: 100%;
+    overflow: hidden;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 850;
+    line-height: 1.15;
+    white-space: nowrap;
+}
+
+.nameTrack {
+    display: inline-flex;
+    min-width: 0;
+    max-width: 100%;
+    gap: 28px;
+    vertical-align: top;
+}
+
+.nameTrack span {
+    flex: 0 0 auto;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nameTrack span[aria-hidden="true"] {
+    display: none;
+}
+
+.nameRolling .nameTrack {
+    max-width: none;
+    animation: readerNameRoll 5s linear infinite;
+}
+
+.nameRolling .nameTrack span {
+    display: inline;
+    max-width: none;
+    overflow: visible;
+    text-overflow: clip;
+}
+
+.nameRolling:hover .nameTrack {
+    animation-play-state: paused;
 }
 
 .lastAccess {
-    display: block;
-    font-size: 0.7rem;
-    color: var(--rs-text-secondary);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    overflow: hidden;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-.pairing {
-    color: var(--rs-primary-500);
-    font-weight: bold;
+.lastAccess svg {
+    flex: 0 0 auto;
+    color: var(--info-color);
+    font-size: 0.82rem;
 }
 
+.footer {
+    display: flex;
+    align-items: center;
+}
+
+.managerButton {
+    width: 100%;
+    min-height: 31px;
+    padding: 5px 12px !important;
+    border: 1px solid rgba(59, 130, 246, 0.28) !important;
+    border-radius: 999px !important;
+    background: rgba(59, 130, 246, 0.12) !important;
+    color: var(--text-primary) !important;
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.managerButton:hover {
+    border-color: rgba(59, 130, 246, 0.5) !important;
+    background: rgba(59, 130, 246, 0.2) !important;
+    box-shadow: var(--shadow-blue);
+}
+
+.offline {
+    opacity: 0.72;
+}
+
+.offline .statusBadge {
+    border-color: rgba(100, 116, 139, 0.2);
+    background: rgba(100, 116, 139, 0.1);
+    color: var(--text-disabled);
+}
+
+.offline .readerCore,
+.offline .managerButton {
+    border-color: rgba(100, 116, 139, 0.22) !important;
+    background: rgba(15, 23, 34, 0.42) !important;
+    color: var(--text-disabled) !important;
+    box-shadow: none;
+}
+
+.offline .lastAccess svg {
+    color: var(--text-disabled);
+}
+
+@keyframes signalPulse {
+    0% {
+        opacity: 0.72;
+        transform: scale(0.72);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.45);
+    }
+}
+
+@keyframes readerNameRoll {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(calc(-50% - 14px));
+    }
+}
+
+@media (max-width: 520px) {
+    .container {
+        gap: 7px;
+        padding: 3px;
+    }
+
+    .heading {
+        display: none;
+    }
+
+    .readerPanel {
+        grid-template-columns: 64px minmax(0, 1fr);
+        gap: 8px;
+        padding: 9px;
+    }
+
+    .readerIcon {
+        width: 58px;
+        height: 58px;
+    }
+
+    .readerCore {
+        width: 38px;
+        height: 38px;
+    }
+
+    .lastCardName {
+        font-size: 0.9rem;
+    }
+
+    .lastAccess {
+        font-size: 0.68rem;
+    }
+}

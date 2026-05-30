@@ -1,4 +1,10 @@
 {
+  "widgetState": {
+    "on": "Wł.",
+    "off": "Wył.",
+    "offline": "Offline",
+    "sync": "Sync"
+  },
   "changeNameSettings": {
     "nameEmpty": "Nazwa nie może być pusta",
     "nameUpdated": "Nazwa została zaktualizowana",
@@ -108,6 +114,16 @@
     "brightness": "Jasność",
     "speed": "Szybkość zmian",
     "lightingTime": "Czas świecenia (s)"
+  },
+  "sequentialLight": {
+    "blinkButton": "Mignij",
+    "brightness": "Jasność",
+    "speed": "Prędkość",
+    "lightningTime": "Czas świecenia"
+  },
+  "rgbStrip": {
+    "brightness": "Jasność",
+    "apply": "Zastosuj"
   },
   "confirmDelete": {
     "title": "Potwierdź usunięcie",

@@ -1,7 +1,7 @@
 .icon {
     display: inline-block;
-    transition: all 0.3s ease;
-    filter: brightness(0) invert(1);
+    transition: transform var(--transition-fast), filter var(--transition-fast), opacity var(--transition-fast);
+    filter: brightness(0) saturate(100%) invert(64%) sepia(73%) saturate(515%) hue-rotate(88deg) brightness(90%) contrast(88%);
 }
 
 .icon.small {
@@ -10,8 +10,8 @@
 }
 
 .icon.medium {
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
 }
 
 .icon.large {
@@ -19,12 +19,12 @@
     height: 48px;
 }
 .icon:hover {
-    transform: scale(1.1);
-    filter: brightness(0) invert(1) drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
+    transform: scale(1.06);
 }
 
 .icon.weak {
     animation: pulse 2s infinite;
+    filter: brightness(0) saturate(100%) invert(74%) sepia(79%) saturate(1268%) hue-rotate(352deg) brightness(100%) contrast(92%);
 }
 
 @keyframes pulse {
@@ -37,5 +37,6 @@
 }
 
 .icon.offline {
-    filter: brightness(0) invert(1) opacity(0.4);
+    filter: brightness(0) saturate(100%) invert(47%) sepia(90%) saturate(2224%) hue-rotate(332deg) brightness(101%) contrast(87%);
+    opacity: 0.82;
 }

@@ -4,22 +4,88 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 150px;
-    height: 150px;
-    border-radius: 15px;
-    background: linear-gradient(135deg, #1a2a44 0%, #2a3a54 100%);
-    padding: 10px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    width: 176px;
+    min-height: 168px;
+    border-radius: var(--radius-xl);
+    background: linear-gradient(145deg, rgba(21, 31, 46, 0.96), rgba(11, 17, 26, 0.96));
+    padding: 16px 14px;
+    box-shadow: var(--shadow-md);
     cursor: pointer;
-    transition: all 0.4s ease-in-out;
-    backdrop-filter: blur(5px);
-    color: white;
-    border: 2px solid rgba(0, 255, 255, 0.3);
+    transition: transform var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal), background var(--transition-normal);
+    backdrop-filter: blur(16px);
+    color: var(--text-primary);
+    border: 1px solid var(--border-secondary);
+    overflow: hidden;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.18), transparent 48%);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-accent);
+    box-shadow: var(--shadow-blue);
+}
+
+.card:hover::before {
+    opacity: 1;
 }
 
 .content{
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
+}
+
+.status {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    z-index: 2;
+}
+
+.online .status {
+    background: var(--success-color);
+    box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.12);
+}
+
+.offline .status {
+    background: var(--error-color);
+    box-shadow: 0 0 0 5px rgba(239, 68, 68, 0.12);
+}
+
+.meta {
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    line-height: 1;
+}
+
+.online .meta {
+    color: var(--success-color);
+}
+
+.offline {
+    opacity: 0.78;
+}
+
+@media (max-width: 520px) {
+    .card {
+        width: 100%;
+        min-height: 150px;
+    }
 }

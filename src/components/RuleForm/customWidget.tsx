@@ -1,9 +1,11 @@
-import {Checkbox, IconButton, NumberInput, Button, SelectPicker} from "rsuite";
+import {Button, Checkbox, IconButton, Input, NumberInput, SelectPicker} from "rsuite";
 import {WidgetProps } from '@rjsf/utils';
 import PlusIcon from '@rsuite/icons/Plus';
 import TrashIcon from '@rsuite/icons/Trash';
 import SortDownIcon from '@rsuite/icons/SortDown';
 import SortUpIcon from '@rsuite/icons/SortUp';
+import styles from "./RuleForm.module.css";
+
 export const customTemplates = {
     ButtonTemplates: {
         AddButton: (props: any) => (
@@ -12,9 +14,9 @@ export const customTemplates = {
                 appearance="ghost"
                 startIcon={<PlusIcon />}
                 size="sm"
-                style={{ marginTop: '10px' }}
+                className={styles.schemaArrayButton}
             >
-                Dodaj element
+                Add item
             </Button>
         ),
         RemoveButton: (props: any) => (
@@ -49,22 +51,42 @@ export const customTemplates = {
 
 
 const IntegerWidget = (props: WidgetProps) => {
+    const step = props.schema.type === "integer" ? 1 : 0.5;
+
     return (
-        <div style={{ marginBottom: 10 }}>
+        <div className={styles.schemaControl}>
             <NumberInput
-                style={{ width: '100%' }}
+                className={styles.schemaInput}
                 value={props.value ?? ""}
                 onChange={(val) => {
                     const result = val === "" ? undefined : Number(val);
                     props.onChange(result);
                 }}
+                step={step}
+                disabled={props.disabled || props.readonly}
             />
         </div>
     );
 };
 
-export const CheckboxWidget = ({ value, onChange, label }: WidgetProps) => (
-    <Checkbox checked={!!value} onChange={(_, checked) => onChange(checked)}>
+const TextWidget = (props: WidgetProps) => (
+    <Input
+        id={props.id}
+        className={styles.schemaInput}
+        value={props.value ?? ""}
+        disabled={props.disabled || props.readonly}
+        placeholder={props.placeholder}
+        onChange={(value) => props.onChange(value === "" ? undefined : value)}
+    />
+);
+
+export const CheckboxWidget = ({ value, onChange, label, disabled, readonly }: WidgetProps) => (
+    <Checkbox
+        className={styles.schemaCheckbox}
+        checked={!!value}
+        disabled={disabled || readonly}
+        onChange={(_, checked) => onChange(checked)}
+    >
         {label}
     </Checkbox>
 );
@@ -80,6 +102,7 @@ export const SelectWidget = ({id,options,value,disabled,readonly,onChange,}: Wid
         <SelectPicker
             id={id}
             block
+            className={styles.schemaSelect}
             data={data}
             value={value}
             disabled={disabled || readonly}
@@ -92,9 +115,9 @@ export const SelectWidget = ({id,options,value,disabled,readonly,onChange,}: Wid
 export const customWidget = {
     integer: IntegerWidget,
     number: IntegerWidget,
-    string: IntegerWidget,
-    BaseInput: IntegerWidget,
-    TextWidget: IntegerWidget,
+    string: TextWidget,
+    BaseInput: TextWidget,
+    TextWidget: TextWidget,
     NumberWidget: IntegerWidget,
     CheckboxWidget: CheckboxWidget,
     SelectWidget:SelectWidget
