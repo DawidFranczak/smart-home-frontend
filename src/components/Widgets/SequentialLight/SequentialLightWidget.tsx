@@ -51,7 +51,7 @@ export default function SequentialLightWidget({id, state, config, pending, isOnl
             speed: state.speed,
             lightingTime: state.lighting_time,
         };
-    }, [state.brightness, state.speed, state.lighting_time, isLoading]);
+    }, [state, isLoading]);
 
     function handleTime(value: string | number | null){
         if (value === null || value === "") return;

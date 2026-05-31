@@ -31,7 +31,7 @@ export default function RelayWidget({id, state, config, pending, isOnline }:IRel
 
     useEffect(() => {
         if (value !== state.is_on) setValue(state.is_on);
-    }, [isLoading]);
+    }, [state.is_on]);
 
     async function handleToggle() {
         if (isDisabled) return;

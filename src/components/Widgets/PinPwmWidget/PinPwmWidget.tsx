@@ -18,7 +18,7 @@ export default function PinPwmWidget({id, state, config, pending, isOnline = tru
         if (isLoading) return;
         setValue(state.duty_cycle);
         committedValue.current = state.duty_cycle;
-    },[isLoading])
+    },[isLoading, state.duty_cycle])
 
     function handleChange(nextValue: number) {
         setValue(nextValue);
