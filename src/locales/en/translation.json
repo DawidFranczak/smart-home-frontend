@@ -53,7 +53,7 @@
     "play_sequence": "Execute Lighting/Action Sequence"
   },
   "peripheralName": {
-    "aht10": "Temperature & Humidity Sensor AHT10",
+    "aht10": "AHT10 Sensor",
     "button_bistable": "Bistable Latching Button",
     "button_monostable": "Monostable Momentary Button",
     "active_buzzer": "Active Buzzer Alarm Module",
